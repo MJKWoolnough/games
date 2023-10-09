@@ -58,7 +58,20 @@ ready.then(() => {
 
 	amendNode(document.head, render());
 
-	const clicked = (_: number) => {},
+	let turn = 0;
+
+	const start = (t: number) => {
+		for(const cell of cells) {
+			amendNode(cell, {"class": ""});
+		}
+
+		setMark(board, turn = t);
+	      },
+	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": t === 1 ? "X" : t === 2 ? "O" : ""}),
+	      clicked = (n: number) => {
+		setMark(cells[n], turn);
+		setMark(board, turn = -turn + 3);
+	      },
 	      cells = Array.from({"length": 9}, (_, n) => g({"transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
 		use({"href": "#X"}),
 		use({"href": "#O"}),
@@ -75,6 +88,8 @@ ready.then(() => {
 		line({"y1": 33, "x2": 99, "y2": 33}),
 		line({"y1": 66, "x2": 99, "y2": 66})
 	      ]);
+
+	start(1);
 
 	clearNode(document.body, board);
 });
