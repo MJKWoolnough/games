@@ -1,8 +1,18 @@
-import {clearNode} from './lib/dom.js';
+import {add, render} from './lib/css.js';
+import {amendNode, clearNode} from './lib/dom.js';
 import ready from './lib/load.js';
 import {circle, defs, line, path, svg} from './lib/svg.js';
 
 ready.then(() => {
+	add({
+		"svg": {
+			"max-width": "100vw",
+			"max-height": "100vh"
+		}
+	});
+
+	amendNode(document.head, render());
+
 	const board = svg({"viewBox": "0 0 99 99", "stroke": "#000"}, [
 		defs([
 			path({"id": "X", "d": "m5,5 l23,23 m0,-23 l-23,23", "stroke-width": 2}),
