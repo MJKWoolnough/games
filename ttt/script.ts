@@ -77,11 +77,12 @@ ready.then(() => {
 	      },
 	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": t === 1 ? "X" : t === 2 ? "O" : ""}),
 	      clicked = (n: number) => {
-		if (game[n]) {
+		if (game[n] || !turn) {
 			return;
 		}
 
 		setMark(cells[n], game[n] = turn);
+
 		setMark(board, turn = -turn + 3);
 	      },
 	      cells = Array.from({"length": 9}, (_, n) => g({"transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
