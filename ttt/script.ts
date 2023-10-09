@@ -71,11 +71,17 @@ ready.then(() => {
 			amendNode(cell, {"class": ""});
 		}
 
+		game.fill(0);
+
 		setMark(board, turn = t);
 	      },
 	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": t === 1 ? "X" : t === 2 ? "O" : ""}),
 	      clicked = (n: number) => {
-		setMark(cells[n], turn);
+		if (game[n]) {
+			return;
+		}
+
+		setMark(cells[n], game[n] = turn);
 		setMark(board, turn = -turn + 3);
 	      },
 	      cells = Array.from({"length": 9}, (_, n) => g({"transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
@@ -90,6 +96,7 @@ ready.then(() => {
 		line({"class": "W", "x1": 16, "y1": 16, "x2": 83, "y2": 83}),
 		line({"class": "W", "x1": 83, "y1": 16, "x2": 16, "y2": 83})
 	      ]).flat(),
+	      game = Array.from({"length": 9}, () => 0),
 	      board = svg({"viewBox": "0 0 99 99"}, [
 		defs([
 			path({"id": "X", "d": "m5,5 l23,23 m0,-23 l-23,23", "stroke-width": 2}),
