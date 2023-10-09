@@ -7,7 +7,52 @@ ready.then(() => {
 	add({
 		"svg": {
 			"max-width": "100vw",
-			"max-height": "100vh"
+			"max-height": "100vh",
+			"stroke": "#000",
+
+			" rect": {
+				"fill": "#fff",
+				"stroke-width": 0
+			},
+
+			" use": {
+				"display": "none"
+			},
+
+			".X g use:first-child,.O g use:nth-child(2)": {
+				"display": "unset"
+			},
+
+			".X,.O": {
+				" g rect:hover": {
+					"opacity": 0.5,
+					"cursor": "crosshair"
+				}
+			},
+
+			" g": {
+				".X use": {
+					":first-child": {
+						"display": "unset"
+					},
+					":nth-child(2)": {
+						"display": "none"
+					}
+				},
+				".O use": {
+					":first-child": {
+						"display": "none"
+					},
+					":nth-child(2)": {
+						"display": "unset"
+					}
+				},
+				".X,.O": {
+					" rect": {
+						"display": "none"
+					}
+				}
+			}
 		}
 	});
 
@@ -17,9 +62,9 @@ ready.then(() => {
 	      cells = Array.from({"length": 9}, (_, n) => g({"transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
 		use({"href": "#X"}),
 		use({"href": "#O"}),
-		rect({"onclick": () => clicked(n)})
+		rect({"width": 33, "height": 33, "onclick": () => clicked(n)})
 	      ])),
-	      board = svg({"viewBox": "0 0 99 99", "stroke": "#000"}, [
+	      board = svg({"viewBox": "0 0 99 99"}, [
 		defs([
 			path({"id": "X", "d": "m5,5 l23,23 m0,-23 l-23,23", "stroke-width": 2}),
 			circle({"id": "O", "cx": 16, "cy": 16, "r": 13, "stroke-width": 2, "fill": "none"})
