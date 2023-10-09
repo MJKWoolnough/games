@@ -52,6 +52,12 @@ ready.then(() => {
 						"display": "none"
 					}
 				}
+			},
+
+			" .W": {
+				"stroke": "#f00",
+				"stroke-width": 3,
+				"display": "none"
 			}
 		}
 	});
