@@ -22,7 +22,7 @@ ready.then(() => {
 	      board = svg({"viewBox": "0 0 99 99", "stroke": "#000"}, [
 		defs([
 			path({"id": "X", "d": "m5,5 l23,23 m0,-23 l-23,23", "stroke-width": 2}),
-			circle({"id": "O", "cx": 49, "cy": 16, "r": 13, "stroke-width": 2, "fill": "none"})
+			circle({"id": "O", "cx": 16, "cy": 16, "r": 13, "stroke-width": 2, "fill": "none"})
 		]),
 		cells,
 		line({"x1": 33, "x2": 33, "y2": 99}),
