@@ -1,4 +1,4 @@
-import {add, render} from './lib/css.js';
+import {add, at, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
 import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, use} from './lib/svg.js';
@@ -8,10 +8,8 @@ ready.then(() => {
 		"svg": {
 			"max-width": "100vw",
 			"max-height": "100vh",
-			"stroke": "#000",
 
 			" rect": {
-				"fill": "#fff",
 				"stroke-width": 0
 			},
 
@@ -65,6 +63,32 @@ ready.then(() => {
 				"stroke": "#f00",
 				"stroke-width": 3,
 				"display": "none"
+			}
+		}
+	});
+	at("@media (prefers-color-scheme: light)", {
+		"html, body": {
+			"background-color": "#fff",
+		},
+
+		"svg": {
+			"stroke": "#000",
+
+			" rect": {
+				"fill": "#fff"
+			}
+		}
+	});
+	at("@media (prefers-color-scheme: dark)", {
+		"html, body": {
+			"background-color": "#222",
+		},
+
+		"svg": {
+			"stroke": "#fff",
+
+			" rect": {
+				"fill": "#222"
 			}
 		}
 	});
