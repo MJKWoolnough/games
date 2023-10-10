@@ -24,13 +24,20 @@ ready.then(() => {
 			},
 
 			".X,.O": {
-				" g rect:hover": {
-					"opacity": 0.5,
-					"cursor": "crosshair"
+				" g rect": {
+					"display": "unset",
+
+					":hover": {
+						"opacity": 0.5,
+						"cursor": "crosshair"
+					}
 				}
 			},
 
 			" g": {
+				" rect": {
+					"display": "none"
+				},
 				".X use": {
 					":first-child": {
 						"display": "unset"
