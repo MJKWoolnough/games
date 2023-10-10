@@ -1,7 +1,7 @@
 import {add, at, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
 import ready from './lib/load.js';
-import {circle, defs, g, line, path, rect, svg, use} from './lib/svg.js';
+import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
 
 ready.then(() => {
 	add("svg", {
@@ -16,12 +16,12 @@ ready.then(() => {
 			"display": "none"
 		},
 
-		".X g use:first-child,.O g use:nth-child(2)": {
+		".X .C use:first-child,.O .C use:nth-child(2)": {
 			"display": "unset"
 		},
 
 		".X,.O": {
-			" g rect": {
+			" .C rect": {
 				"display": "unset",
 
 				":hover": {
@@ -31,7 +31,7 @@ ready.then(() => {
 			}
 		},
 
-		" g": {
+		" .C": {
 			" rect": {
 				"display": "none"
 			},
@@ -55,13 +55,27 @@ ready.then(() => {
 				" rect": {
 					"display": "none"
 				}
-			}
+			},
 		},
 
 		" .W": {
 			"stroke": "#f00",
 			"stroke-width": 3,
 			"display": "none"
+		},
+
+		" #S": {
+			", text:not(:last-child)": {
+				"display": "none",
+			},
+
+			".X,.O,.D": {
+				"display": "unset"
+			},
+
+			".X text:nth-child(2),.O text:nth-child(3),.D text:nth-child(4)": {
+				"display": "unset"
+			}
 		}
 	});
 	at("@media (prefers-color-scheme: light)", {
@@ -97,7 +111,7 @@ ready.then(() => {
 
 	const start = (t: number) => {
 		for(const cell of cells) {
-			amendNode(cell, {"class": ""});
+			amendNode(cell, {"class": ["!X", "!Y"]});
 		}
 
 		for (const win of winLines) {
@@ -108,7 +122,7 @@ ready.then(() => {
 
 		setMark(board, turn = t);
 	      },
-	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": t === 1 ? "X" : t === 2 ? "O" : ""}),
+	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": "C " + (t === 1 ? "X" : t === 2 ? "O" : "")}),
 	      clicked = (n: number) => {
 		if (game[n] || !turn) {
 			return;
@@ -119,6 +133,8 @@ ready.then(() => {
 		const win = isWin();
 		if (win >= 0) {
 			amendNode(winLines[win], {"style": "display: unset"});
+
+			amendNode(status, {"class": turn === 1 ? "X" : "O"});
 
 			turn = 3;
 		}
@@ -147,7 +163,7 @@ ready.then(() => {
 
 		return -1;
 	      },
-	      cells = Array.from({"length": 9}, (_, n) => g({"transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
+	      cells = Array.from({"length": 9}, (_, n) => g({"class": "C", "transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
 		use({"href": "#X"}),
 		use({"href": "#O"}),
 		rect({"width": 33, "height": 33, "onclick": () => clicked(n)})
@@ -160,6 +176,14 @@ ready.then(() => {
 		line({"class": "W", "x1": 83, "y1": 16, "x2": 16, "y2": 83})
 	      ]).flat(),
 	      game = Array.from({"length": 9}, () => 0),
+	      status = g({"id": "S", "text-anchor": "middle", "dominant-baseline": "hanging", "transform": "translate(49,30)"}, [
+		rect({"x": -28, "width": 56, "height": 20, "fill": "#f00"}),
+		text("X wins!"),
+		text("O wins!"),
+		text("Draw!"),
+		rect({"x": -28, "y": 18, "width": 56, "height": 17, "style": {"fill": "#888", "border": "2px outset #000"}}),
+		text({"y": 20}, "Restart"),
+	      ]),
 	      board = svg({"viewBox": "0 0 99 99"}, [
 		defs([
 			path({"id": "X", "d": "m5,5 l23,23 m0,-23 l-23,23", "stroke-width": 2}),
@@ -170,7 +194,8 @@ ready.then(() => {
 		line({"x1": 66, "x2": 66, "y2": 99}),
 		line({"y1": 33, "x2": 99, "y2": 33}),
 		line({"y1": 66, "x2": 99, "y2": 66}),
-		winLines
+		winLines,
+		status
 	      ]);
 
 	start(1);
