@@ -96,6 +96,10 @@ ready.then(() => {
 
 			" rect": {
 				"fill": "#fff"
+			},
+
+			" text": {
+				"fill": "#000"
 			}
 		}
 	});
@@ -109,6 +113,10 @@ ready.then(() => {
 
 			" rect": {
 				"fill": "#222"
+			},
+
+			" text": {
+				"fill": "#fff"
 			}
 		}
 	});
