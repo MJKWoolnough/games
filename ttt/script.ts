@@ -4,66 +4,64 @@ import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, use} from './lib/svg.js';
 
 ready.then(() => {
-	add({
-		"svg": {
-			"max-width": "100vw",
-			"max-height": "100vh",
+	add("svg", {
+		"max-width": "100vw",
+		"max-height": "100vh",
 
+		" rect": {
+			"stroke-width": 0
+		},
+
+		" use": {
+			"display": "none"
+		},
+
+		".X g use:first-child,.O g use:nth-child(2)": {
+			"display": "unset"
+		},
+
+		".X,.O": {
+			" g rect": {
+				"display": "unset",
+
+				":hover": {
+					"opacity": 0.5,
+					"cursor": "crosshair"
+				}
+			}
+		},
+
+		" g": {
 			" rect": {
-				"stroke-width": 0
-			},
-
-			" use": {
 				"display": "none"
 			},
-
-			".X g use:first-child,.O g use:nth-child(2)": {
-				"display": "unset"
-			},
-
-			".X,.O": {
-				" g rect": {
-					"display": "unset",
-
-					":hover": {
-						"opacity": 0.5,
-						"cursor": "crosshair"
-					}
+			".X use": {
+				":first-child": {
+					"display": "unset"
+				},
+				":nth-child(2)": {
+					"display": "none"
 				}
 			},
-
-			" g": {
-				" rect": {
+			".O use": {
+				":first-child": {
 					"display": "none"
 				},
-				".X use": {
-					":first-child": {
-						"display": "unset"
-					},
-					":nth-child(2)": {
-						"display": "none"
-					}
-				},
-				".O use": {
-					":first-child": {
-						"display": "none"
-					},
-					":nth-child(2)": {
-						"display": "unset"
-					}
-				},
-				".X,.O": {
-					" rect": {
-						"display": "none"
-					}
+				":nth-child(2)": {
+					"display": "unset"
 				}
 			},
-
-			" .W": {
-				"stroke": "#f00",
-				"stroke-width": 3,
-				"display": "none"
+			".X,.O": {
+				" rect": {
+					"display": "none"
+				}
 			}
+		},
+
+		" .W": {
+			"stroke": "#f00",
+			"stroke-width": 3,
+			"display": "none"
 		}
 	});
 	at("@media (prefers-color-scheme: light)", {
