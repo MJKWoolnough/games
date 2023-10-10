@@ -131,12 +131,13 @@ ready.then(() => {
 
 		setMark(cells[n], game[n] = turn);
 
-		const win = isWin();
-		if (win >= 0) {
+		const win = isWin(),
+		      draw = game.every(c => c);
+		if (win >= 0 || draw) {
 			const next = -turn + 3;
 
 			amendNode(winLines[win], {"style": "display: unset"});
-			amendNode(status, {"class": turn === 1 ? "X" : "O"});
+			amendNode(status, {"class": win === -1 ? "D" : turn === 1 ? "X" : "O"});
 			amendNode(restart, {"onclick": event(() => start(next), eventOnce)});
 
 			turn = 3;
