@@ -102,6 +102,10 @@ ready.then(() => {
 			amendNode(cell, {"class": ""});
 		}
 
+		for (const win of winLines) {
+			amendNode(win, {"style": ""});
+		}
+
 		game.fill(0);
 
 		setMark(board, turn = t);
@@ -114,14 +118,43 @@ ready.then(() => {
 
 		setMark(cells[n], game[n] = turn);
 
+		const win = isWin();
+		if (win >= 0) {
+			amendNode(winLines[win], {"style": "display: unset"});
+
+			turn = 3;
+		}
+
 		setMark(board, turn = -turn + 3);
+	      },
+	      wins = [
+		[0, 1, 2],
+		[0, 3, 6],
+		[3, 4, 5],
+		[1, 4, 7],
+		[6, 7, 8],
+		[2, 5, 8],
+		[0, 4, 8],
+		[2, 4, 6]
+	      ] as const,
+	      isWin = () => {
+		let win = 0;
+		for (const [a, b, c] of wins) {
+			if (game[a] && game[a] === game[b] && game[a] === game[c]) {
+				return win;
+			}
+
+			win++;
+		}
+
+		return -1;
 	      },
 	      cells = Array.from({"length": 9}, (_, n) => g({"transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
 		use({"href": "#X"}),
 		use({"href": "#O"}),
 		rect({"width": 33, "height": 33, "onclick": () => clicked(n)})
 	      ])),
-	      wins = Array.from({"length": 3}, (_, n) => [
+	      winLines = Array.from({"length": 3}, (_, n) => [
 		line({"class": "W", "x1": 0, "y1": 16 + n * 33, "x2": 99, "y2": 16 + n * 33}),
 		line({"class": "W", "x1": 16 + n * 33, "y1": 0, "x2": 16 + n * 33, "y2": 99})
 	      ]).concat([
@@ -139,7 +172,7 @@ ready.then(() => {
 		line({"x1": 66, "x2": 66, "y2": 99}),
 		line({"y1": 33, "x2": 99, "y2": 33}),
 		line({"y1": 66, "x2": 99, "y2": 66}),
-		wins
+		winLines
 	      ]);
 
 	start(1);
