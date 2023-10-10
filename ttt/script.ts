@@ -4,6 +4,10 @@ import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
 
 ready.then(() => {
+	add("html,body", {
+		"padding": 0,
+		"margin": 0
+	});
 	add("svg", {
 		"max-width": "100vw",
 		"max-height": "100vh",
