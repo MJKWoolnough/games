@@ -16,6 +16,10 @@ ready.then(() => {
 			"display": "none"
 		},
 
+		" text": {
+			"pointer-events": "none",
+		},
+
 		".X .C use:first-child,.O .C use:nth-child(2)": {
 			"display": "unset"
 		},
