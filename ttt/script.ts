@@ -83,6 +83,10 @@ ready.then(() => {
 
 			".X text:nth-child(2),.O text:nth-child(3),.D text:nth-child(4)": {
 				"display": "unset"
+			},
+
+			" rect:last-of-type:hover": {
+				"cursor": "pointer"
 			}
 		}
 	});
