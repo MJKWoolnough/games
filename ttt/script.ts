@@ -21,7 +21,7 @@ ready.then(() => {
 		},
 
 		" text": {
-			"pointer-events": "none",
+			"pointer-events": "none"
 		},
 
 		".X .C use:first-child,.O .C use:nth-child(2)": {
@@ -63,7 +63,7 @@ ready.then(() => {
 				" rect": {
 					"display": "none"
 				}
-			},
+			}
 		},
 
 		" .W": {
@@ -74,7 +74,7 @@ ready.then(() => {
 
 		" #S": {
 			", text:not(:last-child)": {
-				"display": "none",
+				"display": "none"
 			},
 
 			".X,.O,.D": {
@@ -97,7 +97,7 @@ ready.then(() => {
 	});
 	at("@media (prefers-color-scheme: light)", {
 		"html, body": {
-			"background-color": "#fff",
+			"background-color": "#fff"
 		},
 
 		"svg": {
@@ -114,7 +114,7 @@ ready.then(() => {
 	});
 	at("@media (prefers-color-scheme: dark)", {
 		"html, body": {
-			"background-color": "#222",
+			"background-color": "#222"
 		},
 
 		"svg": {
@@ -211,7 +211,7 @@ ready.then(() => {
 		text("O wins!"),
 		text("Draw!"),
 		restart,
-		text({"y": 20}, "Restart"),
+		text({"y": 20}, "Restart")
 	      ]),
 	      game = Array.from({"length": 9}, () => 0),
 	      board = svg({"viewBox": "0 0 99 99"}, [
