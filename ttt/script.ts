@@ -86,7 +86,12 @@ ready.then(() => {
 			},
 
 			" rect:last-of-type:hover": {
-				"cursor": "pointer"
+				"cursor": "pointer",
+
+				"+text": {
+					"fill": "#f00",
+					"stroke": "#f00"
+				}
 			}
 		}
 	});
