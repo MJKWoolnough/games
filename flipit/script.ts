@@ -50,8 +50,15 @@ ready.then(() => {
 	amendNode(document.head, render());
 
 	const board = svg({"viewBox": "0 0 100 100"}),
-	      start = (_level: number) => {
+	      game: boolean[] = [],
+	      cells: SVGRectElement[] = [],
+	      start = (level: number) => {
+		const cellSize = 100 / level;
 
+		game.splice(0, game.length, ...Array.from({"length": level * level}, _ => false));
+		cells.splice(0, cells.length, ...Array.from({"length": level * level}, (_, n) => rect({"x": (n % level) * cellSize + 1, "y": Math.floor(n / level) * cellSize + 1, "width": cellSize - 2, "height": cellSize - 2})));
+
+		clearNode(board, cells);
 	      };
 
 	start(1);
