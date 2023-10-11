@@ -53,11 +53,13 @@ ready.then(() => {
 	      board = svg({"viewBox": `0 0 ${scale} ${scale}`}),
 	      game: boolean[] = [],
 	      cells: SVGRectElement[] = [],
+	      clicked = (_n: number) => {
+	      },
 	      start = (level: number) => {
 		const cellSize = scale / level;
 
 		game.splice(0, game.length, ...Array.from({"length": level * level}, _ => false));
-		cells.splice(0, cells.length, ...Array.from({"length": level * level}, (_, n) => rect({"x": (n % level) * cellSize + 1, "y": Math.floor(n / level) * cellSize + 1, "width": cellSize - 2, "height": cellSize - 2})));
+		cells.splice(0, cells.length, ...Array.from({"length": level * level}, (_, n) => rect({"x": (n % level) * cellSize + 1, "y": Math.floor(n / level) * cellSize + 1, "width": cellSize - 2, "height": cellSize - 2, "onclick": () => clicked(n)})));
 
 		clearNode(board, cells);
 	      };
