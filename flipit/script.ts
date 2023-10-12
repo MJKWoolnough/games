@@ -21,7 +21,11 @@ ready.then(() => {
 			"stroke": "#000",
 
 			" rect": {
-				"fill": "#fff"
+				"fill": "#fff",
+
+				".S": {
+					"fill": "#000"
+				}
 			},
 
 			" text": {
@@ -38,7 +42,11 @@ ready.then(() => {
 			"stroke": "#fff",
 
 			" rect": {
-				"fill": "#222"
+				"fill": "#222",
+
+				".S": {
+					"fill": "#fff"
+				}
 			},
 
 			" text": {
@@ -53,10 +61,33 @@ ready.then(() => {
 	      board = svg({"viewBox": `0 0 ${scale} ${scale}`}),
 	      game: boolean[] = [],
 	      cells: SVGRectElement[] = [],
-	      clicked = (_n: number) => {
-	      },
 	      start = (level: number) => {
-		const cellSize = scale / level;
+		const cellSize = scale / level,
+		      clicked = (n: number) => {
+			const x = n % level,
+			      y = Math.floor(n / level),
+			      toChange = [n];
+
+			if (x > 0) {
+				toChange.push(n-1);
+			}
+
+			if (x < level - 1) {
+				toChange.push(n+1);
+			}
+
+			if (y > 0) {
+				toChange.push(n-level);
+			}
+
+			if (y < level - 1) {
+				toChange.push(n+level);
+			}
+
+			for (const c of toChange) {
+				amendNode(cells[c], {"class": {"S": game[c] = !game[c]}});
+			}
+		      };
 
 		game.splice(0, game.length, ...Array.from({"length": level * level}, _ => false));
 		cells.splice(0, cells.length, ...Array.from({"length": level * level}, (_, n) => rect({"x": (n % level) * cellSize + 1, "y": Math.floor(n / level) * cellSize + 1, "width": cellSize - 2, "height": cellSize - 2, "onclick": () => clicked(n)})));
