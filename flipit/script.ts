@@ -1,5 +1,6 @@
 import {add, at, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
+import {keyEvent} from './lib/events.js';
 import ready from './lib/load.js';
 import {rect, svg} from './lib/svg.js';
 
@@ -63,6 +64,13 @@ ready.then(() => {
 	      board = svg({"viewBox": `0 0 ${scale} ${scale}`}),
 	      game: boolean[] = [],
 	      cells: SVGRectElement[] = [],
+	      clear = () => {
+		game.fill(false);
+
+		for (const c of cells) {
+			amendNode(c, {"class": undefined});
+		}
+	      },
 	      clicked = (n: number) => {
 		const x = n % level,
 		      y = Math.floor(n / level),
@@ -103,6 +111,8 @@ ready.then(() => {
 
 		clearNode(board, cells);
 	      };
+
+	keyEvent("c", clear)[0]();
 
 	start(1);
 
