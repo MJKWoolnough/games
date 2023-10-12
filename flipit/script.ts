@@ -70,19 +70,19 @@ ready.then(() => {
 		      toChange = [n];
 
 		if (x > 0) {
-			toChange.push(n-1);
+			toChange.push(n - 1);
 		}
 
 		if (x < level - 1) {
-			toChange.push(n+1);
+			toChange.push(n + 1);
 		}
 
 		if (y > 0) {
-			toChange.push(n-level);
+			toChange.push(n - level);
 		}
 
 		if (y < level - 1) {
-			toChange.push(n+level);
+			toChange.push(n + level);
 		}
 
 		for (const c of toChange) {
@@ -91,7 +91,7 @@ ready.then(() => {
 
 
 		if (game.every(c => c)) {
-			start(level+1);
+			start(level + 1);
 		}
 	      },
 	      start = (l: number) => {
@@ -123,10 +123,10 @@ ready.then(() => {
 	})[0]();
 	keyEvent("[", () => {
 		if (level > 1) {
-			start(level-1);
+			start(level - 1);
 		}
 	})[0]();
-	keyEvent("]", () => start(level+1))[0]();
+	keyEvent("]", () => start(level + 1))[0]();
 
 	start(1);
 
