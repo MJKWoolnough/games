@@ -11,7 +11,7 @@ ready.then(() => {
 	});
 	add("svg", {
 		"max-width": "100vw",
-		"max-height": "100vh",
+		"max-height": "100vh"
 	});
 	at("@media (prefers-color-scheme: light)", {
 		"html, body": {
