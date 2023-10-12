@@ -87,6 +87,11 @@ ready.then(() => {
 			for (const c of toChange) {
 				amendNode(cells[c], {"class": {"S": game[c] = !game[c]}});
 			}
+
+
+			if (game.every(c => c)) {
+				start(level+1);
+			}
 		      };
 
 		game.splice(0, game.length, ...Array.from({"length": level * level}, _ => false));
