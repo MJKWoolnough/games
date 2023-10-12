@@ -113,6 +113,12 @@ ready.then(() => {
 	      };
 
 	keyEvent("c", clear)[0]();
+	keyEvent("[", () => {
+		if (level > 1) {
+			start(level-1);
+		}
+	})[0]();
+	keyEvent("]", () => start(level+1))[0]();
 
 	start(1);
 
