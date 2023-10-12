@@ -64,13 +64,6 @@ ready.then(() => {
 	      board = svg({"viewBox": `0 0 ${scale} ${scale}`}),
 	      game: boolean[] = [],
 	      cells: SVGRectElement[] = [],
-	      clear = () => {
-		game.fill(false);
-
-		for (const c of cells) {
-			amendNode(c, {"class": undefined});
-		}
-	      },
 	      clicked = (n: number) => {
 		const x = n % level,
 		      y = Math.floor(n / level),
@@ -112,7 +105,13 @@ ready.then(() => {
 		clearNode(board, cells);
 	      };
 
-	keyEvent("c", clear)[0]();
+	keyEvent("c", () => {
+		game.fill(false);
+
+		for (const c of cells) {
+			amendNode(c, {"class": undefined});
+		}
+	})[0]();
 	keyEvent("[", () => {
 		if (level > 1) {
 			start(level-1);
