@@ -112,15 +112,7 @@ ready.then(() => {
 			amendNode(c, {"class": undefined});
 		}
 	})[0]();
-	keyEvent("a", () => {
-		const max = level * level;
-
-		for (let i = level; i < max; i++) {
-			if (!game[i - level]) {
-				clicked(i);
-			}
-		}
-	})[0]();
+	keyEvent("a", () => Array.from({"length": level - 1}, (_, n) => n + 1).forEach(y => Array.from({"length": level}, (_, n) => y * level + n).filter(c => !game[c - level]).forEach(clicked)))[0]();
 	keyEvent("[", () => {
 		if (level > 1) {
 			start(level - 1);
