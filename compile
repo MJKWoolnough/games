@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cd "$(dirname "$0")";
+
+(
+	cat <<HEREDOC
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Games</title>
+	</head>
+	<body>
+HEREDOC
+	for index in */index.html; do
+		game="$(basename "$(dirname "$index")")";
+
+		(
+			head -n5 "$index" | tr -d '\n	';
+			echo -n "<script type=\"module\">";
+			(
+				cd "$game";
+				jspacker -i "/$(grep "<script" index.html | sed -e 's/.*src="\([^"]*\)".*/\1/')" -n | terser -m  --module --compress pure_getters,passes=3 --ecma 6 | tr -d '\n';
+				echo -n "</script>";
+			)
+			tail -n5 "$index" | tr -d '\n	';
+		) > "$game.html";
+
+		echo "		<a href=\"$game.html\">$game</a><br />"
+	done;
+	cat <<HEREDOC
+	</body>
+</html>
+HEREDOC
+) > "index.html";
