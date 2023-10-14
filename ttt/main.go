@@ -14,7 +14,7 @@ func (xo XO) Next() XO {
 	return 3 - xo
 }
 
-type Board [9]XO
+type Board uint32
 
 var wins = [...][3]int{
 	{0, 1, 2},
@@ -27,11 +27,17 @@ var wins = [...][3]int{
 	{2, 4, 6},
 }
 
-func (b *Board) hasWin() bool {
-	for _, w := range wins {
-		p := (*b)[w[0]]
+func (b Board) Get(pos int) XO {
+	return XO(b>>(pos<<1)) & 3
+}
 
-		if p != None && p == (*b)[w[1]] && p == (*b)[w[2]] {
+func (b Board) Set(pos int, xo XO) Board {
+	return (b & ^(3 << (pos << 1))) | (Board(xo) << (pos << 1))
+}
+
+func (b Board) hasWin() bool {
+	for _, w := range wins {
+		if p := b.Get(w[0]); p != None && p == b.Get(w[1]) && p == b.Get(w[2]) {
 			return true
 		}
 	}
@@ -44,33 +50,31 @@ type Cell uint8
 var game map[Board][]Cell
 
 func main() {
-	move(new(Board), X)
+	move(0, X)
 
 	fmt.Println(game)
 }
 
-func move(board *Board, turn XO) {
+func move(board Board, turn XO) {
 	next := turn.Next()
 
-	for n, p := range *board {
+	for n := 0; n < 9; n++ {
+		p := board.Get(n)
+
 		if p != None {
 			continue
 		}
 
-		(*board)[n] = next
-		if board.hasWin() {
-			(*board)[n] = None
-
+		if board.Set(n, next).hasWin() {
 			continue
 		}
 
-		(*board)[n] = turn
-		if board.hasWin() {
-			(*board)[n] = None
+		setBoard := board.Set(n, turn)
 
+		if setBoard.hasWin() {
 			continue
 		}
 
-		move(board, next)
+		move(setBoard, next)
 	}
 }
