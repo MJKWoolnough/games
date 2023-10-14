@@ -2,6 +2,16 @@ package main
 
 import "testing"
 
+func TestXONext(t *testing.T) {
+	if p := X.Next(); p != O {
+		t.Errorf("test 1: from X expecting O, got %s", p)
+	}
+
+	if p := O.Next(); p != X {
+		t.Errorf("test 2: from O expecting X, got %s", p)
+	}
+}
+
 func TestBoardGetSet(t *testing.T) {
 	for n, test := range [...][9]XO{
 		{None, X, O, None, X, O, None, X, O},
