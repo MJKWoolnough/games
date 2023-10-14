@@ -14,6 +14,19 @@ func (xo XO) Next() XO {
 	return 3 - xo
 }
 
+func (xo XO) String() string {
+	switch xo {
+	case None:
+		return "None"
+	case X:
+		return "X"
+	case O:
+		return "O"
+	}
+
+	return "Invalid"
+}
+
 type Board uint32
 
 var wins = [...][3]int{
