@@ -16,6 +16,29 @@ func (xo XO) Next() XO {
 
 type Board [9]XO
 
+var wins = [...][3]int{
+	{0, 1, 2},
+	{3, 4, 5},
+	{6, 7, 8},
+	{0, 3, 6},
+	{1, 4, 7},
+	{2, 5, 8},
+	{0, 4, 8},
+	{2, 4, 6},
+}
+
+func (b *Board) hasWin() bool {
+	for _, w := range wins {
+		p := (*b)[w[0]]
+
+		if p != None && p == (*b)[w[1]] && p == (*b)[w[2]] {
+			return true
+		}
+	}
+
+	return false
+}
+
 type Cell uint8
 
 var game map[Board][]Cell
@@ -35,14 +58,14 @@ func move(board *Board, turn XO) {
 		}
 
 		(*board)[n] = next
-		if hasWin(board) {
+		if board.hasWin() {
 			(*board)[n] = None
 
 			continue
 		}
 
 		(*board)[n] = turn
-		if hasWin(board) {
+		if board.hasWin() {
 			(*board)[n] = None
 
 			continue
@@ -50,27 +73,4 @@ func move(board *Board, turn XO) {
 
 		move(board, next)
 	}
-}
-
-var wins = [...][3]int{
-	{0, 1, 2},
-	{3, 4, 5},
-	{6, 7, 8},
-	{0, 3, 6},
-	{1, 4, 7},
-	{2, 5, 8},
-	{0, 4, 8},
-	{2, 4, 6},
-}
-
-func hasWin(board *Board) bool {
-	for _, w := range wins {
-		p := (*board)[w[0]]
-
-		if p != None && p == (*board)[w[1]] && p == (*board)[w[2]] {
-			return true
-		}
-	}
-
-	return false
 }
