@@ -19,7 +19,7 @@ func TestBoardGetSet(t *testing.T) {
 
 		for i, p := range test {
 			if q := b.Get(i); q != p {
-				t.Errorf("test %d.%d: expecting value %d, got %d", n, i, p, q)
+				t.Errorf("test %d.%d: expecting value %s, got %s", n, i, p, q)
 			}
 		}
 	}
