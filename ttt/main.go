@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type XO uint8
 
@@ -56,6 +59,32 @@ func (b Board) hasWin() bool {
 	}
 
 	return false
+}
+
+func (b Board) String() string {
+	var sb strings.Builder
+
+	sb.WriteString("┌───┬───┬───┐\n")
+	for y := 0; y < 3; y++ {
+		if y > 0 {
+			sb.WriteString("├───┼───┼───┤\n")
+		}
+
+		for x := 0; x < 3; x++ {
+			sb.WriteString("│ ")
+			if p := b.Get(y*3 + x); p == None {
+				sb.WriteString(" ")
+			} else {
+				sb.WriteString(p.String())
+			}
+			sb.WriteString(" ")
+		}
+
+		sb.WriteString("│\n")
+	}
+	sb.WriteString("└───┴───┴───┘")
+
+	return sb.String()
 }
 
 type Cell uint8
