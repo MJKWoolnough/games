@@ -118,17 +118,19 @@ func (b Board) String() string {
 	return sb.String()
 }
 
-type Cell uint8
+type Results uint32
 
-var game map[Board][]Cell
+type Brain map[Board]Results
 
 func main() {
-	move(0, X)
+	b := new(Brain)
 
-	fmt.Println(game)
+	b.move(0, X)
+
+	fmt.Println(b)
 }
 
-func move(board Board, turn XO) {
+func (b Brain) move(board Board, turn XO) {
 	next := turn.Next()
 
 	for n := Position(0); n < 9; n++ {
@@ -138,6 +140,6 @@ func move(board Board, turn XO) {
 			continue
 		}
 
-		move(setBoard, next)
+		b.move(setBoard, next)
 	}
 }
