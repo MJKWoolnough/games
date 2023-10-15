@@ -147,3 +147,34 @@ func TestPositionFlop(t *testing.T) {
 		}
 	}
 }
+
+func TestBoardTransform(t *testing.T) {
+	for n, test := range [...][9]Board{
+		{
+			Board(0).Set(0, X).Set(2, O).Set(4, X),
+			Board(0).Set(2, X).Set(8, O).Set(4, X),
+			Board(0).Set(8, X).Set(6, O).Set(4, X),
+			Board(0).Set(6, X).Set(0, O).Set(4, X),
+			Board(0).Set(2, X).Set(0, O).Set(4, X),
+			Board(0).Set(8, X).Set(2, O).Set(4, X),
+			Board(0).Set(6, X).Set(8, O).Set(4, X),
+			Board(0).Set(0, X).Set(6, O).Set(4, X),
+		},
+		{
+			Board(0).Set(1, X).Set(5, O).Set(4, O),
+			Board(0).Set(5, X).Set(7, O).Set(4, O),
+			Board(0).Set(7, X).Set(3, O).Set(4, O),
+			Board(0).Set(3, X).Set(1, O).Set(4, O),
+			Board(0).Set(1, X).Set(3, O).Set(4, O),
+			Board(0).Set(5, X).Set(1, O).Set(4, O),
+			Board(0).Set(7, X).Set(5, O).Set(4, O),
+			Board(0).Set(3, X).Set(7, O).Set(4, O),
+		},
+	} {
+		for i := uint8(0); i < 8; i++ {
+			if c := test[0].Transform(i&4 != 0, i&3); c != test[i] {
+				t.Errorf("test %d.%d: expecting output:\n%s\n...got:\n%s", n+1, i+1, test[i], c)
+			}
+		}
+	}
+}
