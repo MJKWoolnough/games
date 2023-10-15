@@ -61,6 +61,27 @@ func (b Board) Set(pos Position, xo XO) Board {
 	return (b & ^(3 << (pos << 1))) | (Board(xo) << (pos << 1))
 }
 
+func (b Board) Transform(flop bool, rotate uint8) Board {
+	var c Board
+
+	for i := 0; i < 9; i++ {
+		p := Position(i)
+		v := b.Get(p)
+
+		if flop {
+			p = p.Flop()
+		}
+
+		for r := uint8(0); r < rotate; r++ {
+			p = p.RotateClockwise()
+		}
+
+		c = c.Set(p, v)
+	}
+
+	return c
+}
+
 func (b Board) hasWin() bool {
 	for _, w := range wins {
 		if p := b.Get(w[0]); p != None && p == b.Get(w[1]) && p == b.Get(w[2]) {
