@@ -129,3 +129,21 @@ func TestPositionRotateClockwise(t *testing.T) {
 		}
 	}
 }
+
+func TestPositionFlop(t *testing.T) {
+	for n, test := range [...][2]Position{
+		{0, 2},
+		{1, 1},
+		{2, 0},
+		{3, 5},
+		{4, 4},
+		{5, 3},
+		{6, 8},
+		{7, 7},
+		{8, 6},
+	} {
+		if q := test[0].Flop(); q != test[1] {
+			t.Errorf("test %d: from position %d, expecting flop to equal %d, got %d", n+1, test[0], test[1], q)
+		}
+	}
+}
