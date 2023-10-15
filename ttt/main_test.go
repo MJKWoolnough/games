@@ -111,3 +111,21 @@ func TestBoardHasWin(t *testing.T) {
 		}
 	}
 }
+
+func TestPositionRotateClockwise(t *testing.T) {
+	for n, test := range [...][2]Position{
+		{0, 2},
+		{1, 5},
+		{2, 8},
+		{3, 1},
+		{4, 4},
+		{5, 7},
+		{6, 0},
+		{7, 3},
+		{8, 6},
+	} {
+		if q := test[0].RotateClockwise(); q != test[1] {
+			t.Errorf("test %d: from position %d, expecting clockwise rotation to equal %d, got %d", n+1, test[0], test[1], q)
+		}
+	}
+}
