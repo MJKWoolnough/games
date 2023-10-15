@@ -24,11 +24,11 @@ func TestBoardGetSet(t *testing.T) {
 		var b Board
 
 		for i, p := range test {
-			b = b.Set(i, p)
+			b = b.Set(Position(i), p)
 		}
 
 		for i, p := range test {
-			if q := b.Get(i); q != p {
+			if q := b.Get(Position(i)); q != p {
 				t.Errorf("test %d.%d: expecting value %s, got %s", n, i, p, q)
 			}
 		}
@@ -38,7 +38,7 @@ func TestBoardGetSet(t *testing.T) {
 func TestBoardHasWin(t *testing.T) {
 	for n, test := range [...]struct {
 		Board
-		Last int
+		Last Position
 		XO
 	}{
 		{

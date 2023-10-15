@@ -42,7 +42,7 @@ func (p Position) Flop() Position {
 
 type Board uint32
 
-var wins = [...][3]int{
+var wins = [...][3]Position{
 	{0, 1, 2},
 	{3, 4, 5},
 	{6, 7, 8},
@@ -53,11 +53,11 @@ var wins = [...][3]int{
 	{2, 4, 6},
 }
 
-func (b Board) Get(pos int) XO {
+func (b Board) Get(pos Position) XO {
 	return XO(b>>(pos<<1)) & 3
 }
 
-func (b Board) Set(pos int, xo XO) Board {
+func (b Board) Set(pos Position, xo XO) Board {
 	return (b & ^(3 << (pos << 1))) | (Board(xo) << (pos << 1))
 }
 
@@ -75,12 +75,12 @@ func (b Board) String() string {
 	var sb strings.Builder
 
 	sb.WriteString("┌───┬───┬───┐\n")
-	for y := 0; y < 3; y++ {
+	for y := Position(0); y < 3; y++ {
 		if y > 0 {
 			sb.WriteString("├───┼───┼───┤\n")
 		}
 
-		for x := 0; x < 3; x++ {
+		for x := Position(0); x < 3; x++ {
 			sb.WriteString("│ ")
 			if p := b.Get(y*3 + x); p == None {
 				sb.WriteString(" ")
@@ -110,7 +110,7 @@ func main() {
 func move(board Board, turn XO) {
 	next := turn.Next()
 
-	for n := 0; n < 9; n++ {
+	for n := Position(0); n < 9; n++ {
 		setBoard := board.Set(n, turn)
 
 		if board.Get(n) != None || board.Set(n, next).hasWin() || setBoard.hasWin() {
