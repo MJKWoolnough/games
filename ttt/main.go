@@ -36,6 +36,10 @@ func (p Position) RotateClockwise() Position {
 	return 2 - p/3 + 3*(p%3)
 }
 
+func (p Position) Flop() Position {
+	return 3*(p/3) + 2 - (p % 3)
+}
+
 type Board uint32
 
 var wins = [...][3]int{
