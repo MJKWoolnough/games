@@ -101,19 +101,9 @@ func move(board Board, turn XO) {
 	next := turn.Next()
 
 	for n := 0; n < 9; n++ {
-		p := board.Get(n)
-
-		if p != None {
-			continue
-		}
-
-		if board.Set(n, next).hasWin() {
-			continue
-		}
-
 		setBoard := board.Set(n, turn)
 
-		if setBoard.hasWin() {
+		if board.Get(n) != None || board.Set(n, next).hasWin() || setBoard.hasWin() {
 			continue
 		}
 
