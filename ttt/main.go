@@ -123,12 +123,6 @@ type Results uint32
 
 type Brain map[Board]Results
 
-func main() {
-	b := NewBrain()
-
-	fmt.Println(b)
-}
-
 func NewBrain() Brain {
 	b := make(Brain)
 
@@ -175,4 +169,10 @@ func (b Brain) move(board Board, turn XO) {
 	if canWin > 0 {
 	} else if canLose > 1 {
 	}
+}
+
+func main() {
+	b := NewBrain()
+
+	fmt.Println(b)
 }
