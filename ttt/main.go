@@ -124,11 +124,11 @@ type Results uint32
 type Result uint8
 
 const (
-	WillWin Result = iota
+	Draw Result = iota
+	WillWin
 	WillLose
 	CanWin
 	CanLose
-	Draw
 )
 
 type Brain map[Board]Results
@@ -141,10 +141,10 @@ func NewBrain() Brain {
 	return b
 }
 
-func (b Brain) move(board Board, turn XO) {
+func (b Brain) move(board Board, turn XO) Result {
 	for i := uint8(0); i < 8; i++ {
-		if _, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
-			return
+		if r, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
+			return Result(r >> 29)
 		}
 	}
 
@@ -172,13 +172,29 @@ func (b Brain) move(board Board, turn XO) {
 		if setBoard.HasWin() {
 			canWin++
 		} else {
-			b.move(setBoard, next)
+			ret := b.move(setBoard, next)
+			switch ret {
+			case WillWin:
+				canWin++
+			case WillLose:
+				canLose++
+			}
 		}
 	}
 
-	if canWin > 0 {
-	} else if canLose > 1 {
+	result := Draw
+
+	if canWin == empty {
+		result = WillWin
+	} else if canWin > 0 {
+		result = CanWin
+	} else if canLose == empty {
+		result = WillLose
+	} else if canLose > 0 {
+		result = CanLose
 	}
+
+	return result
 }
 
 func main() {
