@@ -123,11 +123,17 @@ type Results uint32
 type Brain map[Board]Results
 
 func main() {
-	b := new(Brain)
+	b := NewBrain()
+
+	fmt.Println(b)
+}
+
+func NewBrain() Brain {
+	b := make(Brain)
 
 	b.move(0, X)
 
-	fmt.Println(b)
+	return b
 }
 
 func (b Brain) move(board Board, turn XO) {
