@@ -102,11 +102,11 @@ func TestBoardHasWin(t *testing.T) {
 			O,
 		},
 	} {
-		if test.hasWin() {
+		if test.HasWin() {
 			t.Errorf("test %d: board already wins:\n%s", n, test.Board)
-		} else if b := test.Set(test.Last, test.Next()); b.hasWin() {
+		} else if b := test.Set(test.Last, test.Next()); b.HasWin() {
 			t.Errorf("test %d: board wins with wrong token:\n%s", n, b)
-		} else if b := test.Set(test.Last, test.XO); !b.hasWin() {
+		} else if b := test.Set(test.Last, test.XO); !b.HasWin() {
 			t.Errorf("test %d: board doesn't win when it should:\n%s", n, b)
 		}
 	}

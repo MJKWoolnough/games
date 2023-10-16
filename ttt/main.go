@@ -82,7 +82,7 @@ func (b Board) Transform(flop bool, rotate uint8) Board {
 	return c
 }
 
-func (b Board) hasWin() bool {
+func (b Board) HasWin() bool {
 	for _, w := range wins {
 		if p := b.Get(w[0]); p != None && p == b.Get(w[1]) && p == b.Get(w[2]) {
 			return true
@@ -146,7 +146,7 @@ func (b Brain) move(board Board, turn XO) {
 	for n := Position(0); n < 9; n++ {
 		setBoard := board.Set(n, turn)
 
-		if board.Get(n) != None || board.Set(n, next).hasWin() || setBoard.hasWin() {
+		if board.Get(n) != None || board.Set(n, next).HasWin() || setBoard.HasWin() {
 			continue
 		}
 
