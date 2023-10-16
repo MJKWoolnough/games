@@ -121,6 +121,16 @@ func (b Board) String() string {
 
 type Results uint32
 
+type Result uint8
+
+const (
+	WillWin Result = iota
+	WillLose
+	CanWin
+	CanLose
+	Draw
+)
+
 type Brain map[Board]Results
 
 func NewBrain() Brain {
