@@ -150,8 +150,8 @@ func (b Brain) move(board Board, turn XO) Result {
 
 	next := turn.Next()
 
-	canWin := 0
-	canLose := 0
+	willWin := 0
+	willLose := 0
 	empty := 0
 
 	for _, p := range Positions {
@@ -162,7 +162,7 @@ func (b Brain) move(board Board, turn XO) Result {
 		empty++
 
 		if board.Set(p, next).HasWin() {
-			canLose++
+			willLose++
 
 			continue
 		}
@@ -170,27 +170,27 @@ func (b Brain) move(board Board, turn XO) Result {
 		setBoard := board.Set(p, turn)
 
 		if setBoard.HasWin() {
-			canWin++
+			willWin++
 		} else {
 			ret := b.move(setBoard, next)
 			switch ret {
 			case WillWin:
-				canWin++
+				willWin++
 			case WillLose:
-				canLose++
+				willLose++
 			}
 		}
 	}
 
 	result := Draw
 
-	if canWin == empty {
+	if willWin == empty {
 		result = WillWin
-	} else if canWin > 0 {
+	} else if willWin > 0 {
 		result = CanWin
-	} else if canLose == empty {
+	} else if willLose == empty {
 		result = WillLose
-	} else if canLose > 0 {
+	} else if willLose > 0 {
 		result = CanLose
 	}
 
