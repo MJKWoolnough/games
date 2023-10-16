@@ -30,6 +30,8 @@ func (xo XO) String() string {
 	return "Invalid"
 }
 
+var Positions = [...]Position{0, 1, 2, 3, 4, 5, 6, 7, 8}
+
 type Position uint8
 
 func (p Position) RotateClockwise() Position {
@@ -64,8 +66,7 @@ func (b Board) Set(pos Position, xo XO) Board {
 func (b Board) Transform(flop bool, rotate uint8) Board {
 	var c Board
 
-	for i := 0; i < 9; i++ {
-		p := Position(i)
+	for _, p := range Positions {
 		v := b.Get(p)
 
 		if flop {
@@ -143,10 +144,10 @@ func (b Brain) move(board Board, turn XO) {
 
 	next := turn.Next()
 
-	for n := Position(0); n < 9; n++ {
-		setBoard := board.Set(n, turn)
+	for _, p := range Positions {
+		setBoard := board.Set(p, turn)
 
-		if board.Get(n) != None || board.Set(n, next).HasWin() || setBoard.HasWin() {
+		if board.Get(p) != None || board.Set(p, next).HasWin() || setBoard.HasWin() {
 			continue
 		}
 
