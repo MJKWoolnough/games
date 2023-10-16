@@ -148,11 +148,16 @@ func (b Brain) move(board Board, turn XO) {
 
 	canWin := 0
 	canLose := 0
+	empty := 0
 
 	for _, p := range Positions {
 		if board.Get(p) != None {
 			continue
-		} else if board.Set(p, next).HasWin() {
+		}
+
+		empty++
+
+		if board.Set(p, next).HasWin() {
 			canLose++
 
 			continue
