@@ -146,13 +146,28 @@ func (b Brain) move(board Board, turn XO) {
 
 	next := turn.Next()
 
-	for _, p := range Positions {
-		setBoard := board.Set(p, turn)
+	canWin := 0
+	canLose := 0
 
-		if board.Get(p) != None || board.Set(p, next).HasWin() || setBoard.HasWin() {
+	for _, p := range Positions {
+		if board.Get(p) != None {
+			continue
+		} else if board.Set(p, next).HasWin() {
+			canLose++
+
 			continue
 		}
 
-		b.move(setBoard, next)
+		setBoard := board.Set(p, turn)
+
+		if setBoard.HasWin() {
+			canWin++
+		} else {
+			b.move(setBoard, next)
+		}
+	}
+
+	if canWin > 0 {
+	} else if canLose > 1 {
 	}
 }
