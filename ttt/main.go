@@ -138,8 +138,10 @@ func NewBrain() Brain {
 }
 
 func (b Brain) move(board Board, turn XO) {
-	if !b.initBoard(board) {
-		return
+	for i := uint8(0); i < 8; i++ {
+		if _, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
+			return
+		}
 	}
 
 	next := turn.Next()
@@ -153,16 +155,4 @@ func (b Brain) move(board Board, turn XO) {
 
 		b.move(setBoard, next)
 	}
-}
-
-func (b Brain) initBoard(board Board) bool {
-	for i := uint8(0); i < 8; i++ {
-		if _, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
-			return false
-		}
-	}
-
-	b[board] = 0
-
-	return true
 }
