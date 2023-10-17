@@ -144,6 +144,14 @@ const (
 	CanLose
 )
 
+func (r Result) Switch() Result {
+	if r >= WillWin {
+		return r ^ 1
+	}
+
+	return r
+}
+
 type Brain map[Board]Results
 
 func NewBrain() Brain {
