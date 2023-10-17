@@ -121,16 +121,16 @@ func (b Board) String() string {
 
 type Results uint32
 
-func (rs *Results) Set(p Position, r Result) {
-	*rs = *rs | (Results(r) << (p * 3))
+func (rs Results) Set(p Position, r Result) Results {
+	return rs | (Results(r) << (p * 3))
 }
 
-func (rs *Results) SetState(r Result) {
-	*rs = *rs | (Results(r) << 29)
+func (rs Results) SetState(r Result) Results {
+	return rs | (Results(r) << 29)
 }
 
-func (rs *Results) GetState() Result {
-	return Result(*rs >> 29)
+func (rs Results) GetState() Result {
+	return Result(rs >> 29)
 }
 
 type Result uint8
