@@ -121,6 +121,18 @@ func (b Board) String() string {
 
 type Results uint32
 
+func (rs *Results) Set(p Position, r Result) {
+	*rs = *rs | (Results(r) << (p * 3))
+}
+
+func (rs *Results) SetState(r Result) {
+	*rs = *rs | (Results(r) << 29)
+}
+
+func (rs *Results) GetState() Result {
+	return Result(*rs >> 29)
+}
+
 type Result uint8
 
 const (
@@ -144,7 +156,7 @@ func NewBrain() Brain {
 func (b Brain) move(board Board, turn XO) Result {
 	for i := uint8(0); i < 8; i++ {
 		if r, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
-			return Result(r >> 29)
+			return r.GetState()
 		}
 	}
 
