@@ -121,6 +121,10 @@ func (b Board) String() string {
 
 type Results uint32
 
+func (rs Results) Get(p Position) Result {
+	return Result((rs >> (p * 3)) & 7)
+}
+
 func (rs Results) Set(p Position, r Result) Results {
 	return rs | (Results(r) << (p * 3))
 }
