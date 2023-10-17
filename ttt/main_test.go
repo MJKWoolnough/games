@@ -178,3 +178,20 @@ func TestBoardTransform(t *testing.T) {
 		}
 	}
 }
+
+func TestResultSwitch(t *testing.T) {
+	for n, test := range [...]struct {
+		In, Out Result
+	}{
+		{Filled, Filled},
+		{Draw, Draw},
+		{WillWin, WillLose},
+		{WillLose, WillWin},
+		{CanWin, CanLose},
+		{CanLose, CanWin},
+	} {
+		if out := test.In.Switch(); out != test.Out {
+			t.Errorf("test %d: for input %d, expecting output %d, got %d", n+1, test.In, test.Out, out)
+		}
+	}
+}
