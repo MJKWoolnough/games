@@ -191,7 +191,7 @@ func TestResultSwitch(t *testing.T) {
 		{CanLose, CanWin},
 	} {
 		if out := test.In.Switch(); out != test.Out {
-			t.Errorf("test %d: for input %d, expecting output %d, got %d", n+1, test.In, test.Out, out)
+			t.Errorf("test %d: for input %q, expecting output %q, got %q", n+1, test.In, test.Out, out)
 		}
 	}
 }
