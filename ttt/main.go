@@ -136,7 +136,8 @@ func (rs *Results) GetState() Result {
 type Result uint8
 
 const (
-	Draw Result = iota
+	Filled Result = iota
+	Draw
 	WillWin
 	WillLose
 	CanWin
