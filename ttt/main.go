@@ -137,6 +137,43 @@ func (rs Results) GetState() Result {
 	return Result(rs >> 29)
 }
 
+func (rs Results) String() string {
+	var sb strings.Builder
+
+	sb.WriteString("Overall: ")
+	sb.WriteString(rs.GetState().String())
+	sb.WriteString("\n┌───┬───┬───┐\n")
+	for y := Position(0); y < 3; y++ {
+		if y > 0 {
+			sb.WriteString("├───┼───┼───┤\n")
+		}
+
+		for x := Position(0); x < 3; x++ {
+			sb.WriteString("│ ")
+			switch rs.Get(y*3 + x) {
+			case Filled:
+				sb.WriteString(" ")
+			case Draw:
+				sb.WriteString("D")
+			case WillWin:
+				sb.WriteString("W")
+			case WillLose:
+				sb.WriteString("L")
+			case CanWin:
+				sb.WriteString("w")
+			case CanLose:
+				sb.WriteString("l")
+			}
+			sb.WriteString(" ")
+		}
+
+		sb.WriteString("│\n")
+	}
+	sb.WriteString("└───┴───┴───┘")
+
+	return sb.String()
+}
+
 type Result uint8
 
 const (
