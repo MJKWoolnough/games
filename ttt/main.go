@@ -144,6 +144,25 @@ const (
 	CanLose
 )
 
+func (r Result) String() string {
+	switch r {
+	case Filled:
+		return "Filled"
+	case Draw:
+		return "Draw"
+	case WillWin:
+		return "Will Win"
+	case WillLose:
+		return "Will Lose"
+	case CanWin:
+		return "Can Win"
+	case CanLose:
+		return "Can Lose"
+	}
+
+	return "Invalid"
+}
+
 func (r Result) Switch() Result {
 	if r >= WillWin {
 		return r ^ 1
