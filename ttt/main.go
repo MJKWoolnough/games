@@ -178,6 +178,8 @@ func (rs Results) String() string {
 				sb.WriteString("w")
 			case CanLose:
 				sb.WriteString("l")
+			case Draw:
+				sb.WriteString(" ")
 			}
 			sb.WriteString(" ")
 		}
@@ -308,5 +310,14 @@ func (b Brain) move(board Board) Result {
 func main() {
 	b := NewBrain()
 
-	fmt.Println(b)
+	for board, results := range b {
+		b := strings.Split(board.String(), "\n")
+		r := strings.Split(results.String(), "\n")
+
+		fmt.Println("             ", r[0])
+
+		for n, rs := range r[1:] {
+			fmt.Println(b[n], rs)
+		}
+	}
 }
