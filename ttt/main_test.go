@@ -148,6 +148,31 @@ func TestPositionFlop(t *testing.T) {
 	}
 }
 
+func TestBoardSwitch(t *testing.T) {
+	for n, test := range [...][2]Board{
+		{
+			Board(0).Set(0, X).Set(4, X).Set(1, O),
+			Board(0).Set(0, O).Set(4, O).Set(1, X),
+		},
+		{
+			Board(0).Set(0, O).Set(4, O).Set(1, X),
+			Board(0).Set(0, X).Set(4, X).Set(1, O),
+		},
+		{
+			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
+			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
+		},
+		{
+			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
+			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
+		},
+	} {
+		if s := test[0].Switch(); s != test[1] {
+			t.Errorf("test %d: from board:\n%s\nexpecting switched board:\n%s\n...but got:\n%s", n+1, test[0], test[1], s)
+		}
+	}
+}
+
 func TestBoardTransform(t *testing.T) {
 	for n, test := range [...][9]Board{
 		{
