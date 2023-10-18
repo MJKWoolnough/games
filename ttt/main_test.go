@@ -183,12 +183,13 @@ func TestResultSwitch(t *testing.T) {
 	for n, test := range [...]struct {
 		In, Out Result
 	}{
-		{Filled, Filled},
-		{Draw, Draw},
+		{FilledX, FilledX},
+		{FilledO, FilledO},
 		{WillWin, WillLose},
 		{WillLose, WillWin},
 		{CanWin, CanLose},
 		{CanLose, CanWin},
+		{Draw, Draw},
 	} {
 		if out := test.In.Switch(); out != test.Out {
 			t.Errorf("test %d: for input %q, expecting output %q, got %q", n+1, test.In, test.Out, out)

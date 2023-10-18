@@ -151,10 +151,10 @@ func (rs Results) String() string {
 		for x := Position(0); x < 3; x++ {
 			sb.WriteString("│ ")
 			switch rs.Get(y*3 + x) {
-			case Filled:
-				sb.WriteString(" ")
-			case Draw:
-				sb.WriteString("D")
+			case FilledX:
+				sb.WriteString("X")
+			case FilledO:
+				sb.WriteString("O")
 			case WillWin:
 				sb.WriteString("W")
 			case WillLose:
@@ -177,20 +177,21 @@ func (rs Results) String() string {
 type Result uint8
 
 const (
-	Filled Result = iota
-	Draw
+	FilledX Result = iota
+	FilledO
 	WillWin
 	WillLose
 	CanWin
 	CanLose
+	Draw
 )
 
 func (r Result) String() string {
 	switch r {
-	case Filled:
-		return "Filled"
-	case Draw:
-		return "Draw"
+	case FilledX:
+		return "Filled X"
+	case FilledO:
+		return "Filled O"
 	case WillWin:
 		return "Will Win"
 	case WillLose:
@@ -199,13 +200,15 @@ func (r Result) String() string {
 		return "Can Win"
 	case CanLose:
 		return "Can Lose"
+	case Draw:
+		return "Draw"
 	}
 
 	return "Invalid"
 }
 
 func (r Result) Switch() Result {
-	if r >= WillWin {
+	if r >= WillWin && r <= CanLose {
 		return r ^ 1
 	}
 
@@ -238,8 +241,8 @@ func (b Brain) move(board Board, turn XO) Result {
 	var rs Results
 
 	for _, p := range Positions {
-		if board.Get(p) != None {
-			rs.Set(p, Filled)
+		if t := board.Get(p); t != None {
+			rs.Set(p, Result(t))
 			continue
 		}
 
