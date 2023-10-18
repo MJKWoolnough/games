@@ -234,19 +234,17 @@ type Brain map[Board]Results
 func NewBrain() Brain {
 	b := make(Brain)
 
-	b.move(0, X)
+	b.move(0)
 
 	return b
 }
 
-func (b Brain) move(board Board, turn XO) Result {
+func (b Brain) move(board Board) Result {
 	for i := uint8(0); i < 8; i++ {
 		if r, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
 			return r.GetState()
 		}
 	}
-
-	next := turn.Switch()
 
 	willWin := 0
 	willLose := 0
@@ -262,7 +260,7 @@ func (b Brain) move(board Board, turn XO) Result {
 
 		empty++
 
-		if board.Set(p, next).HasWin() {
+		if board.Set(p, O).HasWin() {
 			rs.Set(p, WillLose)
 
 			willLose++
@@ -270,14 +268,14 @@ func (b Brain) move(board Board, turn XO) Result {
 			continue
 		}
 
-		setBoard := board.Set(p, turn)
+		setBoard := board.Set(p, X)
 
 		if setBoard.HasWin() {
 			rs.Set(p, WillWin)
 
 			willWin++
 		} else {
-			ret := b.move(setBoard, next).Switch()
+			ret := b.move(setBoard.Switch()).Switch()
 			switch ret {
 			case WillWin:
 				willWin++
