@@ -34,8 +34,6 @@ func (xo XO) String() string {
 	return "Invalid"
 }
 
-var Positions = [...]Position{0, 1, 2, 3, 4, 5, 6, 7, 8}
-
 type Position uint8
 
 func (p Position) RotateClockwise() Position {
@@ -45,6 +43,8 @@ func (p Position) RotateClockwise() Position {
 func (p Position) Flop() Position {
 	return 3*(p/3) + 2 - (p % 3)
 }
+
+var Positions = [...]Position{0, 1, 2, 3, 4, 5, 6, 7, 8}
 
 type Board uint32
 
