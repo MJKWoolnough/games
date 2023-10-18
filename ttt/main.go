@@ -44,20 +44,21 @@ func (p Position) Flop() Position {
 	return 3*(p/3) + 2 - (p % 3)
 }
 
-var Positions = [...]Position{0, 1, 2, 3, 4, 5, 6, 7, 8}
+var (
+	Positions = [...]Position{0, 1, 2, 3, 4, 5, 6, 7, 8}
+	wins      = [...][3]Position{
+		{0, 1, 2},
+		{3, 4, 5},
+		{6, 7, 8},
+		{0, 3, 6},
+		{1, 4, 7},
+		{2, 5, 8},
+		{0, 4, 8},
+		{2, 4, 6},
+	}
+)
 
 type Board uint32
-
-var wins = [...][3]Position{
-	{0, 1, 2},
-	{3, 4, 5},
-	{6, 7, 8},
-	{0, 3, 6},
-	{1, 4, 7},
-	{2, 5, 8},
-	{0, 4, 8},
-	{2, 4, 6},
-}
 
 func (b Board) Get(pos Position) XO {
 	return XO(b>>(pos<<1)) & 3
