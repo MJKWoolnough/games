@@ -255,14 +255,14 @@ func (b Brain) move(board Board) Result {
 
 	for _, p := range Positions {
 		if t := board.Get(p); t != None {
-			rs.Set(p, Result(t))
+			rs = rs.Set(p, Result(t))
 			continue
 		}
 
 		empty++
 
 		if board.Set(p, O).HasWin() {
-			rs.Set(p, WillLose)
+			rs = rs.Set(p, WillLose)
 
 			willLose++
 
@@ -272,7 +272,7 @@ func (b Brain) move(board Board) Result {
 		setBoard := board.Set(p, X)
 
 		if setBoard.HasWin() {
-			rs.Set(p, WillWin)
+			rs = rs.Set(p, WillWin)
 
 			willWin++
 		} else {
@@ -284,7 +284,7 @@ func (b Brain) move(board Board) Result {
 				willLose++
 			}
 
-			rs.Set(p, ret)
+			rs = rs.Set(p, ret)
 		}
 	}
 
@@ -300,9 +300,7 @@ func (b Brain) move(board Board) Result {
 		result = CanLose
 	}
 
-	rs.SetState(result)
-
-	b[board] = rs
+	b[board] = rs.SetState(result)
 
 	return result
 }
