@@ -14,6 +14,10 @@ const (
 )
 
 func (xo XO) Switch() XO {
+	if xo == None {
+		return None
+	}
+
 	return 3 - xo
 }
 
@@ -61,6 +65,16 @@ func (b Board) Get(pos Position) XO {
 
 func (b Board) Set(pos Position, xo XO) Board {
 	return (b & ^(3 << (pos << 1))) | (Board(xo) << (pos << 1))
+}
+
+func (b Board) Switch() Board {
+	var c Board
+
+	for _, p := range Positions {
+		c = c.Set(p, b.Get(p).Switch())
+	}
+
+	return c
 }
 
 func (b Board) Transform(flop bool, rotate uint8) Board {
