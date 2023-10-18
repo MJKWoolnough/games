@@ -2,12 +2,12 @@ package main
 
 import "testing"
 
-func TestXONext(t *testing.T) {
-	if p := X.Next(); p != O {
+func TestXOSwitch(t *testing.T) {
+	if p := X.Switch(); p != O {
 		t.Errorf("test 1: from X expecting O, got %s", p)
 	}
 
-	if p := O.Next(); p != X {
+	if p := O.Switch(); p != X {
 		t.Errorf("test 2: from O expecting X, got %s", p)
 	}
 }
@@ -104,7 +104,7 @@ func TestBoardHasWin(t *testing.T) {
 	} {
 		if test.HasWin() {
 			t.Errorf("test %d: board already wins:\n%s", n, test.Board)
-		} else if b := test.Set(test.Last, test.Next()); b.HasWin() {
+		} else if b := test.Set(test.Last, test.Switch()); b.HasWin() {
 			t.Errorf("test %d: board wins with wrong token:\n%s", n, b)
 		} else if b := test.Set(test.Last, test.XO); !b.HasWin() {
 			t.Errorf("test %d: board doesn't win when it should:\n%s", n, b)

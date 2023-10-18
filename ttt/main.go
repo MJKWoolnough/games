@@ -13,7 +13,7 @@ const (
 	O
 )
 
-func (xo XO) Next() XO {
+func (xo XO) Switch() XO {
 	return 3 - xo
 }
 
@@ -232,7 +232,7 @@ func (b Brain) move(board Board, turn XO) Result {
 		}
 	}
 
-	next := turn.Next()
+	next := turn.Switch()
 
 	willWin := 0
 	willLose := 0
