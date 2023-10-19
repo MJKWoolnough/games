@@ -263,14 +263,6 @@ func (b Brain) move(board Board) Result {
 
 		empty++
 
-		if board.Set(p, O).HasWin() {
-			rs = rs.Set(p, WillLose)
-
-			willLose++
-
-			continue
-		}
-
 		setBoard := board.Set(p, X)
 
 		if setBoard.HasWin() {
