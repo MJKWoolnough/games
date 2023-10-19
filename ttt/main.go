@@ -302,4 +302,6 @@ func main() {
 			fmt.Println(b[n], rs)
 		}
 	}
+
+	fmt.Printf("%d boards\n", len(b))
 }
