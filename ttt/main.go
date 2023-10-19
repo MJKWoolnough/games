@@ -135,6 +135,41 @@ func (b Board) String() string {
 	return sb.String()
 }
 
+type Result uint8
+
+const (
+	FilledX Result = iota
+	FilledO
+	CanWin
+	CanLose
+	Draw
+)
+
+func (r Result) String() string {
+	switch r {
+	case FilledX:
+		return "Filled X"
+	case FilledO:
+		return "Filled O"
+	case CanWin:
+		return "Can Win"
+	case CanLose:
+		return "Can Lose"
+	case Draw:
+		return "Draw"
+	}
+
+	return "Invalid"
+}
+
+func (r Result) Switch() Result {
+	if r == CanWin || r == CanLose {
+		return r ^ 1
+	}
+
+	return r
+}
+
 type Results uint32
 
 func (rs Results) Get(p Position) Result {
@@ -206,41 +241,6 @@ func (r Results) Encode() [3]byte {
 		byte(n >> 8),
 		byte(n),
 	}
-}
-
-type Result uint8
-
-const (
-	FilledX Result = iota
-	FilledO
-	CanWin
-	CanLose
-	Draw
-)
-
-func (r Result) String() string {
-	switch r {
-	case FilledX:
-		return "Filled X"
-	case FilledO:
-		return "Filled O"
-	case CanWin:
-		return "Can Win"
-	case CanLose:
-		return "Can Lose"
-	case Draw:
-		return "Draw"
-	}
-
-	return "Invalid"
-}
-
-func (r Result) Switch() Result {
-	if r == CanWin || r == CanLose {
-		return r ^ 1
-	}
-
-	return r
 }
 
 type Brain map[Board]Results
