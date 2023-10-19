@@ -210,8 +210,6 @@ func TestResultSwitch(t *testing.T) {
 	}{
 		{FilledX, FilledX},
 		{FilledO, FilledO},
-		{WillWin, WillLose},
-		{WillLose, WillWin},
 		{CanWin, CanLose},
 		{CanLose, CanWin},
 		{Draw, Draw},

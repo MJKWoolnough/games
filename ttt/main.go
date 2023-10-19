@@ -170,14 +170,10 @@ func (rs Results) String() string {
 				sb.WriteString("X")
 			case FilledO:
 				sb.WriteString("O")
-			case WillWin:
-				sb.WriteString("W")
-			case WillLose:
-				sb.WriteString("L")
 			case CanWin:
-				sb.WriteString("w")
+				sb.WriteString("W")
 			case CanLose:
-				sb.WriteString("l")
+				sb.WriteString("L")
 			case Draw:
 				sb.WriteString(" ")
 			}
@@ -196,8 +192,6 @@ type Result uint8
 const (
 	FilledX Result = iota
 	FilledO
-	WillWin
-	WillLose
 	CanWin
 	CanLose
 	Draw
@@ -209,10 +203,6 @@ func (r Result) String() string {
 		return "Filled X"
 	case FilledO:
 		return "Filled O"
-	case WillWin:
-		return "Will Win"
-	case WillLose:
-		return "Will Lose"
 	case CanWin:
 		return "Can Win"
 	case CanLose:
@@ -225,7 +215,7 @@ func (r Result) String() string {
 }
 
 func (r Result) Switch() Result {
-	if r >= WillWin && r <= CanLose {
+	if r == CanWin || r == CanLose {
 		return r ^ 1
 	}
 
@@ -266,15 +256,15 @@ func (b Brain) move(board Board) Result {
 		setBoard := board.Set(p, X)
 
 		if setBoard.HasWin() {
-			rs = rs.Set(p, WillWin)
+			rs = rs.Set(p, CanWin)
 
 			willWin++
 		} else {
 			ret := b.move(setBoard.Switch()).Switch()
 			switch ret {
-			case WillWin:
+			case CanWin:
 				willWin++
-			case WillLose:
+			case CanLose:
 				willLose++
 			}
 
@@ -284,12 +274,8 @@ func (b Brain) move(board Board) Result {
 
 	result := Draw
 
-	if willWin == empty {
-		result = WillWin
-	} else if willWin > 0 {
+	if willWin > 0 {
 		result = CanWin
-	} else if willLose == empty {
-		result = WillLose
 	} else if willLose > 0 {
 		result = CanLose
 	}
