@@ -231,9 +231,13 @@ func (r Results) Encode() [3]byte {
 	for _, p := range Positions {
 		v := r.Get(p)
 
+		if v == Draw && p&1 == 1 {
+			v++
+		}
+
 		n |= uint32(v) * pow
 
-		pow *= 5
+		pow *= 6
 	}
 
 	return [3]byte{
