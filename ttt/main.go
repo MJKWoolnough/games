@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 )
 
@@ -292,7 +293,16 @@ func (b Brain) move(board Board) Result {
 func main() {
 	b := NewBrain()
 
-	for board, results := range b {
+	boards := make([]Board, 0, len(b))
+
+	for board := range b {
+		boards = append(boards, board)
+	}
+
+	slices.Sort(boards)
+
+	for _, board := range boards {
+		results := b[board]
 		b := strings.Split(board.String(), "\n")
 		r := strings.Split(results.String(), "\n")
 
