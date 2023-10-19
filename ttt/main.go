@@ -281,7 +281,7 @@ func (b Brain) move(board Board) Result {
 
 	if willWin > 0 {
 		result = CanWin
-	} else if willLose > 0 {
+	} else if willLose == empty {
 		result = CanLose
 	}
 
