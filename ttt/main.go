@@ -272,6 +272,10 @@ func (b Brain) move(board Board) Result {
 		}
 	}
 
+	if empty == 0 {
+		return Draw
+	}
+
 	result := Draw
 
 	if willWin > 0 {
