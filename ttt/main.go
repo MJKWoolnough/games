@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"slices"
 	"strings"
@@ -325,6 +326,10 @@ func main() {
 
 	slices.Sort(boards)
 
+	var sb strings.Builder
+
+	w := base64.NewEncoder(base64.StdEncoding, &sb)
+
 	for _, board := range boards {
 		results := b[board]
 		b := strings.Split(board.String(), "\n")
@@ -335,7 +340,15 @@ func main() {
 		for n, rs := range r[1:] {
 			fmt.Println(b[n], rs)
 		}
+
+		v := results.Encode()
+
+		w.Write(v[:])
 	}
 
 	fmt.Printf("%d boards\n", len(b))
+
+	w.Close()
+
+	fmt.Println(sb.String())
 }
