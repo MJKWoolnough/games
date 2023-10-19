@@ -188,6 +188,26 @@ func (rs Results) String() string {
 	return sb.String()
 }
 
+func (r Results) Encode() [3]byte {
+	var n uint32
+
+	pow := uint32(1)
+
+	for _, p := range Positions {
+		v := r.Get(p)
+
+		n |= uint32(v) * pow
+
+		pow *= 5
+	}
+
+	return [3]byte{
+		byte(n >> 16),
+		byte(n >> 8),
+		byte(n),
+	}
+}
+
 type Result uint8
 
 const (
