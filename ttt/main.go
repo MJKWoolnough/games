@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"flag"
 	"fmt"
 	"slices"
 	"strings"
@@ -316,6 +317,12 @@ func (b Brain) move(board Board) Result {
 }
 
 func main() {
+	var debug bool
+
+	flag.BoolVar(&debug, "d", false, "print all boards")
+
+	flag.Parse()
+
 	b := NewBrain()
 
 	boards := make([]Board, 0, len(b))
@@ -326,29 +333,34 @@ func main() {
 
 	slices.Sort(boards)
 
-	var sb strings.Builder
+	if debug {
+		for _, board := range boards {
+			results := b[board]
+			b := strings.Split(board.String(), "\n")
+			r := strings.Split(results.String(), "\n")
 
-	w := base64.NewEncoder(base64.StdEncoding, &sb)
+			fmt.Println("             ", r[0])
 
-	for _, board := range boards {
-		results := b[board]
-		b := strings.Split(board.String(), "\n")
-		r := strings.Split(results.String(), "\n")
+			for n, rs := range r[1:] {
+				fmt.Println(b[n], rs)
+			}
 
-		fmt.Println("             ", r[0])
-
-		for n, rs := range r[1:] {
-			fmt.Println(b[n], rs)
 		}
 
-		v := results.Encode()
+		fmt.Printf("%d boards\n", len(b))
+	} else {
+		var sb strings.Builder
 
-		w.Write(v[:])
+		w := base64.NewEncoder(base64.StdEncoding, &sb)
+
+		for _, board := range boards {
+			v := b[board].Encode()
+
+			w.Write(v[:])
+		}
+
+		w.Close()
+
+		fmt.Println(sb.String())
 	}
-
-	fmt.Printf("%d boards\n", len(b))
-
-	w.Close()
-
-	fmt.Println(sb.String())
 }
