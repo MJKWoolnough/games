@@ -140,33 +140,36 @@ func (b Board) String() string {
 type Result uint8
 
 const (
-	FilledX Result = iota
-	FilledO
+	CanLose Result = iota
+	DrawOdd
+	DrawEven
 	CanWin
-	CanLose
-	Draw
+	FilledX
+	FilledO
 )
 
 func (r Result) String() string {
 	switch r {
+	case CanLose:
+		return "Can Lose"
+	case DrawOdd, DrawEven:
+		return "Draw"
+	case CanWin:
+		return "Can Win"
 	case FilledX:
 		return "Filled X"
 	case FilledO:
 		return "Filled O"
-	case CanWin:
-		return "Can Win"
-	case CanLose:
-		return "Can Lose"
-	case Draw:
-		return "Draw"
 	}
 
 	return "Invalid"
 }
 
 func (r Result) Switch() Result {
-	if r == CanWin || r == CanLose {
-		return r ^ 1
+	if r == CanWin {
+		return CanLose
+	} else if r == CanLose {
+		return CanWin
 	}
 
 	return r
@@ -212,7 +215,7 @@ func (rs Results) String() string {
 				sb.WriteString("W")
 			case CanLose:
 				sb.WriteString("L")
-			case Draw:
+			case DrawOdd, DrawEven:
 				sb.WriteString(" ")
 			}
 			sb.WriteString(" ")
@@ -232,10 +235,6 @@ func (r Results) Encode() [3]byte {
 
 	for _, p := range Positions {
 		v := r.Get(p)
-
-		if v == Draw && p&1 == 1 {
-			v++
-		}
 
 		n |= uint32(v) * pow
 
@@ -299,11 +298,11 @@ func (b Brain) move(board Board) Result {
 		}
 	}
 
-	if empty == 0 {
-		return Draw
-	}
+	result := DrawOdd
 
-	result := Draw
+	if empty == 0 {
+		return result
+	}
 
 	if willWin > 0 {
 		result = CanWin
