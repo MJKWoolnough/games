@@ -207,16 +207,18 @@ func (rs Results) String() string {
 		for x := Position(0); x < 3; x++ {
 			sb.WriteString("│ ")
 			switch rs.Get(y*3 + x) {
+			case CanLose:
+				sb.WriteString("L")
+			case DrawOdd:
+				sb.WriteString("d")
+			case DrawEven:
+				sb.WriteString("D")
+			case CanWin:
+				sb.WriteString("W")
 			case FilledX:
 				sb.WriteString("X")
 			case FilledO:
 				sb.WriteString("O")
-			case CanWin:
-				sb.WriteString("W")
-			case CanLose:
-				sb.WriteString("L")
-			case DrawOdd, DrawEven:
-				sb.WriteString(" ")
 			}
 			sb.WriteString(" ")
 		}
