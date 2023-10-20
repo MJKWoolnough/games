@@ -148,6 +148,10 @@ const (
 	FilledO
 )
 
+func (r Result) IsDraw() bool {
+	return r == DrawOdd || r == DrawEven
+}
+
 func (r Result) String() string {
 	switch r {
 	case CanLose:
@@ -286,12 +290,9 @@ func (b Brain) move(board Board) Result {
 		if setBoard.HasWin() {
 			result = CanWin
 		} else {
-			ret := b.move(setBoard.Switch()).Switch()
-			switch ret {
-			case CanWin:
-				result = CanWin
-			case CanLose:
-			default:
+			r := b.move(setBoard.Switch()).Switch()
+
+			if r.IsDraw() {
 				if p&1 == 0 {
 					r = DrawEven
 				} else {
