@@ -213,6 +213,7 @@ func TestResultSwitch(t *testing.T) {
 		{CanWin, CanLose},
 		{CanLose, CanWin},
 		{DrawOdd, DrawOdd},
+		{DrawEven, DrawEven},
 	} {
 		if out := test.In.Switch(); out != test.Out {
 			t.Errorf("test %d: for input %q, expecting output %q, got %q", n+1, test.In, test.Out, out)
