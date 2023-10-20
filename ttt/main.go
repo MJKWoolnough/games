@@ -317,9 +317,10 @@ func (b Brain) move(board Board) Result {
 }
 
 func main() {
-	var debug bool
+	var debug, js bool
 
 	flag.BoolVar(&debug, "d", false, "print all boards")
+	flag.BoolVar(&js, "j", false, "print brain wrapped in JS")
 
 	flag.Parse()
 
@@ -361,6 +362,10 @@ func main() {
 
 		w.Close()
 
-		fmt.Println(sb.String())
+		if js {
+			fmt.Printf("export const brain = %q;", sb.String())
+		} else {
+			fmt.Println(sb.String())
+		}
 	}
 }
