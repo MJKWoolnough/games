@@ -273,7 +273,7 @@ func (b Brain) move(board Board) Result {
 
 	for _, p := range Positions {
 		if t := board.Get(p); t != None {
-			rs = rs.Set(p, Result(t-1))
+			rs = rs.Set(p, FilledX+Result(t-1))
 			continue
 		}
 
