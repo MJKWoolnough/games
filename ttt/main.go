@@ -265,11 +265,11 @@ func (b Brain) move(board Board) Result {
 		}
 	}
 
-	willWin := 0
-	willLose := 0
-	empty := 0
+	var (
+		rs Results
 
-	var rs Results
+		result Result
+	)
 
 	for _, p := range Positions {
 		if t := board.Get(p); t != None {
@@ -277,37 +277,32 @@ func (b Brain) move(board Board) Result {
 			continue
 		}
 
-		empty++
-
 		setBoard := board.Set(p, X)
 
-		if setBoard.HasWin() {
-			rs = rs.Set(p, CanWin)
+		r := CanLose
 
-			willWin++
+		if setBoard.HasWin() {
+			result = CanWin
 		} else {
 			ret := b.move(setBoard.Switch()).Switch()
 			switch ret {
 			case CanWin:
-				willWin++
+				result = CanWin
 			case CanLose:
-				willLose++
+			default:
+				if p&1 == 0 {
+					r = DrawEven
+				} else {
+					r = DrawOdd
+				}
 			}
-
-			rs = rs.Set(p, ret)
 		}
-	}
 
-	result := DrawOdd
+		if r > result {
+			result = r
+		}
 
-	if empty == 0 {
-		return result
-	}
-
-	if willWin > 0 {
-		result = CanWin
-	} else if willLose == empty {
-		result = CanLose
+		rs = rs.Set(p, r)
 	}
 
 	b[board] = rs.SetState(result)
