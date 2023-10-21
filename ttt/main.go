@@ -360,7 +360,7 @@ func main() {
 		w.Close()
 
 		if js {
-			fmt.Printf("export const brain = %q;", sb.String())
+			fmt.Printf("export default %q;", sb.String())
 		} else {
 			fmt.Println(sb.String())
 		}
