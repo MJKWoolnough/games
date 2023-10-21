@@ -8,7 +8,7 @@ const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Ar
       decode = (b: string) => (b64.indexOf(b.charAt(0)) << 18) | (b64.indexOf(b.charAt(1)) << 12) | (b64.indexOf(b.charAt(2)) << 6) | b64.indexOf(b.charAt(3)),
       boards = new Map<Board, Moves>();
 
-export default (gameBoard: number[], turn = 1) => {
+export default (gameBoard: number[], turn: number) => {
 	let board = 0,
 	    transformation = 0,
 	    moves: Moves | undefined = undefined;
