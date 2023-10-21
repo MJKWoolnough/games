@@ -8,7 +8,7 @@ const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Ar
       decode = (b: string) => (b64.indexOf(b.charAt(0)) << 18) | (b64.indexOf(b.charAt(1)) << 12) | (b64.indexOf(b.charAt(2)) << 6) | b64.indexOf(b.charAt(3)),
       boards = new Map<Board, Moves>();
 
-export default (gameBoard: number[], turn: number) => {
+export default (gameBoard: number[], turn: number, level: number) => {
 	let board = 0,
 	    transformation = 0,
 	    moves: Moves | undefined = undefined;
@@ -48,6 +48,18 @@ export default (gameBoard: number[], turn: number) => {
 	if (!moves) {
 		throw new Error("impossible board");
 	}
+
+	const myMoves: number[] = [];
+
+	for (let l = 3; l >= 0; l--) {
+		myMoves.splice(0, 0, ...moves[l]);
+
+		if (l <= level && myMoves.length > 0) {
+			break;
+		}
+	}
+
+	let move = myMoves[Math.floor(Math.random() * myMoves.length)];
 };
 
 for (let i = 0; i < brain.length; i += 4) {
