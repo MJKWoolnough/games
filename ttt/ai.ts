@@ -17,13 +17,13 @@ for (let i = 0; i < brain.length; i += 4) {
 		const r = b % 6;
 
 		b /= 6
-		board *= 3
+		board *= 4
 		moves *= 4
 
-		if (r < 2) {
-			board |= r;
+		if (r >= 4) {
+			board |= r - 4;
 		} else {
-			moves |= r - 2;
+			moves |= r;
 		}
 	}
 
