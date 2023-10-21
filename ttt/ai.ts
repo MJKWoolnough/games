@@ -17,10 +17,9 @@ for (let i = 0; i < brain.length; i += 4) {
 		const r = b % 6;
 
 		b /= 6
-		board *= 4
 
 		if (r >= 4) {
-			board |= r - 4;
+			board |= (r - 4) << (2 * p);
 		} else {
 			moves[r].push(p);
 		}
