@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestXOSwitch(t *testing.T) {
 	if p := X.Switch(); p != O {
@@ -229,6 +231,30 @@ func TestResultsGetSet(t *testing.T) {
 
 			if g := rs.Get(p); g != r {
 				t.Errorf("test %d.%d: expecting to get %s, got %s", p+1, r+1, r, g)
+			}
+		}
+	}
+}
+
+func TestResultsEncode(t *testing.T) {
+	for n, test := range [...]Results{
+		Results(0).Set(0, CanLose).Set(1, DrawOdd).Set(2, DrawEven).Set(3, CanWin).Set(4, FilledX).Set(5, FilledO).Set(6, CanLose).Set(7, DrawOdd).Set(8, DrawEven),
+		Results(0).Set(0, DrawOdd).Set(1, DrawEven).Set(2, CanWin).Set(3, FilledX).Set(4, FilledO).Set(5, CanLose).Set(6, DrawOdd).Set(7, DrawEven).Set(8, CanWin),
+		Results(0).Set(0, DrawEven).Set(1, CanWin).Set(2, FilledX).Set(3, FilledO).Set(4, CanLose).Set(5, DrawOdd).Set(6, DrawEven).Set(7, CanWin).Set(8, FilledX),
+		Results(0).Set(0, CanWin).Set(1, FilledX).Set(2, FilledO).Set(3, CanLose).Set(4, DrawOdd).Set(5, DrawEven).Set(6, CanWin).Set(7, FilledX).Set(8, FilledO),
+		Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, CanLose).Set(3, DrawOdd).Set(4, DrawEven).Set(5, CanWin).Set(6, FilledX).Set(7, FilledO).Set(8, CanLose),
+		Results(0).Set(0, FilledO).Set(1, CanLose).Set(2, DrawOdd).Set(3, DrawEven).Set(4, CanWin).Set(5, FilledX).Set(6, FilledO).Set(7, CanLose).Set(8, DrawOdd),
+	} {
+		re := test.Encode()
+
+		e := Results(re[2]) | (Results(re[1]) << 8) | (Results(re[0]) << 16)
+
+		for _, p := range Positions {
+			r := Result(e % 6)
+			e /= 6
+
+			if g := test.Get(p); g != r {
+				t.Errorf("test %d.%d: expecting result %s, got %s", n+1, p+1, g, r)
 			}
 		}
 	}
