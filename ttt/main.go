@@ -242,7 +242,7 @@ func (r Results) Encode() [3]byte {
 	for _, p := range Positions {
 		v := r.Get(p)
 
-		n |= uint32(v) * pow
+		n += uint32(v) * pow
 
 		pow *= 6
 	}
