@@ -83,7 +83,7 @@ for (let i = 0; i < brain.length; i += 4) {
 	for (let p = 0; p < 9; p++) {
 		const r = b % 6;
 
-		b /= 6
+		b = (b / 6) | 0;
 
 		if (r >= 4) {
 			board |= (r - 4) << (2 * p);
