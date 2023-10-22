@@ -186,7 +186,7 @@ func (rs Results) Get(p Position) Result {
 }
 
 func (rs Results) Set(p Position, r Result) Results {
-	return rs | (Results(r) << (p * 3))
+	return (rs & ^(7 << (p * 3))) | (Results(r) << (p * 3))
 }
 
 func (rs Results) SetState(r Result) Results {
