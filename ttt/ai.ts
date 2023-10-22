@@ -14,7 +14,8 @@ const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Ar
 
 export default (gameBoard: number[], turn: number, level: number) => {
 	let board = 0,
-	    transformation = 0,
+	    flip = 0,
+	    rotation = 0,
 	    moves: Moves | undefined = undefined;
 
 	for (let p = 0; p < 9; p++) {
@@ -23,26 +24,27 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		}
 	}
 
-	for (; transformation < 8; transformation++) {
-		if (transformation === 4) {
+	Loop:
+	for (; flip < 2; flip) {
+		for (rotation = 0; rotation < 4; rotation++) {
+			moves = boards.get(board);
+			if (moves) {
+				break Loop;
+			}
+
 			const oldBoard = board;
 			board = 0;
 
 			for (let p = 0; p < 9; p++) {
-				board = setPos(board, flipPos(p), getPos(oldBoard, p));
+				board = setPos(board, rotatePos(p), getPos(oldBoard, p));
 			}
-		}
-
-		moves = boards.get(board);
-		if (moves) {
-			break;
 		}
 
 		const oldBoard = board;
 		board = 0;
 
 		for (let p = 0; p < 9; p++) {
-			board = setPos(board, rotatePos(p), getPos(oldBoard, p));
+			board = setPos(board, flipPos(p), getPos(oldBoard, p));
 		}
 	}
 
@@ -61,6 +63,16 @@ export default (gameBoard: number[], turn: number, level: number) => {
 	}
 
 	let move = myMoves[Math.floor(Math.random() * myMoves.length)];
+
+	for (rotation = 0; rotation < 4; rotation++) {
+		move = rotatePos(move);
+	}
+
+	if (flip) {
+		move = flipPos(move);
+	}
+
+	return move;
 };
 
 for (let i = 0; i < brain.length; i += 4) {
