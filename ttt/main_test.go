@@ -220,3 +220,16 @@ func TestResultSwitch(t *testing.T) {
 		}
 	}
 }
+
+func TestResultsGetSet(t *testing.T) {
+	var rs Results
+	for _, p := range Positions {
+		for r := CanLose; r <= FilledO; r++ {
+			rs = rs.Set(p, r)
+
+			if g := rs.Get(p); g != r {
+				t.Errorf("test %d.%d: expecting to get %s, got %s", p+1, r+1, r, g)
+			}
+		}
+	}
+}
