@@ -86,7 +86,7 @@ for (let i = 0; i < brain.length; i += 4) {
 		b = (b / 6) | 0;
 
 		if (r >= 4) {
-			board |= (r - 4) << (2 * p);
+			board |= (r - 3) << (2 * p);
 		} else {
 			moves[r].push(p);
 		}
