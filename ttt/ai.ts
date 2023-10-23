@@ -20,7 +20,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 
 	for (let p = 0; p < 9; p++) {
 		if (gameBoard[p]) {
-			board |= (gameBoard[p] === turn ? 1 : 2) << (2 * p);
+			board |= (gameBoard[p] === turn ? 1 : 2) << (p << 1);
 		}
 	}
 
@@ -86,7 +86,7 @@ for (let i = 0; i < brain.length; i += 4) {
 		b = (b / 6) | 0;
 
 		if (r >= 4) {
-			board |= (r - 3) << (2 * p);
+			board |= (r - 3) << (p << 1);
 		} else {
 			moves[r].push(p);
 		}
