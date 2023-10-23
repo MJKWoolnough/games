@@ -275,6 +275,8 @@ func (b Brain) move(board Board) Result {
 		rs Results
 
 		result Result
+
+		hasEmpty bool
 	)
 
 	for _, p := range Positions {
@@ -283,14 +285,16 @@ func (b Brain) move(board Board) Result {
 			continue
 		}
 
+		hasEmpty = true
+
 		setBoard := board.Set(p, X)
 
-		r := CanLose
+		var r Result
 
 		if setBoard.HasWin() {
-			result = CanWin
+			r = CanWin
 		} else {
-			r := b.move(setBoard.Switch()).Switch()
+			r = b.move(setBoard.Switch()).Switch()
 
 			if r.IsDraw() {
 				if p&1 == 0 {
@@ -306,6 +310,10 @@ func (b Brain) move(board Board) Result {
 		}
 
 		rs = rs.Set(p, r)
+	}
+
+	if !hasEmpty {
+		result = DrawEven
 	}
 
 	b[board] = rs.SetState(result)
