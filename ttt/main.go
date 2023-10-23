@@ -156,8 +156,10 @@ func (r Result) String() string {
 	switch r {
 	case CanLose:
 		return "Can Lose"
-	case DrawOdd, DrawEven:
-		return "Draw"
+	case DrawOdd:
+		return "Draw (Odd)"
+	case DrawEven:
+		return "Draw (Even)"
 	case CanWin:
 		return "Can Win"
 	case FilledX:
