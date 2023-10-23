@@ -259,3 +259,33 @@ func TestResultsEncode(t *testing.T) {
 		}
 	}
 }
+
+func TestBrainMove(t *testing.T) {
+	for n, test := range [...]struct {
+		Board
+		Result
+	}{
+		{
+			Board(0),
+			DrawEven,
+		},
+		{
+			Board(0).Set(0, X).Set(1, X).Set(8, O).Set(3, O),
+			CanWin,
+		},
+		{
+			Board(0).Set(0, O).Set(2, O).Set(8, X).Set(3, X),
+			DrawOdd,
+		},
+		{
+			Board(0).Set(0, O).Set(1, O).Set(4, O).Set(3, X).Set(8, X),
+			CanLose,
+		},
+	} {
+		b := make(Brain)
+
+		if r := b.move(test.Board); r != test.Result {
+			t.Errorf("test %d: expected result %s, got %s", n+1, test.Result, r)
+		}
+	}
+}
