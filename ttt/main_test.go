@@ -289,3 +289,27 @@ func TestBrainMove(t *testing.T) {
 		}
 	}
 }
+
+func TestBrainGetResults(t *testing.T) {
+	brain := NewBrain()
+
+	for n, test := range [...]struct {
+		Board
+		Results
+	}{
+		{
+			Board(0),
+			Results(0).Set(0, DrawEven).Set(1, DrawOdd).Set(2, DrawEven).Set(3, DrawOdd).Set(4, DrawEven).Set(5, DrawOdd).Set(6, DrawEven).Set(7, DrawOdd).Set(8, DrawEven).SetState(DrawEven),
+		},
+		{
+			Board(0).Set(1, X).Set(6, O).Set(7, O).Set(8, X),
+			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, CanWin).Set(4, DrawEven).Set(5, CanWin).Set(6, CanWin).Set(7, FilledX).Set(8, CanWin).SetState(CanWin),
+		},
+	} {
+		if r, ok := brain.getResults(test.Board); !ok {
+			t.Errorf("test %d: for board:\n%s\n...got no result when expecting one", n+1, test.Board)
+		} else if r != test.Results {
+			t.Errorf("test %d: for board:\n%s\n...expecting Results:\n%s, got:\n%s", n+1, test.Board, test.Results, r)
+		}
+	}
+}
