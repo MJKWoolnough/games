@@ -64,7 +64,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 
 	let move = myMoves[Math.floor(Math.random() * myMoves.length)];
 
-	for (rotation = 0; rotation < 4; rotation++) {
+	for (;rotation < 4; rotation++) {
 		move = rotatePos(move);
 	}
 
