@@ -266,18 +266,24 @@ func NewBrain() Brain {
 	return b
 }
 
-func (b Brain) move(board Board) Result {
+func (b Brain) getResults(board Board) (Results, bool) {
 	for i := uint8(0); i < 8; i++ {
 		if r, ok := b[board.Transform(i&4 != 0, i&3)]; ok {
-			return r.GetState()
+			return r, true
 		}
 	}
 
+	return 0, false
+}
+
+func (b Brain) move(board Board) Result {
+	if r, ok := b.getResults(board); ok {
+		return r.GetState()
+	}
+
 	var (
-		rs Results
-
-		result Result
-
+		rs       Results
+		result   Result
 		hasEmpty bool
 	)
 
