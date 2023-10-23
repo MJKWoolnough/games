@@ -5,7 +5,7 @@ type Board = number;
 type Moves = [number[], number[], number[], number[]];
 
 const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Array.from({"length": 26}, (_, n) => String.fromCharCode(97+n)), Array.from({"length": 10}, (_, n) => String.fromCharCode(48+n)), ["+", "/"]].flat(),
-      decode = (b: string) => (b64.indexOf(b.charAt(3)) << 18) | (b64.indexOf(b.charAt(2)) << 12) | (b64.indexOf(b.charAt(1)) << 6) | b64.indexOf(b.charAt(0)),
+      decode = (b: string) => (b64.indexOf(b.charAt(0)) << 18) | (b64.indexOf(b.charAt(1)) << 12) | (b64.indexOf(b.charAt(2)) << 6) | b64.indexOf(b.charAt(3)),
       boards = new Map<Board, Moves>(),
       flipPos = (p: number) => 3*((p/3) | 0) + 2 - (p % 3),
       rotatePos = (p: number) => 2 - ((p/3) | 0) + 3*(p%3),
