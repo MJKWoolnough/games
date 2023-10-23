@@ -25,7 +25,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 	}
 
 	Loop:
-	for (; flip < 2; flip) {
+	for (; flip < 2; flip++) {
 		for (rotation = 0; rotation < 4; rotation++) {
 			moves = boards.get(board);
 			if (moves) {
