@@ -1,9 +1,21 @@
+import {add, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
 import {keyEvent} from './lib/events.js';
 import ready from './lib/load.js';
 import {circle, rect, svg} from './lib/svg.js';
 
 ready.then(() => {
+	add("html,body", {
+		"padding": 0,
+		"margin": 0
+	});
+	add("svg", {
+		"max-width": "100vw",
+		"max-height": "100vh",
+	});
+
+	amendNode(document.head, render());
+
 	const left = rect({"width": 5, "height": 20, "fill": "#f00"}),
 	      right = rect({"x": 95, "width": 5, "height": 20, "fill": "#00f"}),
 	      ball = circle({"r": 5, "fill": "#fff"}),
