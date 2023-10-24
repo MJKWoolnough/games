@@ -20,13 +20,11 @@ ready.then(() => {
 	      paddleLength = 20,
 	      gameSize = 100,
 	      ballSize = 3,
-	      left = rect({"width": paddleWidth, "height": paddleLength, "fill": "#f00"}),
-	      right = rect({"x": 95, "width": paddleWidth, "height": paddleLength, "fill": "#00f"}),
+	      paddles = [0, 95].map(x => rect({x, "width": paddleWidth, "height": paddleLength, "fill": "#f00"})),
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
 	      game = svg({"viewBox": `0 0 ${gameSize} ${gameSize}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
-		      left,
-		      right,
+		      paddles,
 		      ball
 	      ]);
 
@@ -41,7 +39,7 @@ ready.then(() => {
 				if (leftY > 0) {
 					leftY--;
 
-					amendNode(left, {"y": leftY});
+					amendNode(paddles[0], {"y": leftY});
 				}
 			}, 10)
 		}
@@ -56,7 +54,7 @@ ready.then(() => {
 				if (leftY < gameSize - paddleLength) {
 					leftY++;
 
-					amendNode(left, {"y": leftY});
+					amendNode(paddles[0], {"y": leftY});
 				}
 			}, 10)
 		}
@@ -71,7 +69,7 @@ ready.then(() => {
 				if (rightY > 0) {
 					rightY--;
 
-					amendNode(right, {"y": rightY});
+					amendNode(paddles[1], {"y": rightY});
 				}
 			}, 10)
 		}
@@ -86,7 +84,7 @@ ready.then(() => {
 				if (rightY < gameSize - paddleLength) {
 					rightY++;
 
-					amendNode(right, {"y": rightY});
+					amendNode(paddles[1], {"y": rightY});
 				}
 			}, 10)
 		}
