@@ -1,4 +1,5 @@
 import {amendNode, clearNode} from './lib/dom.js';
+import {keyEvent} from './lib/events.js';
 import ready from './lib/load.js';
 import {circle, rect, svg} from './lib/svg.js';
 
@@ -12,6 +13,71 @@ ready.then(() => {
 		      right,
 		      ball
 	      ]);
+
+	let leftY = 0,
+	    leftInterval = -1,
+	    rightY = 0,
+	    rightInterval = -1;
+
+	keyEvent("w", () => {
+		if (leftInterval === -1) {
+			leftInterval = setInterval(() => {
+				if (leftY > 0) {
+					leftY--;
+
+					amendNode(left, {"y": leftY});
+				}
+			}, 10)
+		}
+	}, () => {
+		clearInterval(leftInterval);
+		leftInterval = -1;
+	})[0]();
+
+	keyEvent("s", () => {
+		if (leftInterval === -1) {
+			leftInterval = setInterval(() => {
+				if (leftY < 80) {
+					leftY++;
+
+					amendNode(left, {"y": leftY});
+				}
+			}, 10)
+		}
+	}, () => {
+		clearInterval(leftInterval);
+		leftInterval = -1;
+	})[0]();
+
+	keyEvent("ArrowUp", () => {
+		if (rightInterval === -1) {
+			rightInterval = setInterval(() => {
+				if (rightY > 0) {
+					rightY--;
+
+					amendNode(right, {"y": rightY});
+				}
+			}, 10)
+		}
+	}, () => {
+		clearInterval(rightInterval);
+		rightInterval = -1;
+	})[0]();
+
+	keyEvent("ArrowDown", () => {
+		if (rightInterval === -1) {
+			rightInterval = setInterval(() => {
+				if (rightY < 80) {
+					rightY++;
+
+					amendNode(right, {"y": rightY});
+				}
+			}, 10)
+		}
+	}, () => {
+		clearInterval(rightInterval);
+		rightInterval = -1;
+	})[0]();
 
 	clearNode(document.body, game);
 });
