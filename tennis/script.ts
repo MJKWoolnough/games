@@ -16,10 +16,14 @@ ready.then(() => {
 
 	amendNode(document.head, render());
 
-	const left = rect({"width": 5, "height": 20, "fill": "#f00"}),
-	      right = rect({"x": 95, "width": 5, "height": 20, "fill": "#00f"}),
-	      ball = circle({"r": 3, "fill": "#fff"}),
-	      game = svg({"viewBox": "0 0 100 100"}, [
+	const paddleWidth = 5,
+	      paddleLength = 20,
+	      gameSize = 100,
+	      ballSize = 3,
+	      left = rect({"width": paddleWidth, "height": paddleLength, "fill": "#f00"}),
+	      right = rect({"x": 95, "width": paddleWidth, "height": paddleLength, "fill": "#00f"}),
+	      ball = circle({"r": ballSize, "fill": "#fff"}),
+	      game = svg({"viewBox": `0 0 ${gameSize} ${gameSize}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
 		      left,
 		      right,
@@ -49,7 +53,7 @@ ready.then(() => {
 	keyEvent("s", () => {
 		if (leftInterval === -1) {
 			leftInterval = setInterval(() => {
-				if (leftY < 80) {
+				if (leftY < gameSize - paddleLength) {
 					leftY++;
 
 					amendNode(left, {"y": leftY});
@@ -79,7 +83,7 @@ ready.then(() => {
 	keyEvent("ArrowDown", () => {
 		if (rightInterval === -1) {
 			rightInterval = setInterval(() => {
-				if (rightY < 80) {
+				if (rightY < gameSize - paddleLength) {
 					rightY++;
 
 					amendNode(right, {"y": rightY});
