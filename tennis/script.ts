@@ -28,70 +28,36 @@ ready.then(() => {
 		      ball
 	      ]);
 
-	let leftY = 0,
-	    leftInterval = -1,
-	    rightY = 0,
-	    rightInterval = -1;
+	let ys = [0, 0],
+	    intervals = [-1, -1];
 
-	keyEvent("w", () => {
-		if (leftInterval === -1) {
-			leftInterval = setInterval(() => {
-				if (leftY > 0) {
-					leftY--;
+	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
+		keyEvent(up, () => {
+			if (intervals[n] === -1) {
+				intervals[n] = setInterval(() => {
+					if (ys[n] > 0) {
+						amendNode(paddles[0], {"y": --ys[n]});
+					}
+				}, 10)
+			}
+		}, () => {
+			clearInterval(intervals[n]);
+			intervals[n] = -1;
+		})[0]();
 
-					amendNode(paddles[0], {"y": leftY});
-				}
-			}, 10)
-		}
-	}, () => {
-		clearInterval(leftInterval);
-		leftInterval = -1;
-	})[0]();
-
-	keyEvent("s", () => {
-		if (leftInterval === -1) {
-			leftInterval = setInterval(() => {
-				if (leftY < gameSize - paddleLength) {
-					leftY++;
-
-					amendNode(paddles[0], {"y": leftY});
-				}
-			}, 10)
-		}
-	}, () => {
-		clearInterval(leftInterval);
-		leftInterval = -1;
-	})[0]();
-
-	keyEvent("ArrowUp", () => {
-		if (rightInterval === -1) {
-			rightInterval = setInterval(() => {
-				if (rightY > 0) {
-					rightY--;
-
-					amendNode(paddles[1], {"y": rightY});
-				}
-			}, 10)
-		}
-	}, () => {
-		clearInterval(rightInterval);
-		rightInterval = -1;
-	})[0]();
-
-	keyEvent("ArrowDown", () => {
-		if (rightInterval === -1) {
-			rightInterval = setInterval(() => {
-				if (rightY < gameSize - paddleLength) {
-					rightY++;
-
-					amendNode(paddles[1], {"y": rightY});
-				}
-			}, 10)
-		}
-	}, () => {
-		clearInterval(rightInterval);
-		rightInterval = -1;
-	})[0]();
+		keyEvent(down, () => {
+			if (intervals[n] === -1) {
+				intervals[n] = setInterval(() => {
+					if (ys[n] < gameSize - paddleLength) {
+						amendNode(paddles[0], {"y": ++ys[n]});
+					}
+				}, 10)
+			}
+		}, () => {
+			clearInterval(intervals[n]);
+			intervals[n] = -1;
+		})[0]();
+	});
 
 	clearNode(document.body, game);
 });
