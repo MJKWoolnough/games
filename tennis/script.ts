@@ -31,31 +31,34 @@ ready.then(() => {
 	let ys = [0, 0];
 
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
-		let interval = -1;
+		let interval = -1,
+		    lastKey = "";
 
-		const clearPaddleInterval = () => {
-			clearInterval(interval);
-			interval = -1;
-		      },
-		      setPaddleInterval = (fn: () => void) => () => {
+		const setKeyEvent = (key: string, modifyFn: () => void) => keyEvent(key, () => {
 			if (interval !== -1) {
 				clearInterval(interval);
 			}
 
-			interval = setInterval(fn, 10);
-		      };
+			interval = setInterval(modifyFn, 10);
+			lastKey = key;
+		}, () => {
+			if (key === lastKey) {
+				clearInterval(interval);
+				interval = -1;
+			}
+		})[0]();
 
-		keyEvent(up, setPaddleInterval(() => {
+		setKeyEvent(up, () => {
 			if (ys[n] > 0) {
 				amendNode(paddles[n], {"y": --ys[n]});
 			}
-		}), clearPaddleInterval)[0]();
+		});
 
-		keyEvent(down, setPaddleInterval(() => {
+		setKeyEvent(down, () => {
 			if (ys[n] < gameSize - paddleLength) {
 				amendNode(paddles[n], {"y": ++ys[n]});
 			}
-		}), clearPaddleInterval)[0]();
+		});
 	});
 
 	clearNode(document.body, game);
