@@ -28,20 +28,21 @@ ready.then(() => {
 		      ball
 	      ]);
 
-	let ys = [0, 0],
-	    intervals = [-1, -1];
+	let ys = [0, 0];
 
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
+		let interval = -1;
+
 		const clearPaddleInterval = () => {
-			clearInterval(intervals[n]);
-			intervals[n] = -1;
+			clearInterval(interval);
+			interval = -1;
 		      },
 		      setPaddleInterval = (fn: () => void) => () => {
-			if (intervals[n] !== -1) {
-				clearInterval(intervals[n]);
+			if (interval !== -1) {
+				clearInterval(interval);
 			}
 
-			intervals[n] = setInterval(fn, 10);
+			interval = setInterval(fn, 10);
 		      };
 
 		keyEvent(up, setPaddleInterval(() => {
