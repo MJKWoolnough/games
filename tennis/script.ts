@@ -20,7 +20,7 @@ ready.then(() => {
 	      paddleLength = 20,
 	      gameSize = 100,
 	      ballSize = 3,
-	      paddles = [0, 95].map(x => rect({x, "width": paddleWidth, "height": paddleLength, "fill": "#f00"})),
+	      paddles = [0, 95].map(x => rect({x, "width": paddleWidth, "height": paddleLength, "fill": !x ? "#f00" : "#00f"})),
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
 	      game = svg({"viewBox": `0 0 ${gameSize} ${gameSize}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
