@@ -36,7 +36,7 @@ ready.then(() => {
 			if (intervals[n] === -1) {
 				intervals[n] = setInterval(() => {
 					if (ys[n] > 0) {
-						amendNode(paddles[0], {"y": --ys[n]});
+						amendNode(paddles[n], {"y": --ys[n]});
 					}
 				}, 10)
 			}
@@ -49,7 +49,7 @@ ready.then(() => {
 			if (intervals[n] === -1) {
 				intervals[n] = setInterval(() => {
 					if (ys[n] < gameSize - paddleLength) {
-						amendNode(paddles[0], {"y": ++ys[n]});
+						amendNode(paddles[n], {"y": ++ys[n]});
 					}
 				}, 10)
 			}
