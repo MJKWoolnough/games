@@ -7,7 +7,8 @@ import {circle, rect, svg} from './lib/svg.js';
 ready.then(() => {
 	add("html,body", {
 		"padding": 0,
-		"margin": 0
+		"margin": 0,
+		"background-color": "#000"
 	});
 	add("svg", {
 		"max-width": "100vw",
