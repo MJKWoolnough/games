@@ -32,6 +32,10 @@ ready.then(() => {
 	    intervals = [-1, -1];
 
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
+		const clearPaddleInterval = () => {
+			clearInterval(intervals[n]);
+			intervals[n] = -1;
+		      };
 		keyEvent(up, () => {
 			if (intervals[n] === -1) {
 				intervals[n] = setInterval(() => {
@@ -40,10 +44,7 @@ ready.then(() => {
 					}
 				}, 10)
 			}
-		}, () => {
-			clearInterval(intervals[n]);
-			intervals[n] = -1;
-		})[0]();
+		}, clearPaddleInterval)[0]();
 
 		keyEvent(down, () => {
 			if (intervals[n] === -1) {
@@ -53,10 +54,7 @@ ready.then(() => {
 					}
 				}, 10)
 			}
-		}, () => {
-			clearInterval(intervals[n]);
-			intervals[n] = -1;
-		})[0]();
+		}, clearPaddleInterval)[0]();
 	});
 
 	clearNode(document.body, game);
