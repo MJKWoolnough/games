@@ -11,7 +11,9 @@ ready.then(() => {
 	});
 	add("svg", {
 		"max-width": "100vw",
-		"max-height": "100vh"
+		"max-height": "100vh",
+		"display": "block",
+		"margin": "0 auto"
 	});
 
 	amendNode(document.head, render());
@@ -41,12 +43,12 @@ ready.then(() => {
 
 			interval = setInterval(modifyFn, 10);
 			lastKey = key;
-		     }, () => {
+		      }, () => {
 			if (key === lastKey) {
 				clearInterval(interval);
 				interval = -1;
 			}
-		     })[0]();
+		      })[0]();
 
 		setKeyEvent(up, () => {
 			if (ys[n] > 0) {
