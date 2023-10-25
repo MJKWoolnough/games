@@ -41,12 +41,12 @@ ready.then(() => {
 
 			interval = setInterval(modifyFn, 10);
 			lastKey = key;
-		}, () => {
+		     }, () => {
 			if (key === lastKey) {
 				clearInterval(interval);
 				interval = -1;
 			}
-		})[0]();
+		     })[0]();
 
 		setKeyEvent(up, () => {
 			if (ys[n] > 0) {
