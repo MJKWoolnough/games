@@ -35,26 +35,26 @@ ready.then(() => {
 		const clearPaddleInterval = () => {
 			clearInterval(intervals[n]);
 			intervals[n] = -1;
-		      };
-		keyEvent(up, () => {
-			if (intervals[n] === -1) {
-				intervals[n] = setInterval(() => {
-					if (ys[n] > 0) {
-						amendNode(paddles[n], {"y": --ys[n]});
-					}
-				}, 10)
+		      },
+		      setPaddleInterval = (fn: () => void) => () => {
+			if (intervals[n] !== -1) {
+				clearInterval(intervals[n]);
 			}
-		}, clearPaddleInterval)[0]();
 
-		keyEvent(down, () => {
-			if (intervals[n] === -1) {
-				intervals[n] = setInterval(() => {
-					if (ys[n] < gameSize - paddleLength) {
-						amendNode(paddles[n], {"y": ++ys[n]});
-					}
-				}, 10)
+			intervals[n] = setInterval(fn, 10);
+		      };
+
+		keyEvent(up, setPaddleInterval(() => {
+			if (ys[n] > 0) {
+				amendNode(paddles[n], {"y": --ys[n]});
 			}
-		}, clearPaddleInterval)[0]();
+		}), clearPaddleInterval)[0]();
+
+		keyEvent(down, setPaddleInterval(() => {
+			if (ys[n] < gameSize - paddleLength) {
+				amendNode(paddles[n], {"y": ++ys[n]});
+			}
+		}), clearPaddleInterval)[0]();
 	});
 
 	clearNode(document.body, game);
