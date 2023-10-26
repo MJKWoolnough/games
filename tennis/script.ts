@@ -1,8 +1,9 @@
+import bind from './lib/bind.js';
 import {add, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
 import {keyEvent} from './lib/events.js';
 import ready from './lib/load.js';
-import {circle, rect, svg} from './lib/svg.js';
+import {circle, rect, text, svg} from './lib/svg.js';
 
 ready.then(() => {
 	add("html,body", {
@@ -29,8 +30,10 @@ ready.then(() => {
 	      paddles = [paddleOffset, gameWidth - paddleWidth - paddleOffset].map((x, n) => rect({x, "y": (gameHeight - paddleLength) >> 1, "width": paddleWidth, "height": paddleLength, "fill": !n ? "#f00" : "#00f"})),
 	      ys = [(gameHeight - paddleLength) >> 1, (gameHeight - paddleLength) >> 1],
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
+	      scores = [bind(0), bind(0)] as const,
 	      game = svg({"viewBox": `0 0 ${gameWidth} ${gameHeight}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
+		      [0, gameWidth - 10].map((x, n) => text({x, "fill": "#fff", "dominant-baseline": "hanging"}, scores[n])),
 		      paddles,
 		      ball
 	      ]),
