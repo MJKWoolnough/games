@@ -23,13 +23,17 @@ ready.then(() => {
 	      paddleLength = 20,
 	      gameSize = 100,
 	      ballSize = 3,
+	      initialBallOffset = 15,
 	      paddles = [0, 95].map(x => rect({x, "y": (gameSize - paddleLength) >> 1, "width": paddleWidth, "height": paddleLength, "fill": !x ? "#f00" : "#00f"})),
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
 	      game = svg({"viewBox": `0 0 ${gameSize} ${gameSize}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
 		      paddles,
 		      ball
-	      ]);
+	      ]),
+	      initialBall = (side = (Math.random() * 2) | 0) => {
+		amendNode(ball, {"cx": side * (gameSize - 2 * initialBallOffset) + initialBallOffset, "cy": gameSize >> 1});
+	      };
 
 	let ys = [(gameSize - paddleLength) >> 1, (gameSize - paddleLength) >> 1];
 
@@ -65,4 +69,6 @@ ready.then(() => {
 	});
 
 	clearNode(document.body, game);
+
+	initialBall();
 });
