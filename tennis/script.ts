@@ -21,21 +21,23 @@ ready.then(() => {
 
 	const paddleWidth = 5,
 	      paddleLength = 20,
-	      gameSize = 100,
+	      paddleOffset = 10,
+	      gameHeight = 100,
+	      gameWidth = gameHeight + 2 * paddleOffset,
 	      ballSize = 3,
-	      initialBallOffset = 15,
-	      paddles = [0, gameSize - paddleWidth].map(x => rect({x, "y": (gameSize - paddleLength) >> 1, "width": paddleWidth, "height": paddleLength, "fill": !x ? "#f00" : "#00f"})),
+	      initialBallOffset = paddleOffset + 15,
+	      paddles = [paddleOffset, gameWidth - paddleWidth - paddleOffset].map((x, n) => rect({x, "y": (gameHeight - paddleLength) >> 1, "width": paddleWidth, "height": paddleLength, "fill": !n ? "#f00" : "#00f"})),
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
-	      game = svg({"viewBox": `0 0 ${gameSize} ${gameSize}`}, [
+	      game = svg({"viewBox": `0 0 ${gameWidth} ${gameHeight}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
 		      paddles,
 		      ball
 	      ]),
 	      initialBall = (side = (Math.random() * 2) | 0) => {
-		amendNode(ball, {"cx": side * (gameSize - 2 * initialBallOffset) + initialBallOffset, "cy": gameSize >> 1});
+		amendNode(ball, {"cx": side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, "cy": gameHeight >> 1});
 	      };
 
-	let ys = [(gameSize - paddleLength) >> 1, (gameSize - paddleLength) >> 1];
+	let ys = [(gameHeight - paddleLength) >> 1, (gameHeight - paddleLength) >> 1];
 
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
 		let interval = -1,
@@ -62,7 +64,7 @@ ready.then(() => {
 		});
 
 		setKeyEvent(down, () => {
-			if (ys[n] < gameSize - paddleLength) {
+			if (ys[n] < gameHeight - paddleLength) {
 				amendNode(paddles[n], {"y": ++ys[n]});
 			}
 		});
