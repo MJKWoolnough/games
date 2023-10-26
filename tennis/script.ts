@@ -3,7 +3,7 @@ import {add, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
 import {keyEvent} from './lib/events.js';
 import ready from './lib/load.js';
-import {circle, rect, text, svg} from './lib/svg.js';
+import {circle, rect, svg, text} from './lib/svg.js';
 
 ready.then(() => {
 	add("html,body", {
