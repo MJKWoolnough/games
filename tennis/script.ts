@@ -32,10 +32,10 @@ ready.then(() => {
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
 	      scores = [bind(0), bind(0)] as const,
 	      game = svg({"viewBox": `0 0 ${gameWidth} ${gameHeight}`}, [
-		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
-		      [0, gameWidth - 10].map((x, n) => text({x, "fill": "#fff", "dominant-baseline": "hanging"}, scores[n])),
-		      paddles,
-		      ball
+		rect({"width": "100%", "height": "100%", "fill": "#000"}),
+		[0, gameWidth - 10].map((x, n) => text({x, "fill": "#fff", "dominant-baseline": "hanging"}, scores[n])),
+		paddles,
+		ball
 	      ]),
 	      initialBall = (side = (Math.random() * 2) | 0) => {
 		amendNode(ball, {"cx": side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, "cy": gameHeight >> 1});
