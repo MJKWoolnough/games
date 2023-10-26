@@ -27,6 +27,7 @@ ready.then(() => {
 	      ballSize = 3,
 	      initialBallOffset = paddleOffset + 15,
 	      paddles = [paddleOffset, gameWidth - paddleWidth - paddleOffset].map((x, n) => rect({x, "y": (gameHeight - paddleLength) >> 1, "width": paddleWidth, "height": paddleLength, "fill": !n ? "#f00" : "#00f"})),
+	      ys = [(gameHeight - paddleLength) >> 1, (gameHeight - paddleLength) >> 1],
 	      ball = circle({"r": ballSize, "fill": "#fff"}),
 	      game = svg({"viewBox": `0 0 ${gameWidth} ${gameHeight}`}, [
 		      rect({"width": "100%", "height": "100%", "fill": "#000"}),
@@ -37,7 +38,6 @@ ready.then(() => {
 		amendNode(ball, {"cx": side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, "cy": gameHeight >> 1});
 	      };
 
-	let ys = [(gameHeight - paddleLength) >> 1, (gameHeight - paddleLength) >> 1];
 
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
 		let interval = -1,
