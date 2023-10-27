@@ -38,9 +38,14 @@ ready.then(() => {
 		ball
 	      ]),
 	      moveBall = (angle: number, x: number, y: number) => {
-		const lx = 100 * Math.cos(angle),
-		      ly = 100 * Math.sin(angle);
-		amendNode(ballPath, {"path": `M${x},${y} l${lx},${ly}`});
+		const points = [[x, y]],
+		      gutterStart = paddleOffset + paddleWidth + ballSize,
+		      stopLine = x > (gameWidth >> 1) ? gutterStart : gameWidth - gutterStart,
+		      dy = (x - stopLine) * Math.sin(angle);
+
+		points.push([stopLine, dy]);
+
+		amendNode(ballPath, {"path": "M" + points.join(" L")});
 	      },
 	      initialBall = (side = (Math.random() * 2) | 0) => moveBall(Math.random() * (Math.PI / 4) + (Math.random() < 0.5 ? -7 * Math.PI / 2 : Math.PI) / 8 + side * Math.PI, side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, gameHeight >> 1);
 
