@@ -26,9 +26,10 @@ ready.then(() => {
 	      gameHeight = 100,
 	      gameWidth = gameHeight + 2 * paddleOffset,
 	      ballSize = 3,
+	      ballSpeed = 50,
 	      initialBallOffset = paddleOffset + 15,
 	      paddles = [bind((gameHeight - paddleLength) >> 1), bind((gameHeight - paddleLength) >> 1)] as const,
-	      ballPath = animateMotion({"repeatCount": 0, "dur": "10s"}),
+	      ballPath = animateMotion({"repeatCount": 0}),
 	      ball = circle({"r": ballSize, "fill": "#fff"}, ballPath),
 	      scores = [bind(0), bind(0)] as const,
 	      game = svg({"viewBox": `0 0 ${gameWidth} ${gameHeight}`}, [
@@ -41,11 +42,13 @@ ready.then(() => {
 		const points = [[x, y]],
 		      gutterStart = paddleOffset + paddleWidth + ballSize,
 		      stopLine = x > (gameWidth >> 1) ? gutterStart : gameWidth - gutterStart,
-		      dy = (x - stopLine) * Math.sin(angle);
+		      dx = stopLine - x,
+		      dy = (x - stopLine) * Math.sin(angle),
+		      dur = Math.hypot(dx, dy) / ballSpeed;
 
-		points.push([stopLine, dy]);
+		points.push([stopLine, y + dy]);
 
-		amendNode(ballPath, {"path": "M" + points.join(" L")});
+		amendNode(ballPath, {"path": "M" + points.join(" L"), "dur": dur + "s"});
 	      },
 	      initialBall = (side = (Math.random() * 2) | 0) => moveBall(Math.random() * (Math.PI / 4) + (Math.random() < 0.5 ? -7 * Math.PI / 2 : Math.PI) / 8 + side * Math.PI, side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, gameHeight >> 1);
 
