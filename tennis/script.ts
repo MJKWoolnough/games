@@ -3,7 +3,7 @@ import {add, render} from './lib/css.js';
 import {amendNode, clearNode} from './lib/dom.js';
 import {keyEvent} from './lib/events.js';
 import ready from './lib/load.js';
-import {circle, rect, svg, text} from './lib/svg.js';
+import {animateMotion, circle, rect, svg, text} from './lib/svg.js';
 
 ready.then(() => {
 	add("html,body", {
@@ -28,7 +28,8 @@ ready.then(() => {
 	      ballSize = 3,
 	      initialBallOffset = paddleOffset + 15,
 	      paddles = [bind((gameHeight - paddleLength) >> 1), bind((gameHeight - paddleLength) >> 1)] as const,
-	      ball = circle({"r": ballSize, "fill": "#fff"}),
+	      ballPath = animateMotion({"repeatCount": 0}),
+	      ball = circle({"r": ballSize, "fill": "#fff"}, ballPath),
 	      scores = [bind(0), bind(0)] as const,
 	      game = svg({"viewBox": `0 0 ${gameWidth} ${gameHeight}`}, [
 		rect({"width": "100%", "height": "100%", "fill": "#000"}),
