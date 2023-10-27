@@ -27,6 +27,7 @@ ready.then(() => {
 	      gameWidth = gameHeight + 2 * paddleOffset,
 	      ballSize = 3,
 	      ballSpeed = 50,
+	      maxBall = gameHeight - ballSize,
 	      initialBallOffset = paddleOffset + 15,
 	      paddles = [bind((gameHeight - paddleLength) >> 1), bind((gameHeight - paddleLength) >> 1)] as const,
 	      ballPath = animateMotion({"repeatCount": 0}),
@@ -48,15 +49,15 @@ ready.then(() => {
 
 		let ny = y + dy;
 
-		while (ny <= ballSize || ny >= gameHeight - ballSize) {
-			const m = Math.tan(-angle);
+		while (ny <= ballSize || ny >= maxBall) {
+			const m = Math.tan(angle);
 
 			if (ny <= ballSize) {
 				points.push([(ballSize - y + m * x) / m, ballSize]);
 				ny = 2 * ballSize - ny;
 			} else {
-				points.push([(gameHeight + ballSize - y + m * x) / m, gameHeight - ballSize]);
-				ny = 2 * (gameHeight - ballSize) - ny;
+				points.push([(maxBall - y + m * x) / m, maxBall]);
+				ny = 2 * maxBall - ny;
 			}
 
 			angle = -angle;
