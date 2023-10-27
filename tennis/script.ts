@@ -50,16 +50,11 @@ ready.then(() => {
 		let ny = y + dy;
 
 		while (ny <= ballSize || ny >= maxBall) {
-			const m = Math.tan(angle);
+			const m = Math.tan(angle),
+			      yPos = ny <= ballSize ? ballSize : maxBall;
 
-			if (ny <= ballSize) {
-				points.push([(ballSize - y + m * x) / m, ballSize]);
-				ny = 2 * ballSize - ny;
-			} else {
-				points.push([(maxBall - y + m * x) / m, maxBall]);
-				ny = 2 * maxBall - ny;
-			}
-
+			points.push([(yPos - y + m * x) / m, yPos]);
+			ny = 2 * yPos - ny;
 			angle = -angle;
 		}
 
