@@ -40,7 +40,6 @@ ready.then(() => {
 		amendNode(ball, {"cx": side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, "cy": gameHeight >> 1});
 	      };
 
-
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
 		let interval = -1,
 		    lastKey = "";
