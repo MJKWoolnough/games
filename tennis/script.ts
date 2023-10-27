@@ -46,7 +46,23 @@ ready.then(() => {
 		      dy = (x - stopLine) * Math.sin(angle),
 		      dur = Math.hypot(dx, dy) / ballSpeed;
 
-		points.push([stopLine, y + dy]);
+		let ny = y + dy;
+
+		while (ny <= ballSize || ny >= gameHeight - ballSize) {
+			const m = Math.tan(-angle);
+
+			if (ny <= ballSize) {
+				points.push([(ballSize - y + m * x) / m, ballSize]);
+				ny = 2 * ballSize - ny;
+			} else {
+				points.push([(gameHeight + ballSize - y + m * x) / m, gameHeight - ballSize]);
+				ny = 2 * (gameHeight - ballSize) - ny;
+			}
+
+			angle = -angle;
+		}
+
+		points.push([stopLine, ny]);
 
 		amendNode(ballPath, {"path": "M" + points.join(" L"), "dur": dur + "s"});
 	      },
