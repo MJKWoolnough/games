@@ -36,9 +36,10 @@ ready.then(() => {
 		[paddleOffset, gameWidth - paddleWidth - paddleOffset].map((x, n) => rect({x, "y": paddles[n], "width": paddleWidth, "height": paddleLength, "fill": !n ? "#f00" : "#00f"})),
 		ball
 	      ]),
-	      initialBall = (side = (Math.random() * 2) | 0) => {
-		amendNode(ball, {"cx": side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, "cy": gameHeight >> 1});
-	      };
+	      moveBall = (angle: number, x: number, y: number) => {
+		amendNode(ball, {"cx": x, "cy": y});
+	      },
+	      initialBall = (side = (Math.random() * 2) | 0) => moveBall(Math.random() * (Math.PI / 4) + (Math.random() < 0.5 ? -7 * Math.PI / 2 : Math.PI) / 8 + side * Math.PI, side * (gameWidth - 2 * initialBallOffset) + initialBallOffset, gameHeight >> 1);
 
 	[["w", "s"], ["ArrowUp", "ArrowDown"]].forEach(([up, down], n) => {
 		let interval = -1,
