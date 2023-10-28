@@ -13,17 +13,17 @@ const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Ar
       setPos = (board: number, p: number, v: number) => board | (v << (p << 1));
 
 export default (gameBoard: number[], turn: number, level: number) => {
-	let board = 0,
-	    flip = 0,
-	    rotation = 0,
-	    moves: Moves | undefined = undefined;
-
 	const filled = gameBoard.filter(c => c).length,
 	      p1 = (turn - 1) !== (filled % 1) ? 2 : 1;
 
 	if (filled === 9) {
 		return -1;
 	}
+
+	let board = 0,
+	    flip = 0,
+	    rotation = 0,
+	    moves: Moves | undefined = undefined;
 
 	for (let p = 0; p < 9; p++) {
 		if (gameBoard[p]) {
