@@ -20,16 +20,10 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		return -1;
 	}
 
-	let board = 0,
+	let board = gameBoard.reduce((t, v, p) => t |= (v ? v === p1 ? 1 : 2 : 0) << (p << 1), 0),
 	    flip = 0,
 	    rotation = 0,
 	    moves: Moves | undefined = undefined;
-
-	for (let p = 0; p < 9; p++) {
-		if (gameBoard[p]) {
-			board |= (gameBoard[p] === p1 ? 1 : 2) << (p << 1);
-		}
-	}
 
 	Loop:
 	for (; flip < 2; flip++) {
