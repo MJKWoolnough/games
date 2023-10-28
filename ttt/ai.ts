@@ -18,8 +18,13 @@ export default (gameBoard: number[], turn: number, level: number) => {
 	    rotation = 0,
 	    moves: Moves | undefined = undefined;
 
-	const swap = (turn - 1) !== (gameBoard.filter(c => c).length % 1),
+	const filled = gameBoard.filter(c => c).length,
+	      swap = (turn - 1) !== (filled % 1),
 	      p1 = swap ? 2 : 1;
+
+	if (filled === 9) {
+		return -1;
+	}
 
 	for (let p = 0; p < 9; p++) {
 		if (gameBoard[p]) {
