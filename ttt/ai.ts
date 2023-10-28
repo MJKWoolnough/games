@@ -20,7 +20,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		return -1;
 	}
 
-	let board = gameBoard.reduce((t, v, p) => t |= (v ? v === p1 ? 1 : 2 : 0) << (p << 1), 0),
+	let board = gameBoard.reduce((t, v, p) => setPos(t, p, (v ? v === p1 ? 1 : 2 : 0)), 0),
 	    flip = 0,
 	    rotation = 0,
 	    moves: Moves | undefined = undefined;
