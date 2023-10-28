@@ -10,7 +10,9 @@ const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Ar
       flipPos = (p: number) => 3*((p/3) | 0) + 2 - (p % 3),
       rotatePos = (p: number) => 2 - ((p/3) | 0) + 3*(p%3),
       getPos = (board: number, p: number) => (board >> (p << 1)) & 3,
-      setPos = (board: number, p: number, v: number) => board | (v << (p << 1));
+      setPos = (board: number, p: number, v: number) => board | (v << (p << 1)),
+      positions = Array.from({"length": 9}, _ => 0),
+      transformBoard = (pos: (p: number) => number, val: (p: number) => number) => positions.reduce((t, _, p) => setPos(t, pos(p), val(p)), 0);
 
 export default (gameBoard: number[], turn: number, level: number) => {
 	const filled = gameBoard.filter(c => c).length,
@@ -20,7 +22,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		return -1;
 	}
 
-	let board = gameBoard.reduce((t, v, p) => setPos(t, p, (v ? v === p1 ? 1 : 2 : 0)), 0),
+	let board = transformBoard(p => p, p => gameBoard[p] ? gameBoard[p] === p1 ? 1 : 2 : 0),
 	    flip = 0,
 	    rotation = 0,
 	    moves: Moves | undefined = undefined;
@@ -35,12 +37,12 @@ export default (gameBoard: number[], turn: number, level: number) => {
 
 			const oldBoard = board;
 
-			board = gameBoard.reduce((t, _, p) => setPos(t, rotatePos(p), getPos(oldBoard, p)), 0);
+			board = transformBoard(rotatePos, p => getPos(oldBoard, p));
 		}
 
 		const oldBoard = board;
 
-		board = gameBoard.reduce((t, _, p) => setPos(t, flipPos(p), getPos(oldBoard, p)), 0);
+		board = transformBoard(flipPos, p => getPos(oldBoard, p));
 	}
 
 	if (!moves) {
