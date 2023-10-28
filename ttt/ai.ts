@@ -34,19 +34,13 @@ export default (gameBoard: number[], turn: number, level: number) => {
 			}
 
 			const oldBoard = board;
-			board = 0;
 
-			for (let p = 0; p < 9; p++) {
-				board = setPos(board, rotatePos(p), getPos(oldBoard, p));
-			}
+			board = gameBoard.reduce((t, _, p) => setPos(t, rotatePos(p), getPos(oldBoard, p)), 0);
 		}
 
 		const oldBoard = board;
-		board = 0;
 
-		for (let p = 0; p < 9; p++) {
-			board = setPos(board, flipPos(p), getPos(oldBoard, p));
-		}
+		board = gameBoard.reduce((t, _, p) => setPos(t, flipPos(p), getPos(oldBoard, p)), 0);
 	}
 
 	if (!moves) {
