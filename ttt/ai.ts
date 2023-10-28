@@ -18,11 +18,12 @@ export default (gameBoard: number[], turn: number, level: number) => {
 	    rotation = 0,
 	    moves: Moves | undefined = undefined;
 
-	if ((turn - 1) !== (gameBoard.filter(c => c).length % 1)) {
-		for (let p = 0; p < 9; p++) {
-			if (gameBoard[p]) {
-				board |= (gameBoard[p] === turn ? 1 : 2) << (p << 1);
-			}
+	const swap = (turn - 1) !== (gameBoard.filter(c => c).length % 1),
+	      p1 = swap ? 2 : 1;
+
+	for (let p = 0; p < 9; p++) {
+		if (gameBoard[p]) {
+			board |= (gameBoard[p] === p1 ? 1 : 2) << (p << 1);
 		}
 	}
 
