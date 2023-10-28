@@ -19,8 +19,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 	    moves: Moves | undefined = undefined;
 
 	const filled = gameBoard.filter(c => c).length,
-	      swap = (turn - 1) !== (filled % 1),
-	      p1 = swap ? 2 : 1;
+	      p1 = (turn - 1) !== (filled % 1) ? 2 : 1;
 
 	if (filled === 9) {
 		return -1;
