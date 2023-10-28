@@ -35,14 +35,10 @@ export default (gameBoard: number[], turn: number, level: number) => {
 				break Loop;
 			}
 
-			const oldBoard = board;
-
-			board = transformBoard(rotatePos, p => getPos(oldBoard, p));
+			board = transformBoard(rotatePos, p => getPos(board, p));
 		}
 
-		const oldBoard = board;
-
-		board = transformBoard(flipPos, p => getPos(oldBoard, p));
+		board = transformBoard(flipPos, p => getPos(board, p));
 	}
 
 	if (!moves) {
