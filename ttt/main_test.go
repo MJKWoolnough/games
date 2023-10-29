@@ -214,7 +214,7 @@ func TestResultSwitch(t *testing.T) {
 		{FilledO, FilledO},
 		{WillWin, WillLose},
 		{WillLose, WillWin},
-		{DrawOdd, DrawOdd},
+		{Draw, Draw},
 		{CanWin, CanWin},
 	} {
 		if out := test.In.Switch(); out != test.Out {
@@ -238,12 +238,12 @@ func TestResultsGetSet(t *testing.T) {
 
 func TestResultsEncode(t *testing.T) {
 	for n, test := range [...]Results{
-		Results(0).Set(0, WillLose).Set(1, DrawOdd).Set(2, CanWin).Set(3, WillWin).Set(4, FilledX).Set(5, FilledO).Set(6, WillLose).Set(7, DrawOdd).Set(8, CanWin),
-		Results(0).Set(0, DrawOdd).Set(1, CanWin).Set(2, WillWin).Set(3, FilledX).Set(4, FilledO).Set(5, WillLose).Set(6, DrawOdd).Set(7, CanWin).Set(8, WillWin),
-		Results(0).Set(0, CanWin).Set(1, WillWin).Set(2, FilledX).Set(3, FilledO).Set(4, WillLose).Set(5, DrawOdd).Set(6, CanWin).Set(7, WillWin).Set(8, FilledX),
-		Results(0).Set(0, WillWin).Set(1, FilledX).Set(2, FilledO).Set(3, WillLose).Set(4, DrawOdd).Set(5, CanWin).Set(6, WillWin).Set(7, FilledX).Set(8, FilledO),
-		Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, WillLose).Set(3, DrawOdd).Set(4, CanWin).Set(5, WillWin).Set(6, FilledX).Set(7, FilledO).Set(8, WillLose),
-		Results(0).Set(0, FilledO).Set(1, WillLose).Set(2, DrawOdd).Set(3, CanWin).Set(4, WillWin).Set(5, FilledX).Set(6, FilledO).Set(7, WillLose).Set(8, DrawOdd),
+		Results(0).Set(0, WillLose).Set(1, Draw).Set(2, CanWin).Set(3, WillWin).Set(4, FilledX).Set(5, FilledO).Set(6, WillLose).Set(7, Draw).Set(8, CanWin),
+		Results(0).Set(0, Draw).Set(1, CanWin).Set(2, WillWin).Set(3, FilledX).Set(4, FilledO).Set(5, WillLose).Set(6, Draw).Set(7, CanWin).Set(8, WillWin),
+		Results(0).Set(0, CanWin).Set(1, WillWin).Set(2, FilledX).Set(3, FilledO).Set(4, WillLose).Set(5, Draw).Set(6, CanWin).Set(7, WillWin).Set(8, FilledX),
+		Results(0).Set(0, WillWin).Set(1, FilledX).Set(2, FilledO).Set(3, WillLose).Set(4, Draw).Set(5, CanWin).Set(6, WillWin).Set(7, FilledX).Set(8, FilledO),
+		Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, WillLose).Set(3, Draw).Set(4, CanWin).Set(5, WillWin).Set(6, FilledX).Set(7, FilledO).Set(8, WillLose),
+		Results(0).Set(0, FilledO).Set(1, WillLose).Set(2, Draw).Set(3, CanWin).Set(4, WillWin).Set(5, FilledX).Set(6, FilledO).Set(7, WillLose).Set(8, Draw),
 	} {
 		re := test.Encode()
 
@@ -267,7 +267,7 @@ func TestBrainMove(t *testing.T) {
 	}{
 		{
 			Board(0),
-			CanWin,
+			Draw,
 		},
 		{
 			Board(0).Set(0, X).Set(1, X).Set(8, O).Set(3, O),
@@ -275,7 +275,7 @@ func TestBrainMove(t *testing.T) {
 		},
 		{
 			Board(0).Set(0, O).Set(2, O).Set(8, X).Set(3, X),
-			DrawOdd,
+			Draw,
 		},
 		{
 			Board(0).Set(0, O).Set(1, O).Set(4, O).Set(3, X).Set(8, X),
@@ -299,11 +299,11 @@ func TestBrainGetResults(t *testing.T) {
 	}{
 		{
 			Board(0),
-			Results(0).Set(0, CanWin).Set(1, DrawOdd).Set(2, CanWin).Set(3, DrawOdd).Set(4, CanWin).Set(5, DrawOdd).Set(6, CanWin).Set(7, DrawOdd).Set(8, CanWin).SetState(CanWin),
+			Results(0).Set(0, Draw).Set(1, Draw).Set(2, Draw).Set(3, Draw).Set(4, Draw).Set(5, Draw).Set(6, Draw).Set(7, Draw).Set(8, Draw).SetState(Draw),
 		},
 		{
 			Board(0).Set(1, X).Set(6, O).Set(7, O).Set(8, X),
-			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, WillWin).Set(4, CanWin).Set(5, WillWin).Set(6, WillWin).Set(7, FilledX).Set(8, WillWin).SetState(WillWin),
+			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, WillWin).Set(4, Draw).Set(5, WillWin).Set(6, WillWin).Set(7, FilledX).Set(8, WillWin).SetState(WillWin),
 		},
 	} {
 		if r, ok := brain.getResults(test.Board); !ok {
