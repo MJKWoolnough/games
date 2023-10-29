@@ -215,7 +215,8 @@ func TestResultSwitch(t *testing.T) {
 		{WillWin, WillLose},
 		{WillLose, WillWin},
 		{Draw, Draw},
-		{CanWin, CanWin},
+		{CanWin, CanLose},
+		{CanLose, CanWin},
 	} {
 		if out := test.In.Switch(); out != test.Out {
 			t.Errorf("test %d: for input %q, expecting output %q, got %q", n+1, test.In, test.Out, out)
@@ -252,6 +253,10 @@ func TestResultsEncode(t *testing.T) {
 		for _, p := range Positions {
 			r := Result(e % 6)
 			e /= 6
+
+			if r > 0 {
+				r++
+			}
 
 			if g := test.Get(p); g != r {
 				t.Errorf("test %d.%d: expecting result %s, got %s", n+1, p+1, g, r)

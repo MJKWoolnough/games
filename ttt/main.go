@@ -141,6 +141,7 @@ type Result uint8
 
 const (
 	WillLose Result = iota
+	CanLose
 	Draw
 	CanWin
 	WillWin
@@ -152,6 +153,8 @@ func (r Result) String() string {
 	switch r {
 	case WillLose:
 		return "Will Lose"
+	case CanLose:
+		return "Can Lose"
 	case Draw:
 		return "Draw"
 	case CanWin:
@@ -172,6 +175,10 @@ func (r Result) Switch() Result {
 		return WillLose
 	} else if r == WillLose {
 		return WillWin
+	} else if r == CanWin {
+		return CanLose
+	} else if r == CanLose {
+		return CanWin
 	}
 
 	return r
@@ -204,6 +211,10 @@ func (b BoardResult) AsResult() Result {
 		return Draw
 	}
 
+	if b&OpponentCanWin > 0 {
+		return CanLose
+	}
+
 	return WillLose
 }
 
@@ -211,6 +222,8 @@ func (b BoardResult) String() string {
 	switch b.AsResult() {
 	case WillLose:
 		return "Opponent Will Win"
+	case CanLose:
+		return "Opponent Can Win"
 	case Draw:
 		return "Draw"
 	case CanWin:
@@ -284,6 +297,10 @@ func (r Results) Encode() [3]byte {
 
 	for _, p := range Positions {
 		v := r.Get(p)
+
+		if v >= CanLose {
+			v--
+		}
 
 		n += uint32(v) * pow
 
