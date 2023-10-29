@@ -218,6 +218,23 @@ func (b BoardResult) AsResult() Result {
 	return WillLose
 }
 
+func (b BoardResult) With(r Result) BoardResult {
+	switch r {
+	case WillLose:
+		return b | OpponentWillWin
+	case CanLose:
+		return b | OpponentCanWin
+	case Draw:
+		return b | BoardDraw
+	case CanWin:
+		return b | PlayerCanWin
+	case WillWin:
+		return b | PlayerWillWin
+	}
+
+	return b
+}
+
 func (b BoardResult) String() string {
 	switch b.AsResult() {
 	case WillLose:
