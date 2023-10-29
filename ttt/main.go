@@ -177,6 +177,61 @@ func (r Result) Switch() Result {
 	return r
 }
 
+type BoardResult uint8
+
+const (
+	OpponentWillWin BoardResult = iota
+	OpponentCanWin
+	BoardDraw
+	PlayerCanWin
+	PlayerWillWin
+)
+
+func (b BoardResult) Switch() BoardResult {
+	switch b {
+	case OpponentWillWin:
+		return PlayerWillWin
+	case OpponentCanWin:
+		return PlayerCanWin
+	case PlayerCanWin:
+		return OpponentCanWin
+	case PlayerWillWin:
+		return OpponentWillWin
+	}
+
+	return b
+}
+
+func (b BoardResult) AsResult() Result {
+	switch b {
+	case OpponentWillWin, OpponentCanWin:
+		return WillLose
+	case PlayerCanWin:
+		return CanWin
+	case PlayerWillWin:
+		return WillWin
+	}
+
+	return Draw
+}
+
+func (b BoardResult) String() string {
+	switch b {
+	case OpponentWillWin:
+		return "Opponent Will Win"
+	case OpponentCanWin:
+		return "Opponent Can Win"
+	case BoardDraw:
+		return "Draw"
+	case PlayerCanWin:
+		return "Player Can Win"
+	case PlayerWillWin:
+		return "Player Will Win"
+	}
+
+	return "Invalid Board Result"
+}
+
 type Results uint32
 
 func (rs Results) Get(p Position) Result {
@@ -187,12 +242,12 @@ func (rs Results) Set(p Position, r Result) Results {
 	return (rs & ^(7 << (p * 3))) | (Results(r) << (p * 3))
 }
 
-func (rs Results) SetState(r Result) Results {
-	return rs | (Results(r) << 29)
+func (rs Results) SetState(b BoardResult) Results {
+	return rs | (Results(b) << 29)
 }
 
-func (rs Results) GetState() Result {
-	return Result(rs >> 29)
+func (rs Results) GetState() BoardResult {
+	return BoardResult(rs >> 29)
 }
 
 func (rs Results) String() string {
@@ -272,14 +327,14 @@ func (b Brain) getResults(board Board) (Results, bool) {
 	return 0, false
 }
 
-func (b Brain) move(board Board) Result {
+func (b Brain) move(board Board) BoardResult {
 	if r, ok := b.getResults(board); ok {
 		return r.GetState()
 	}
 
 	var (
 		rs       Results
-		result   Result
+		bresult  BoardResult
 		hasEmpty bool
 	)
 
@@ -293,28 +348,28 @@ func (b Brain) move(board Board) Result {
 
 		setBoard := board.Set(p, X)
 
-		var r Result
+		var r BoardResult
 
 		if setBoard.HasWin() {
-			r = WillWin
+			r = PlayerWillWin
 		} else {
 			r = b.move(setBoard.Switch()).Switch()
 		}
 
-		if r > result {
-			result = r
+		if r > bresult {
+			bresult = r
 		}
 
-		rs = rs.Set(p, r)
+		rs = rs.Set(p, r.AsResult())
 	}
 
 	if !hasEmpty {
-		result = Draw
+		bresult = BoardDraw
 	}
 
-	b[board] = rs.SetState(result)
+	b[board] = rs.SetState(bresult)
 
-	return result
+	return bresult
 }
 
 func main() {
