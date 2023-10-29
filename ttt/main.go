@@ -142,14 +142,14 @@ type Result uint8
 const (
 	WillLose Result = iota
 	DrawOdd
-	DrawEven
+	CanWin
 	WillWin
 	FilledX
 	FilledO
 )
 
 func (r Result) IsDraw() bool {
-	return r == DrawOdd || r == DrawEven
+	return r == DrawOdd || r == CanWin
 }
 
 func (r Result) String() string {
@@ -157,9 +157,9 @@ func (r Result) String() string {
 	case WillLose:
 		return "Will Lose"
 	case DrawOdd:
-		return "Draw (Odd)"
-	case DrawEven:
-		return "Draw (Even)"
+		return "Draw"
+	case CanWin:
+		return "Can Win"
 	case WillWin:
 		return "Will Win"
 	case FilledX:
@@ -216,9 +216,9 @@ func (rs Results) String() string {
 			case WillLose:
 				sb.WriteString("L")
 			case DrawOdd:
-				sb.WriteString("d")
-			case DrawEven:
 				sb.WriteString("D")
+			case CanWin:
+				sb.WriteString("w")
 			case WillWin:
 				sb.WriteString("W")
 			case FilledX:
@@ -306,7 +306,7 @@ func (b Brain) move(board Board) Result {
 
 			if r.IsDraw() {
 				if p&1 == 0 {
-					r = DrawEven
+					r = CanWin
 				} else {
 					r = DrawOdd
 				}
@@ -321,7 +321,7 @@ func (b Brain) move(board Board) Result {
 	}
 
 	if !hasEmpty {
-		result = DrawEven
+		result = CanWin
 	}
 
 	b[board] = rs.SetState(result)
