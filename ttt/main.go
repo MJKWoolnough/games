@@ -111,6 +111,28 @@ func (b Board) HasWin() bool {
 	return false
 }
 
+func (b Board) HasPossibleWin() bool {
+Loop:
+	for _, w := range wins {
+		xs := 0
+
+		for _, wn := range w {
+			switch b.Get(wn) {
+			case X:
+				xs++
+			case O:
+				continue Loop
+			}
+		}
+
+		if xs == 2 {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (b Board) String() string {
 	var sb strings.Builder
 
