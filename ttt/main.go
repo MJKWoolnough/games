@@ -180,7 +180,7 @@ func (r Result) Switch() Result {
 type BoardResult uint8
 
 const (
-	OpponentWillWin BoardResult = iota
+	OpponentWillWin BoardResult = 1 << iota
 	OpponentCanWin
 	BoardDraw
 	PlayerCanWin
@@ -188,44 +188,34 @@ const (
 )
 
 func (b BoardResult) Switch() BoardResult {
-	switch b {
-	case OpponentWillWin:
-		return PlayerWillWin
-	case OpponentCanWin:
-		return PlayerCanWin
-	case PlayerCanWin:
-		return OpponentCanWin
-	case PlayerWillWin:
-		return OpponentWillWin
-	}
-
-	return b
+	return (b&PlayerWillWin)>>4 | (b&PlayerCanWin)>>2 | (b & BoardDraw) | (b&OpponentCanWin)<<2 | (b&OpponentWillWin)<<4
 }
 
 func (b BoardResult) AsResult() Result {
-	switch b {
-	case OpponentWillWin, OpponentCanWin:
-		return WillLose
-	case PlayerCanWin:
-		return CanWin
-	case PlayerWillWin:
+	if b&PlayerWillWin > 0 {
 		return WillWin
 	}
 
-	return Draw
+	if b&PlayerCanWin > 0 {
+		return CanWin
+	}
+
+	if b&BoardDraw > 0 {
+		return Draw
+	}
+
+	return WillLose
 }
 
 func (b BoardResult) String() string {
-	switch b {
-	case OpponentWillWin:
+	switch b.AsResult() {
+	case WillLose:
 		return "Opponent Will Win"
-	case OpponentCanWin:
-		return "Opponent Can Win"
-	case BoardDraw:
+	case Draw:
 		return "Draw"
-	case PlayerCanWin:
+	case CanWin:
 		return "Player Can Win"
-	case PlayerWillWin:
+	case WillWin:
 		return "Player Will Win"
 	}
 
@@ -243,11 +233,11 @@ func (rs Results) Set(p Position, r Result) Results {
 }
 
 func (rs Results) SetState(b BoardResult) Results {
-	return rs | (Results(b) << 29)
+	return rs | (Results(b) << 27)
 }
 
 func (rs Results) GetState() BoardResult {
-	return BoardResult(rs >> 29)
+	return BoardResult(rs >> 27)
 }
 
 func (rs Results) String() string {
