@@ -193,14 +193,8 @@ func (r Result) String() string {
 }
 
 func (r Result) Switch() Result {
-	if r == WillWin {
-		return WillLose
-	} else if r == WillLose {
-		return WillWin
-	} else if r == CanWin {
-		return CanLose
-	} else if r == CanLose {
-		return CanWin
+	if r <= WillWin {
+		return WillWin - r
 	}
 
 	return r
