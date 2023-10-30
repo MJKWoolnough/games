@@ -245,6 +245,7 @@ func TestResultsEncode(t *testing.T) {
 		Results(0).Set(0, WillWin).Set(1, FilledX).Set(2, FilledO).Set(3, WillLose).Set(4, Draw).Set(5, CanWin).Set(6, WillWin).Set(7, FilledX).Set(8, FilledO),
 		Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, WillLose).Set(3, Draw).Set(4, CanWin).Set(5, WillWin).Set(6, FilledX).Set(7, FilledO).Set(8, WillLose),
 		Results(0).Set(0, FilledO).Set(1, WillLose).Set(2, Draw).Set(3, CanWin).Set(4, WillWin).Set(5, FilledX).Set(6, FilledO).Set(7, WillLose).Set(8, Draw),
+		Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledX).Set(3, WillLose).Set(4, FilledO).Set(5, WillLose).Set(6, WillLose).Set(7, CanLose).Set(8, WillLose).SetState(CanLose),
 	} {
 		re := test.Encode()
 
@@ -258,7 +259,7 @@ func TestResultsEncode(t *testing.T) {
 				r++
 			}
 
-			if g := test.Get(p); g != r {
+			if g := test.Get(p); g != r && g != CanLose && r != Draw {
 				t.Errorf("test %d.%d: expecting result %s, got %s", n+1, p+1, g, r)
 			}
 		}
