@@ -333,7 +333,7 @@ func (r Results) Encode() [3]byte {
 	for _, p := range Positions {
 		v := r.Get(p)
 
-		if v >= CanLose {
+		if v > CanLose {
 			v--
 		}
 
