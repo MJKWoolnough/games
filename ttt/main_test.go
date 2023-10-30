@@ -310,6 +310,10 @@ func TestBrainGetResults(t *testing.T) {
 			Board(0).Set(1, X).Set(6, O).Set(7, O).Set(8, X),
 			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, WillWin).Set(4, CanWin).Set(5, WillWin).Set(6, WillWin).Set(7, FilledX).Set(8, WillWin).SetState(WillWin),
 		},
+		{
+			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(4, X).Set(7, O),
+			Results(0).Set(0, FilledO).Set(1, FilledX).Set(2, FilledO).Set(3, CanWin).Set(4, FilledX).Set(5, CanWin).Set(6, CanLose).Set(7, FilledO).Set(8, CanLose).SetState(CanWin),
+		},
 	} {
 		if r, ok := brain.getResults(test.Board); !ok {
 			t.Errorf("test %d: for board:\n%s\n...got no result when expecting one", n+1, test.Board)
