@@ -308,6 +308,8 @@ func (rs Results) String() string {
 			switch rs.Get(y*3 + x) {
 			case WillLose:
 				sb.WriteString("L")
+			case CanLose:
+				sb.WriteString("l")
 			case Draw:
 				sb.WriteString("D")
 			case CanWin:
