@@ -280,7 +280,7 @@ func TestBrainMove(t *testing.T) {
 		},
 		{
 			Board(0).Set(0, O).Set(2, O).Set(8, X).Set(3, X),
-			CanWin,
+			CanLose,
 		},
 		{
 			Board(0).Set(0, O).Set(1, O).Set(4, O).Set(3, X).Set(8, X),
@@ -290,7 +290,7 @@ func TestBrainMove(t *testing.T) {
 		b := make(Brain)
 
 		if r := b.move(test.Board); r != test.Result {
-			t.Errorf("test %d: expected result %s, got %s", n+1, test.Result, r)
+			t.Errorf("test %d: for board:\n%s, expected result %s, got %s", n+1, test.Board, test.Result, r)
 		}
 	}
 }
