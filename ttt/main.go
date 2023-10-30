@@ -284,12 +284,12 @@ func (rs Results) Set(p Position, r Result) Results {
 	return (rs & ^(7 << (p * 3))) | (Results(r) << (p * 3))
 }
 
-func (rs Results) SetState(b BoardResult) Results {
+func (rs Results) SetState(b Result) Results {
 	return rs | (Results(b) << 27)
 }
 
-func (rs Results) GetState() BoardResult {
-	return BoardResult(rs >> 27)
+func (rs Results) GetState() Result {
+	return Result(rs >> 27)
 }
 
 func (rs Results) String() string {
@@ -373,14 +373,14 @@ func (b Brain) getResults(board Board) (Results, bool) {
 	return 0, false
 }
 
-func (b Brain) move(board Board) BoardResult {
+func (b Brain) move(board Board) Result {
 	if r, ok := b.getResults(board); ok {
 		return r.GetState()
 	}
 
 	var (
 		rs       Results
-		bresult  BoardResult
+		result   Result
 		hasEmpty bool
 	)
 
@@ -394,28 +394,28 @@ func (b Brain) move(board Board) BoardResult {
 
 		setBoard := board.Set(p, X)
 
-		var r BoardResult
+		var r Result
 
 		if setBoard.HasWin() {
-			r = PlayerWillWin
+			r = WillWin
 		} else {
 			r = b.move(setBoard.Switch()).Switch()
 		}
 
-		if r > bresult {
-			bresult = r
+		if r > result {
+			result = r
 		}
 
-		rs = rs.Set(p, r.AsResult())
+		rs = rs.Set(p, r)
 	}
 
 	if !hasEmpty {
-		bresult = BoardDraw
+		result = Draw
 	}
 
-	b[board] = rs.SetState(bresult)
+	b[board] = rs.SetState(result)
 
-	return bresult
+	return result
 }
 
 func main() {
