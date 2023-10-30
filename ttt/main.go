@@ -400,6 +400,10 @@ func (b Brain) move(board Board) Result {
 			r = WillWin
 		} else {
 			r = b.move(setBoard.Switch()).Switch()
+
+			if r == Draw && setBoard.HasPossibleWin() {
+				r = CanWin
+			}
 		}
 
 		if r > result {

@@ -272,7 +272,7 @@ func TestBrainMove(t *testing.T) {
 	}{
 		{
 			Board(0),
-			Draw,
+			CanWin,
 		},
 		{
 			Board(0).Set(0, X).Set(1, X).Set(8, O).Set(3, O),
@@ -280,7 +280,7 @@ func TestBrainMove(t *testing.T) {
 		},
 		{
 			Board(0).Set(0, O).Set(2, O).Set(8, X).Set(3, X),
-			Draw,
+			CanWin,
 		},
 		{
 			Board(0).Set(0, O).Set(1, O).Set(4, O).Set(3, X).Set(8, X),
@@ -304,11 +304,11 @@ func TestBrainGetResults(t *testing.T) {
 	}{
 		{
 			Board(0),
-			Results(0).Set(0, Draw).Set(1, Draw).Set(2, Draw).Set(3, Draw).Set(4, Draw).Set(5, Draw).Set(6, Draw).Set(7, Draw).Set(8, Draw).SetState(Draw),
+			Results(0).Set(0, CanWin).Set(1, CanWin).Set(2, CanWin).Set(3, CanWin).Set(4, CanWin).Set(5, CanWin).Set(6, CanWin).Set(7, CanWin).Set(8, CanWin).SetState(CanWin),
 		},
 		{
 			Board(0).Set(1, X).Set(6, O).Set(7, O).Set(8, X),
-			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, WillWin).Set(4, Draw).Set(5, WillWin).Set(6, WillWin).Set(7, FilledX).Set(8, WillWin).SetState(WillWin),
+			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, WillWin).Set(4, CanWin).Set(5, WillWin).Set(6, WillWin).Set(7, FilledX).Set(8, WillWin).SetState(WillWin),
 		},
 	} {
 		if r, ok := brain.getResults(test.Board); !ok {
