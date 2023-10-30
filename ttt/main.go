@@ -403,7 +403,7 @@ func (b Brain) move(board Board) Result {
 		} else {
 			r = b.move(setBoard.Switch()).Switch()
 
-			if r == Draw && setBoard.HasPossibleWin() {
+			if (r == Draw || r == CanLose) && setBoard.HasPossibleWin() {
 				r = CanWin
 			}
 		}
