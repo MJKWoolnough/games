@@ -102,16 +102,10 @@ func (b Board) Transform(flop bool, rotate uint8) Board {
 }
 
 func (b Board) HasWin() bool {
-	for _, w := range wins {
-		if p := b.Get(w[0]); p != None && p == b.Get(w[1]) && p == b.Get(w[2]) {
-			return true
-		}
-	}
-
-	return false
+	return b.hasXsInARow(3)
 }
 
-func (b Board) HasPossibleWin() bool {
+func (b Board) hasXsInARow(num int) bool {
 Loop:
 	for _, w := range wins {
 		xs := 0
@@ -125,12 +119,16 @@ Loop:
 			}
 		}
 
-		if xs == 2 {
+		if xs == num {
 			return true
 		}
 	}
 
 	return false
+}
+
+func (b Board) HasPossibleWin() bool {
+	return b.hasXsInARow(2)
 }
 
 func (b Board) String() string {
