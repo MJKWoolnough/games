@@ -76,20 +76,20 @@ func TestBoardGetSet(t *testing.T) {
 func TestBoardSwitch(t *testing.T) {
 	for n, test := range [...][2]Board{
 		{
-			Board(0).Set(0, X).Set(4, X).Set(1, O),
-			Board(0).Set(0, O).Set(4, O).Set(1, X),
+			emptyBoard.Set(0, X).Set(4, X).Set(1, O),
+			emptyBoard.Set(0, O).Set(4, O).Set(1, X),
 		},
 		{
-			Board(0).Set(0, O).Set(4, O).Set(1, X),
-			Board(0).Set(0, X).Set(4, X).Set(1, O),
+			emptyBoard.Set(0, O).Set(4, O).Set(1, X),
+			emptyBoard.Set(0, X).Set(4, X).Set(1, O),
 		},
 		{
-			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
-			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
+			emptyBoard.Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
+			emptyBoard.Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
 		},
 		{
-			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
-			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
+			emptyBoard.Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
+			emptyBoard.Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
 		},
 	} {
 		if s := test[0].Switch(); s != test[1] {
@@ -101,24 +101,24 @@ func TestBoardSwitch(t *testing.T) {
 func TestBoardTransform(t *testing.T) {
 	for n, test := range [...][9]Board{
 		{
-			Board(0).Set(0, X).Set(2, O).Set(4, X),
-			Board(0).Set(2, X).Set(8, O).Set(4, X),
-			Board(0).Set(8, X).Set(6, O).Set(4, X),
-			Board(0).Set(6, X).Set(0, O).Set(4, X),
-			Board(0).Set(2, X).Set(0, O).Set(4, X),
-			Board(0).Set(8, X).Set(2, O).Set(4, X),
-			Board(0).Set(6, X).Set(8, O).Set(4, X),
-			Board(0).Set(0, X).Set(6, O).Set(4, X),
+			emptyBoard.Set(0, X).Set(2, O).Set(4, X),
+			emptyBoard.Set(2, X).Set(8, O).Set(4, X),
+			emptyBoard.Set(8, X).Set(6, O).Set(4, X),
+			emptyBoard.Set(6, X).Set(0, O).Set(4, X),
+			emptyBoard.Set(2, X).Set(0, O).Set(4, X),
+			emptyBoard.Set(8, X).Set(2, O).Set(4, X),
+			emptyBoard.Set(6, X).Set(8, O).Set(4, X),
+			emptyBoard.Set(0, X).Set(6, O).Set(4, X),
 		},
 		{
-			Board(0).Set(1, X).Set(5, O).Set(4, O),
-			Board(0).Set(5, X).Set(7, O).Set(4, O),
-			Board(0).Set(7, X).Set(3, O).Set(4, O),
-			Board(0).Set(3, X).Set(1, O).Set(4, O),
-			Board(0).Set(1, X).Set(3, O).Set(4, O),
-			Board(0).Set(5, X).Set(1, O).Set(4, O),
-			Board(0).Set(7, X).Set(5, O).Set(4, O),
-			Board(0).Set(3, X).Set(7, O).Set(4, O),
+			emptyBoard.Set(1, X).Set(5, O).Set(4, O),
+			emptyBoard.Set(5, X).Set(7, O).Set(4, O),
+			emptyBoard.Set(7, X).Set(3, O).Set(4, O),
+			emptyBoard.Set(3, X).Set(1, O).Set(4, O),
+			emptyBoard.Set(1, X).Set(3, O).Set(4, O),
+			emptyBoard.Set(5, X).Set(1, O).Set(4, O),
+			emptyBoard.Set(7, X).Set(5, O).Set(4, O),
+			emptyBoard.Set(3, X).Set(7, O).Set(4, O),
 		},
 	} {
 		for i := uint8(0); i < 8; i++ {
@@ -135,119 +135,119 @@ func TestBoardHasWin(t *testing.T) {
 		Wins bool
 	}{
 		{
-			Board(0).Set(0, X).Set(1, X).Set(2, X),
+			emptyBoard.Set(0, X).Set(1, X).Set(2, X),
 			true,
 		},
 		{
-			Board(0).Set(3, X).Set(4, X).Set(5, X),
+			emptyBoard.Set(3, X).Set(4, X).Set(5, X),
 			true,
 		},
 		{
-			Board(0).Set(6, X).Set(7, X).Set(8, X),
+			emptyBoard.Set(6, X).Set(7, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(3, X).Set(6, X),
+			emptyBoard.Set(0, X).Set(3, X).Set(6, X),
 			true,
 		},
 		{
-			Board(0).Set(1, X).Set(4, X).Set(7, X),
+			emptyBoard.Set(1, X).Set(4, X).Set(7, X),
 			true,
 		},
 		{
-			Board(0).Set(2, X).Set(5, X).Set(8, X),
+			emptyBoard.Set(2, X).Set(5, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(4, X).Set(8, X),
+			emptyBoard.Set(0, X).Set(4, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(2, X).Set(4, X).Set(6, X),
+			emptyBoard.Set(2, X).Set(4, X).Set(6, X),
 			true,
 		},
 		{
-			Board(0).Set(0, O).Set(1, O).Set(2, O),
+			emptyBoard.Set(0, O).Set(1, O).Set(2, O),
 			false,
 		},
 		{
-			Board(0).Set(3, O).Set(4, O).Set(5, O),
+			emptyBoard.Set(3, O).Set(4, O).Set(5, O),
 			false,
 		},
 		{
-			Board(0).Set(6, O).Set(7, O).Set(8, O),
+			emptyBoard.Set(6, O).Set(7, O).Set(8, O),
 			false,
 		},
 		{
-			Board(0).Set(0, O).Set(3, O).Set(6, O),
+			emptyBoard.Set(0, O).Set(3, O).Set(6, O),
 			false,
 		},
 		{
-			Board(0).Set(1, O).Set(4, O).Set(7, O),
+			emptyBoard.Set(1, O).Set(4, O).Set(7, O),
 			false,
 		},
 		{
-			Board(0).Set(2, O).Set(5, O).Set(8, O),
+			emptyBoard.Set(2, O).Set(5, O).Set(8, O),
 			false,
 		},
 		{
-			Board(0).Set(0, O).Set(4, O).Set(8, O),
+			emptyBoard.Set(0, O).Set(4, O).Set(8, O),
 			false,
 		},
 		{
-			Board(0).Set(2, O).Set(4, O).Set(6, O),
+			emptyBoard.Set(2, O).Set(4, O).Set(6, O),
 			false,
 		},
 		{
-			Board(0),
+			emptyBoard,
 			false,
 		},
 		{
-			Board(0).Set(0, X),
+			emptyBoard.Set(0, X),
 			false,
 		},
 		{
-			Board(0).Set(1, X),
+			emptyBoard.Set(1, X),
 			false,
 		},
 		{
-			Board(0).Set(2, X),
+			emptyBoard.Set(2, X),
 			false,
 		},
 		{
-			Board(0).Set(3, X),
+			emptyBoard.Set(3, X),
 			false,
 		},
 		{
-			Board(0).Set(4, X),
+			emptyBoard.Set(4, X),
 			false,
 		},
 		{
-			Board(0).Set(5, X),
+			emptyBoard.Set(5, X),
 			false,
 		},
 		{
-			Board(0).Set(6, X),
+			emptyBoard.Set(6, X),
 			false,
 		},
 		{
-			Board(0).Set(7, X),
+			emptyBoard.Set(7, X),
 			false,
 		},
 		{
-			Board(0).Set(8, X),
+			emptyBoard.Set(8, X),
 			false,
 		},
 		{
-			Board(0).Set(0, X).Set(1, X),
+			emptyBoard.Set(0, X).Set(1, X),
 			false,
 		},
 		{
-			Board(0).Set(0, X).Set(2, X),
+			emptyBoard.Set(0, X).Set(2, X),
 			false,
 		},
 		{
-			Board(0).Set(1, X).Set(2, X),
+			emptyBoard.Set(1, X).Set(2, X),
 			false,
 		},
 	} {
@@ -263,135 +263,135 @@ func TestBoardHasPossibleWin(t *testing.T) {
 		Possible bool
 	}{
 		{
-			Board(0).Set(0, X).Set(1, X),
+			emptyBoard.Set(0, X).Set(1, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(2, X),
+			emptyBoard.Set(0, X).Set(2, X),
 			true,
 		},
 		{
-			Board(0).Set(1, X).Set(2, X),
+			emptyBoard.Set(1, X).Set(2, X),
 			true,
 		},
 		{
-			Board(0).Set(3, X).Set(4, X),
+			emptyBoard.Set(3, X).Set(4, X),
 			true,
 		},
 		{
-			Board(0).Set(3, X).Set(5, X),
+			emptyBoard.Set(3, X).Set(5, X),
 			true,
 		},
 		{
-			Board(0).Set(4, X).Set(5, X),
+			emptyBoard.Set(4, X).Set(5, X),
 			true,
 		},
 		{
-			Board(0).Set(6, X).Set(7, X),
+			emptyBoard.Set(6, X).Set(7, X),
 			true,
 		},
 		{
-			Board(0).Set(6, X).Set(8, X),
+			emptyBoard.Set(6, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(7, X).Set(8, X),
+			emptyBoard.Set(7, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(3, X),
+			emptyBoard.Set(0, X).Set(3, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(6, X),
+			emptyBoard.Set(0, X).Set(6, X),
 			true,
 		},
 		{
-			Board(0).Set(3, X).Set(6, X),
+			emptyBoard.Set(3, X).Set(6, X),
 			true,
 		},
 		{
-			Board(0).Set(1, X).Set(4, X),
+			emptyBoard.Set(1, X).Set(4, X),
 			true,
 		},
 		{
-			Board(0).Set(1, X).Set(7, X),
+			emptyBoard.Set(1, X).Set(7, X),
 			true,
 		},
 		{
-			Board(0).Set(4, X).Set(7, X),
+			emptyBoard.Set(4, X).Set(7, X),
 			true,
 		},
 		{
-			Board(0).Set(2, X).Set(5, X),
+			emptyBoard.Set(2, X).Set(5, X),
 			true,
 		},
 		{
-			Board(0).Set(2, X).Set(8, X),
+			emptyBoard.Set(2, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(5, X).Set(8, X),
+			emptyBoard.Set(5, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(4, X),
+			emptyBoard.Set(0, X).Set(4, X),
 			true,
 		},
 		{
-			Board(0).Set(0, X).Set(8, X),
+			emptyBoard.Set(0, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(4, X).Set(8, X),
+			emptyBoard.Set(4, X).Set(8, X),
 			true,
 		},
 		{
-			Board(0).Set(2, X).Set(4, X),
+			emptyBoard.Set(2, X).Set(4, X),
 			true,
 		},
 		{
-			Board(0).Set(2, X).Set(6, X),
+			emptyBoard.Set(2, X).Set(6, X),
 			true,
 		},
 		{
-			Board(0).Set(4, X).Set(6, X),
+			emptyBoard.Set(4, X).Set(6, X),
 			true,
 		},
 		{
-			Board(0).Set(0, O).Set(1, O),
+			emptyBoard.Set(0, O).Set(1, O),
 			false,
 		},
 		{
-			Board(0).Set(3, O).Set(5, O),
+			emptyBoard.Set(3, O).Set(5, O),
 			false,
 		},
 		{
-			Board(0).Set(7, O).Set(8, O),
+			emptyBoard.Set(7, O).Set(8, O),
 			false,
 		},
 		{
-			Board(0).Set(3, O).Set(6, O),
+			emptyBoard.Set(3, O).Set(6, O),
 			false,
 		},
 		{
-			Board(0).Set(1, O).Set(7, O),
+			emptyBoard.Set(1, O).Set(7, O),
 			false,
 		},
 		{
-			Board(0).Set(2, O).Set(5, O),
+			emptyBoard.Set(2, O).Set(5, O),
 			false,
 		},
 		{
-			Board(0).Set(0, X),
+			emptyBoard.Set(0, X),
 			false,
 		},
 		{
-			Board(0).Set(0, X).Set(5, X),
+			emptyBoard.Set(0, X).Set(5, X),
 			false,
 		},
 		{
-			Board(0).Set(1, X).Set(0, 6),
+			emptyBoard.Set(1, X).Set(0, 6),
 			false,
 		},
 	} {
@@ -467,19 +467,19 @@ func TestBrainMove(t *testing.T) {
 		Result
 	}{
 		{
-			Board(0),
+			emptyBoard,
 			CanWin,
 		},
 		{
-			Board(0).Set(0, X).Set(1, X).Set(8, O).Set(3, O),
+			emptyBoard.Set(0, X).Set(1, X).Set(8, O).Set(3, O),
 			WillWin,
 		},
 		{
-			Board(0).Set(0, O).Set(2, O).Set(8, X).Set(3, X),
+			emptyBoard.Set(0, O).Set(2, O).Set(8, X).Set(3, X),
 			CanLose,
 		},
 		{
-			Board(0).Set(0, O).Set(1, O).Set(4, O).Set(3, X).Set(8, X),
+			emptyBoard.Set(0, O).Set(1, O).Set(4, O).Set(3, X).Set(8, X),
 			WillLose,
 		},
 	} {
@@ -499,19 +499,19 @@ func TestBrainGetResults(t *testing.T) {
 		Results
 	}{
 		{
-			Board(0),
+			emptyBoard,
 			Results(0).Set(0, CanWin).Set(1, CanWin).Set(2, CanWin).Set(3, CanWin).Set(4, CanWin).Set(5, CanWin).Set(6, CanWin).Set(7, CanWin).Set(8, CanWin).SetState(CanWin),
 		},
 		{
-			Board(0).Set(1, X).Set(6, O).Set(7, O).Set(8, X),
+			emptyBoard.Set(1, X).Set(6, O).Set(7, O).Set(8, X),
 			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledO).Set(3, WillWin).Set(4, CanWin).Set(5, WillWin).Set(6, WillWin).Set(7, FilledX).Set(8, WillWin).SetState(WillWin),
 		},
 		{
-			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(4, X).Set(7, O),
+			emptyBoard.Set(0, O).Set(1, X).Set(2, O).Set(4, X).Set(7, O),
 			Results(0).Set(0, FilledO).Set(1, FilledX).Set(2, FilledO).Set(3, CanWin).Set(4, FilledX).Set(5, CanWin).Set(6, CanLose).Set(7, FilledO).Set(8, CanLose).SetState(CanWin),
 		},
 		{
-			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(4, O),
+			emptyBoard.Set(0, X).Set(1, O).Set(2, X).Set(4, O),
 			Results(0).Set(0, FilledX).Set(1, FilledO).Set(2, FilledX).Set(3, WillLose).Set(4, FilledO).Set(5, WillLose).Set(6, WillLose).Set(7, CanLose).Set(8, WillLose).SetState(CanLose),
 		},
 	} {

@@ -63,6 +63,8 @@ var (
 
 type Board uint32
 
+const emptyBoard Board = 0
+
 func (b Board) Get(pos Position) XO {
 	return XO(b>>(pos<<1)) & 3
 }
@@ -72,7 +74,7 @@ func (b Board) Set(pos Position, xo XO) Board {
 }
 
 func (b Board) Switch() Board {
-	var c Board
+	c := emptyBoard
 
 	for _, p := range Positions {
 		c = c.Set(p, b.Get(p).Switch())
@@ -82,7 +84,7 @@ func (b Board) Switch() Board {
 }
 
 func (b Board) Transform(flop bool, rotate uint8) Board {
-	var c Board
+	c := emptyBoard
 
 	for _, p := range Positions {
 		v := b.Get(p)
@@ -284,7 +286,7 @@ type Brain map[Board]Results
 func NewBrain() Brain {
 	b := make(Brain)
 
-	b.move(0)
+	b.move(emptyBoard)
 
 	return b
 }
