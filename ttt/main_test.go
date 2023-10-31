@@ -166,8 +166,92 @@ func TestBoardHasWin(t *testing.T) {
 			Board(0).Set(2, X).Set(4, X).Set(6, X),
 			true,
 		},
+		{
+			Board(0).Set(0, O).Set(1, O).Set(2, O),
+			false,
+		},
+		{
+			Board(0).Set(3, O).Set(4, O).Set(5, O),
+			false,
+		},
+		{
+			Board(0).Set(6, O).Set(7, O).Set(8, O),
+			false,
+		},
+		{
+			Board(0).Set(0, O).Set(3, O).Set(6, O),
+			false,
+		},
+		{
+			Board(0).Set(1, O).Set(4, O).Set(7, O),
+			false,
+		},
+		{
+			Board(0).Set(2, O).Set(5, O).Set(8, O),
+			false,
+		},
+		{
+			Board(0).Set(0, O).Set(4, O).Set(8, O),
+			false,
+		},
+		{
+			Board(0).Set(2, O).Set(4, O).Set(6, O),
+			false,
+		},
+		{
+			Board(0),
+			false,
+		},
+		{
+			Board(0).Set(0, X),
+			false,
+		},
+		{
+			Board(0).Set(1, X),
+			false,
+		},
+		{
+			Board(0).Set(2, X),
+			false,
+		},
+		{
+			Board(0).Set(3, X),
+			false,
+		},
+		{
+			Board(0).Set(4, X),
+			false,
+		},
+		{
+			Board(0).Set(5, X),
+			false,
+		},
+		{
+			Board(0).Set(6, X),
+			false,
+		},
+		{
+			Board(0).Set(7, X),
+			false,
+		},
+		{
+			Board(0).Set(8, X),
+			false,
+		},
+		{
+			Board(0).Set(0, X).Set(1, X),
+			false,
+		},
+		{
+			Board(0).Set(0, X).Set(2, X),
+			false,
+		},
+		{
+			Board(0).Set(1, X).Set(2, X),
+			false,
+		},
 	} {
-		if !test.HasWin() {
+		if test.HasWin() != test.Wins {
 			t.Errorf("test %d: board doesn't win when it should:\n%s", n, test.Board)
 		}
 	}
