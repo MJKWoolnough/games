@@ -2,7 +2,7 @@ import brain from './brain.js';
 
 type Board = number;
 
-type Moves = [number[], number[], number[], number[], number[]];
+type Moves = [number[], number[], number[], number[], number[], number[]];
 
 const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Array.from({"length": 26}, (_, n) => String.fromCharCode(97+n)), Array.from({"length": 10}, (_, n) => String.fromCharCode(48+n)), ["+", "/"]].flat(),
       decode = (b: string) => (b64.indexOf(b.charAt(0)) << 18) | (b64.indexOf(b.charAt(1)) << 12) | (b64.indexOf(b.charAt(2)) << 6) | b64.indexOf(b.charAt(3)),
@@ -47,7 +47,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 
 	const myMoves: number[] = [];
 
-	for (let l = 4; l >= 0; l--) {
+	for (let l = 5; l >= 0; l--) {
 		myMoves.splice(0, 0, ...moves[l]);
 
 		if (l <= level && myMoves.length > 0) {
@@ -69,19 +69,31 @@ export default (gameBoard: number[], turn: number, level: number) => {
 };
 
 for (let i = 0; i < brain.length; i += 4) {
-	const moves: Moves = [[], [], [], [], []];
+	const moves: Moves = [[], [], [], [], [], []];
 	let b = decode(brain.slice(i, i+4)),
 	    board = 0;
 
 	for (let p = 0; p < 9; p++) {
-		const r = b % 6;
+		let r = b % 6;
 
 		b = (b / 6) | 0;
 
-		if (r >= 4) {
-			board |= (r - 3) << (p << 1);
+		if (r > 1) {
+			r++;
+		}
+
+		if (r > 3) {
+			r++;
+		}
+
+		if (r > 0 && r < 5) {
+			r += 1 - (p & 1);
+		}
+
+		if (r >= 6) {
+			board |= (r - 5) << (p << 1);
 		} else {
-			moves[r > 1 ? r + 1 : r == 1 ? 2 - (p & 1) : r].push(p);
+			moves[r].push(p);
 		}
 	}
 
