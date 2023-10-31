@@ -14,6 +14,42 @@ func TestXOSwitch(t *testing.T) {
 	}
 }
 
+func TestPositionRotateClockwise(t *testing.T) {
+	for n, test := range [...][2]Position{
+		{0, 2},
+		{1, 5},
+		{2, 8},
+		{3, 1},
+		{4, 4},
+		{5, 7},
+		{6, 0},
+		{7, 3},
+		{8, 6},
+	} {
+		if q := test[0].RotateClockwise(); q != test[1] {
+			t.Errorf("test %d: from position %d, expecting clockwise rotation to equal %d, got %d", n+1, test[0], test[1], q)
+		}
+	}
+}
+
+func TestPositionFlop(t *testing.T) {
+	for n, test := range [...][2]Position{
+		{0, 2},
+		{1, 1},
+		{2, 0},
+		{3, 5},
+		{4, 4},
+		{5, 3},
+		{6, 8},
+		{7, 7},
+		{8, 6},
+	} {
+		if q := test[0].Flop(); q != test[1] {
+			t.Errorf("test %d: from position %d, expecting flop to equal %d, got %d", n+1, test[0], test[1], q)
+		}
+	}
+}
+
 func TestBoardGetSet(t *testing.T) {
 	for n, test := range [...][9]XO{
 		{None, X, O, None, X, O, None, X, O},
@@ -32,6 +68,62 @@ func TestBoardGetSet(t *testing.T) {
 		for i, p := range test {
 			if q := b.Get(Position(i)); q != p {
 				t.Errorf("test %d.%d: expecting value %s, got %s", n, i, p, q)
+			}
+		}
+	}
+}
+
+func TestBoardSwitch(t *testing.T) {
+	for n, test := range [...][2]Board{
+		{
+			Board(0).Set(0, X).Set(4, X).Set(1, O),
+			Board(0).Set(0, O).Set(4, O).Set(1, X),
+		},
+		{
+			Board(0).Set(0, O).Set(4, O).Set(1, X),
+			Board(0).Set(0, X).Set(4, X).Set(1, O),
+		},
+		{
+			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
+			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
+		},
+		{
+			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
+			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
+		},
+	} {
+		if s := test[0].Switch(); s != test[1] {
+			t.Errorf("test %d: from board:\n%s\nexpecting switched board:\n%s\n...but got:\n%s", n+1, test[0], test[1], s)
+		}
+	}
+}
+
+func TestBoardTransform(t *testing.T) {
+	for n, test := range [...][9]Board{
+		{
+			Board(0).Set(0, X).Set(2, O).Set(4, X),
+			Board(0).Set(2, X).Set(8, O).Set(4, X),
+			Board(0).Set(8, X).Set(6, O).Set(4, X),
+			Board(0).Set(6, X).Set(0, O).Set(4, X),
+			Board(0).Set(2, X).Set(0, O).Set(4, X),
+			Board(0).Set(8, X).Set(2, O).Set(4, X),
+			Board(0).Set(6, X).Set(8, O).Set(4, X),
+			Board(0).Set(0, X).Set(6, O).Set(4, X),
+		},
+		{
+			Board(0).Set(1, X).Set(5, O).Set(4, O),
+			Board(0).Set(5, X).Set(7, O).Set(4, O),
+			Board(0).Set(7, X).Set(3, O).Set(4, O),
+			Board(0).Set(3, X).Set(1, O).Set(4, O),
+			Board(0).Set(1, X).Set(3, O).Set(4, O),
+			Board(0).Set(5, X).Set(1, O).Set(4, O),
+			Board(0).Set(7, X).Set(5, O).Set(4, O),
+			Board(0).Set(3, X).Set(7, O).Set(4, O),
+		},
+	} {
+		for i := uint8(0); i < 8; i++ {
+			if c := test[0].Transform(i&4 != 0, i&3); c != test[i] {
+				t.Errorf("test %d.%d: expecting output:\n%s\n...got:\n%s", n+1, i+1, test[i], c)
 			}
 		}
 	}
@@ -110,98 +202,6 @@ func TestBoardHasWin(t *testing.T) {
 			t.Errorf("test %d: board wins with wrong token:\n%s", n, b)
 		} else if b := test.Set(test.Last, test.XO); !b.HasWin() {
 			t.Errorf("test %d: board doesn't win when it should:\n%s", n, b)
-		}
-	}
-}
-
-func TestPositionRotateClockwise(t *testing.T) {
-	for n, test := range [...][2]Position{
-		{0, 2},
-		{1, 5},
-		{2, 8},
-		{3, 1},
-		{4, 4},
-		{5, 7},
-		{6, 0},
-		{7, 3},
-		{8, 6},
-	} {
-		if q := test[0].RotateClockwise(); q != test[1] {
-			t.Errorf("test %d: from position %d, expecting clockwise rotation to equal %d, got %d", n+1, test[0], test[1], q)
-		}
-	}
-}
-
-func TestPositionFlop(t *testing.T) {
-	for n, test := range [...][2]Position{
-		{0, 2},
-		{1, 1},
-		{2, 0},
-		{3, 5},
-		{4, 4},
-		{5, 3},
-		{6, 8},
-		{7, 7},
-		{8, 6},
-	} {
-		if q := test[0].Flop(); q != test[1] {
-			t.Errorf("test %d: from position %d, expecting flop to equal %d, got %d", n+1, test[0], test[1], q)
-		}
-	}
-}
-
-func TestBoardSwitch(t *testing.T) {
-	for n, test := range [...][2]Board{
-		{
-			Board(0).Set(0, X).Set(4, X).Set(1, O),
-			Board(0).Set(0, O).Set(4, O).Set(1, X),
-		},
-		{
-			Board(0).Set(0, O).Set(4, O).Set(1, X),
-			Board(0).Set(0, X).Set(4, X).Set(1, O),
-		},
-		{
-			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
-			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
-		},
-		{
-			Board(0).Set(0, O).Set(1, X).Set(2, O).Set(3, X).Set(4, O).Set(5, X).Set(6, O).Set(7, X).Set(8, O),
-			Board(0).Set(0, X).Set(1, O).Set(2, X).Set(3, O).Set(4, X).Set(5, O).Set(6, X).Set(7, O).Set(8, X),
-		},
-	} {
-		if s := test[0].Switch(); s != test[1] {
-			t.Errorf("test %d: from board:\n%s\nexpecting switched board:\n%s\n...but got:\n%s", n+1, test[0], test[1], s)
-		}
-	}
-}
-
-func TestBoardTransform(t *testing.T) {
-	for n, test := range [...][9]Board{
-		{
-			Board(0).Set(0, X).Set(2, O).Set(4, X),
-			Board(0).Set(2, X).Set(8, O).Set(4, X),
-			Board(0).Set(8, X).Set(6, O).Set(4, X),
-			Board(0).Set(6, X).Set(0, O).Set(4, X),
-			Board(0).Set(2, X).Set(0, O).Set(4, X),
-			Board(0).Set(8, X).Set(2, O).Set(4, X),
-			Board(0).Set(6, X).Set(8, O).Set(4, X),
-			Board(0).Set(0, X).Set(6, O).Set(4, X),
-		},
-		{
-			Board(0).Set(1, X).Set(5, O).Set(4, O),
-			Board(0).Set(5, X).Set(7, O).Set(4, O),
-			Board(0).Set(7, X).Set(3, O).Set(4, O),
-			Board(0).Set(3, X).Set(1, O).Set(4, O),
-			Board(0).Set(1, X).Set(3, O).Set(4, O),
-			Board(0).Set(5, X).Set(1, O).Set(4, O),
-			Board(0).Set(7, X).Set(5, O).Set(4, O),
-			Board(0).Set(3, X).Set(7, O).Set(4, O),
-		},
-	} {
-		for i := uint8(0); i < 8; i++ {
-			if c := test[0].Transform(i&4 != 0, i&3); c != test[i] {
-				t.Errorf("test %d.%d: expecting output:\n%s\n...got:\n%s", n+1, i+1, test[i], c)
-			}
 		}
 	}
 }
