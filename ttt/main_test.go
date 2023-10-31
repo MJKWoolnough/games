@@ -252,7 +252,7 @@ func TestBoardHasWin(t *testing.T) {
 		},
 	} {
 		if test.HasWin() != test.Wins {
-			t.Errorf("test %d: board doesn't win when it should:\n%s", n, test.Board)
+			t.Errorf("test %d: board.HasWin() should return %v when it doesn't:\n%s", n, test.Wins, test.Board)
 		}
 	}
 }
