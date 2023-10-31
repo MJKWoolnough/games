@@ -257,6 +257,150 @@ func TestBoardHasWin(t *testing.T) {
 	}
 }
 
+func TestBoardHasPossibleWin(t *testing.T) {
+	for n, test := range [...]struct {
+		Board
+		Possible bool
+	}{
+		{
+			Board(0).Set(0, X).Set(1, X),
+			true,
+		},
+		{
+			Board(0).Set(0, X).Set(2, X),
+			true,
+		},
+		{
+			Board(0).Set(1, X).Set(2, X),
+			true,
+		},
+		{
+			Board(0).Set(3, X).Set(4, X),
+			true,
+		},
+		{
+			Board(0).Set(3, X).Set(5, X),
+			true,
+		},
+		{
+			Board(0).Set(4, X).Set(5, X),
+			true,
+		},
+		{
+			Board(0).Set(6, X).Set(7, X),
+			true,
+		},
+		{
+			Board(0).Set(6, X).Set(8, X),
+			true,
+		},
+		{
+			Board(0).Set(7, X).Set(8, X),
+			true,
+		},
+		{
+			Board(0).Set(0, X).Set(3, X),
+			true,
+		},
+		{
+			Board(0).Set(0, X).Set(6, X),
+			true,
+		},
+		{
+			Board(0).Set(3, X).Set(6, X),
+			true,
+		},
+		{
+			Board(0).Set(1, X).Set(4, X),
+			true,
+		},
+		{
+			Board(0).Set(1, X).Set(7, X),
+			true,
+		},
+		{
+			Board(0).Set(4, X).Set(7, X),
+			true,
+		},
+		{
+			Board(0).Set(2, X).Set(5, X),
+			true,
+		},
+		{
+			Board(0).Set(2, X).Set(8, X),
+			true,
+		},
+		{
+			Board(0).Set(5, X).Set(8, X),
+			true,
+		},
+		{
+			Board(0).Set(0, X).Set(4, X),
+			true,
+		},
+		{
+			Board(0).Set(0, X).Set(8, X),
+			true,
+		},
+		{
+			Board(0).Set(4, X).Set(8, X),
+			true,
+		},
+		{
+			Board(0).Set(2, X).Set(4, X),
+			true,
+		},
+		{
+			Board(0).Set(2, X).Set(6, X),
+			true,
+		},
+		{
+			Board(0).Set(4, X).Set(6, X),
+			true,
+		},
+		{
+			Board(0).Set(0, O).Set(1, O),
+			false,
+		},
+		{
+			Board(0).Set(3, O).Set(5, O),
+			false,
+		},
+		{
+			Board(0).Set(7, O).Set(8, O),
+			false,
+		},
+		{
+			Board(0).Set(3, O).Set(6, O),
+			false,
+		},
+		{
+			Board(0).Set(1, O).Set(7, O),
+			false,
+		},
+		{
+			Board(0).Set(2, O).Set(5, O),
+			false,
+		},
+		{
+			Board(0).Set(0, X),
+			false,
+		},
+		{
+			Board(0).Set(0, X).Set(5, X),
+			false,
+		},
+		{
+			Board(0).Set(1, X).Set(0, 6),
+			false,
+		},
+	} {
+		if test.HasPossibleWin() != test.Possible {
+			t.Errorf("test %d: board.HasPossibleWin should return %v when it doesn't:\n%s", n, test.Possible, test.Board)
+		}
+	}
+}
+
 func TestResultSwitch(t *testing.T) {
 	for n, test := range [...]struct {
 		In, Out Result
