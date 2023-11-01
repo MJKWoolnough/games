@@ -1,5 +1,6 @@
 import {add, at, render} from './lib/css.js';
 import {amendNode, clearNode, event, eventOnce} from './lib/dom.js';
+import {button, div, h2, input, label, option, select} from './lib/html.js';
 import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
 
@@ -226,9 +227,23 @@ ready.then(() => {
 		line({"y1": 66, "x2": 99, "y2": 66}),
 		winLines,
 		status
-	      ]);
+	      ]),
+	      playerIsAI = [false, false],
+	      aiLevel = [5, 5];
 
-	start(1);
+	clearNode(document.body, div([
+		div(Array.from({"length": 2}, (_, n) => [
+			h2(`Player ${n + 1}`),
+			label({"for": `human_${n}`}, "Human"),
+			input({"type": "radio", "name": `player_${n}`, "id": `human_${n}`, "checked": true, "onclick": () => playerIsAI[n] = false}),
+			label({"for": `ai_${n}`}, "CPU"),
+			input({"type": "radio", "name": `player_${n}`, "id": `ai_${n}`, "onclick": () => playerIsAI[n] = true}),
+			select({"onchange": function(this: HTMLSelectElement) {aiLevel[n] = parseInt(this.value)}}, Array.from({"length": 6}, (_, n) => option({"value": 5 - n}, (6 - n) + "")))
+		])),
+		button({"onclick": () => {
+			start(1);
 
-	clearNode(document.body, board);
+			clearNode(document.body, board);
+		}}, "Start!")
+	]));
 });
