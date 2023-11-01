@@ -3,6 +3,7 @@ import {amendNode, clearNode, event, eventOnce} from './lib/dom.js';
 import {br, button, div, h2, input, label, option, select} from './lib/html.js';
 import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
+import ai from './ai.js';
 
 ready.then(() => {
 	add("html,body", {
@@ -157,6 +158,8 @@ ready.then(() => {
 
 		amendNode(status, {"class": ""});
 		setMark(board, turn = t);
+
+		runAI();
 	      },
 	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": "C " + (t === 1 ? "X" : t === 2 ? "O" : "")}),
 	      clicked = (n: number) => {
@@ -179,6 +182,16 @@ ready.then(() => {
 		}
 
 		setMark(board, turn = -turn + 3);
+		runAI();
+	      },
+	      runAI = () => {
+		if (!playerIsAI[turn - 1]) {
+			return;
+		}
+
+		const move = ai(game, turn, aiLevel[turn - 1]);
+
+		clicked(move);
 	      },
 	      wins = [
 		[0, 1, 2],
