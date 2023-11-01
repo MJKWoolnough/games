@@ -143,9 +143,14 @@ ready.then(() => {
 
 	amendNode(document.head, render());
 
-	let turn = 0;
+	let turn = 0,
+	    aiRestart = -1;
 
 	const start = (t: number) => {
+		if (aiRestart !== -1) {
+			clearTimeout(aiRestart);
+		}
+
 		for(const cell of cells) {
 			amendNode(cell, {"class": ["!X", "!O"]});
 		}
@@ -172,19 +177,23 @@ ready.then(() => {
 		const win = isWin(),
 		      draw = game.every(c => c);
 		if (win >= 0 || draw) {
-			const next = -turn + 3;
+			const next = -turn + 3,
+			      startNext = () => start(next);
 
 			amendNode(winLines[win], {"style": "display: unset"});
 			amendNode(status, {"class": win === -1 ? "D" : turn === 1 ? "X" : "O"});
-			amendNode(restart, {"onclick": event(() => start(next), eventOnce)});
+			amendNode(restart, {"onclick": event(startNext, eventOnce)});
 
 			turn = 3;
+
+			aiRestart = setTimeout(startNext, cpuRestartDelay);
 		}
 
 		setMark(board, turn = -turn + 3);
 		runAI();
 	      },
 	      cpuDelay = 250,
+	      cpuRestartDelay = 1000,
 	      runAI = () => {
 		if (!playerIsAI[turn - 1]) {
 			return;
