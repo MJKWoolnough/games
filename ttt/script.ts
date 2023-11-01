@@ -15,6 +15,9 @@ ready.then(() => {
 		"grid-column-gap": "0",
 		"grid-row-gap": 0
 	});
+	add("input:not(:checked)+select", {
+		"display": "none"
+	});
 	add("svg", {
 		"max-width": "100vw",
 		"max-height": "100vh",
