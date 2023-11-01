@@ -238,14 +238,14 @@ ready.then(() => {
 	      aiLevel = [5, 5];
 
 	clearNode(document.body, div([
-		div(Array.from({"length": 2}, (_, n) => [
+		div(Array.from({"length": 2}, (_, n) => div([
 			h2(`Player ${n + 1}`),
 			label({"for": `human_${n}`}, "Human"),
 			input({"type": "radio", "name": `player_${n}`, "id": `human_${n}`, "checked": true, "onclick": () => playerIsAI[n] = false}),
 			label({"for": `ai_${n}`}, "CPU"),
 			input({"type": "radio", "name": `player_${n}`, "id": `ai_${n}`, "onclick": () => playerIsAI[n] = true}),
 			select({"onchange": function(this: HTMLSelectElement) {aiLevel[n] = parseInt(this.value)}}, Array.from({"length": 6}, (_, n) => option({"value": 5 - n}, (6 - n) + "")))
-		])),
+		]))),
 		button({"onclick": () => {
 			start(1);
 
