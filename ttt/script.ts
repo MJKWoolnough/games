@@ -9,6 +9,12 @@ ready.then(() => {
 		"padding": 0,
 		"margin": 0
 	});
+	add("body>div>div", {
+		"display": "grid",
+		"grid-template-columns": "repeat(2, 1fr)",
+		"grid-column-gap": "0",
+		"grid-row-gap": 0
+	});
 	add("svg", {
 		"max-width": "100vw",
 		"max-height": "100vh",
