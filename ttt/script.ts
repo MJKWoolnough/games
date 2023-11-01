@@ -184,14 +184,21 @@ ready.then(() => {
 		setMark(board, turn = -turn + 3);
 		runAI();
 	      },
+	      cpuDelay = 250,
 	      runAI = () => {
 		if (!playerIsAI[turn - 1]) {
 			return;
 		}
 
-		const move = ai(game, turn, aiLevel[turn - 1]);
+		const move = ai(game, turn, aiLevel[turn - 1]),
+		      t = turn;
 
-		clicked(move);
+		setMark(board, turn = 0);
+
+		setTimeout(() => {
+			setMark(board, turn = t);
+			clicked(move);
+		}, cpuDelay);
 	      },
 	      wins = [
 		[0, 1, 2],
