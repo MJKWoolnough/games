@@ -1,3 +1,5 @@
+export type Moves = [number[], number[], number[], number[], number[], number[]];
+
 const wins = [
 	[0, 1, 2],
 	[0, 3, 6],
@@ -21,7 +23,7 @@ export const isWin = (board: number[]) => {
 
 	return -1;
 },
-pickRandomAIMove = (moves: number[][], board: number[], level: number) => {
+pickRandomAIMove = (moves: Moves, board: number[], level: number) => {
 	const myMoves: number[] = [];
 
 	for (let l = 5; l >= 0; l--) {

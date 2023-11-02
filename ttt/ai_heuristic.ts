@@ -1,7 +1,8 @@
+import type {Moves} from './shared.js';
 import {isWin, pickRandomAIMove} from './shared.js';
 
 export default (gameBoard: number[], turn: number, level: number) => {
-	const moves: [number[], number[], number[], number[], number[], number[]] = [[], [], [], [], [], []];
+	const moves: Moves = [[], [], [], [], [], []];
 
 	for (const [n, p] of gameBoard.entries()) {
 		if (p) {
@@ -27,8 +28,6 @@ export default (gameBoard: number[], turn: number, level: number) => {
 
 		moves[1 - (n % 1)].push(n);
 	}
-
-	console.log(moves);
 
 	return pickRandomAIMove(moves, gameBoard, level);
 }

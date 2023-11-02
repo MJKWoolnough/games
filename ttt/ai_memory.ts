@@ -1,9 +1,8 @@
+import type {Moves} from './shared.js';
 import brain from './brain.js';
 import {pickRandomAIMove} from './shared.js';
 
 type Board = number;
-
-type Moves = [number[], number[], number[], number[], number[], number[]];
 
 const b64 = [Array.from({"length": 26}, (_, n) => String.fromCharCode(65+n)), Array.from({"length": 26}, (_, n) => String.fromCharCode(97+n)), Array.from({"length": 10}, (_, n) => String.fromCharCode(48+n)), ["+", "/"]].flat(),
       decode = (b: string) => (b64.indexOf(b.charAt(0)) << 18) | (b64.indexOf(b.charAt(1)) << 12) | (b64.indexOf(b.charAt(2)) << 6) | b64.indexOf(b.charAt(3)),
