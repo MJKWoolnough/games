@@ -55,6 +55,10 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		}
 	}
 
+	if (!myMoves.length) {
+		myMoves.splice(0, 0, ...gameBoard.filter(c => !c));
+	}
+
 	let move = myMoves[Math.floor(Math.random() * myMoves.length)];
 
 	for (;rotation < 4; rotation++) {
