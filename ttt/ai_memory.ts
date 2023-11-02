@@ -1,4 +1,5 @@
 import brain from './brain.js';
+import {pickRandomAIMove} from './shared.js';
 
 type Board = number;
 
@@ -45,21 +46,8 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		throw new Error("impossible board");
 	}
 
-	const myMoves: number[] = [];
 
-	for (let l = 5; l >= 0; l--) {
-		myMoves.splice(0, 0, ...moves[l]);
-
-		if (l <= level && myMoves.length > 0) {
-			break;
-		}
-	}
-
-	if (!myMoves.length) {
-		myMoves.splice(0, 0, ...gameBoard.filter(c => !c));
-	}
-
-	let move = myMoves[Math.floor(Math.random() * myMoves.length)];
+	let move = pickRandomAIMove(moves, gameBoard, level);
 
 	for (;rotation < 4; rotation++) {
 		move = rotatePos(move);
