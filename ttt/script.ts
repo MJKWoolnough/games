@@ -3,7 +3,7 @@ import {amendNode, clearNode, event, eventOnce} from './lib/dom.js';
 import {br, button, div, h2, input, label, option, select} from './lib/html.js';
 import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
-import ai from './ai.js';
+import memory from './ai_memory.js';
 
 ready.then(() => {
 	add("html,body", {
@@ -199,7 +199,7 @@ ready.then(() => {
 			return;
 		}
 
-		const move = ai(game, turn, aiLevel[turn - 1]),
+		const move = memory(game, turn, aiLevel[turn - 1]),
 		      t = turn;
 
 		setMark(board, turn = 0);
