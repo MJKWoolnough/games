@@ -20,4 +20,21 @@ export const isWin = (board: number[]) => {
 	}
 
 	return -1;
+},
+pickRandomAIMove = (moves: number[][], board: number[], level: number) => {
+	const myMoves: number[] = [];
+
+	for (let l = 5; l >= 0; l--) {
+		myMoves.splice(0, 0, ...moves[l]);
+
+		if (l <= level && myMoves.length > 0) {
+			break;
+		}
+	}
+
+	if (!myMoves.length) {
+		myMoves.splice(0, 0, ...board.filter(c => !c));
+	}
+
+	return myMoves[Math.floor(Math.random() * myMoves.length)];
 };
