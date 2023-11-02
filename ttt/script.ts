@@ -3,6 +3,7 @@ import {amendNode, clearNode, event, eventOnce} from './lib/dom.js';
 import {br, button, div, h2, input, label, option, select} from './lib/html.js';
 import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
+import heuristic from './ai_heuristic.js';
 import memory from './ai_memory.js';
 import {isWin} from './shared.js';
 
@@ -195,12 +196,13 @@ ready.then(() => {
 	      },
 	      cpuDelay = 250,
 	      cpuRestartDelay = 1000,
+	      ais = [heuristic, memory] as const,
 	      runAI = () => {
 		if (!playerIsAI[turn - 1]) {
 			return;
 		}
 
-		const move = memory(game, turn, aiLevel[turn - 1]),
+		const move = ais[turn - 1](game, turn, aiLevel[turn - 1]),
 		      t = turn;
 
 		setMark(board, turn = 0);
