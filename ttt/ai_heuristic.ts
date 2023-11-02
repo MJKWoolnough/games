@@ -25,7 +25,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 			continue;
 		}
 
-		moves[0].push(n);
+		moves[1 - (n % 1)].push(n);
 	}
 
 	return pickRandomAIMove(moves, gameBoard, level);
