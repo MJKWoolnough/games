@@ -4,6 +4,7 @@ import {br, button, div, h2, input, label, option, select} from './lib/html.js';
 import ready from './lib/load.js';
 import {circle, defs, g, line, path, rect, svg, text, use} from './lib/svg.js';
 import memory from './ai_memory.js';
+import {isWin} from './shared.js';
 
 ready.then(() => {
 	add("html,body", {
@@ -174,7 +175,7 @@ ready.then(() => {
 
 		setMark(cells[n], game[n] = turn);
 
-		const win = isWin(),
+		const win = isWin(game),
 		      draw = game.every(c => c);
 		if (win >= 0 || draw) {
 			const next = -turn + 3,
@@ -208,28 +209,6 @@ ready.then(() => {
 			setMark(board, turn = t);
 			clicked(move);
 		}, cpuDelay);
-	      },
-	      wins = [
-		[0, 1, 2],
-		[0, 3, 6],
-		[3, 4, 5],
-		[1, 4, 7],
-		[6, 7, 8],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6]
-	      ] as const,
-	      isWin = () => {
-		let win = 0;
-		for (const [a, b, c] of wins) {
-			if (game[a] && game[a] === game[b] && game[a] === game[c]) {
-				return win;
-			}
-
-			win++;
-		}
-
-		return -1;
 	      },
 	      cells = Array.from({"length": 9}, (_, n) => g({"class": "C", "transform": `translate(${(n % 3) * 33} ${Math.floor(n / 3) * 33})`}, [
 		use({"href": "#X"}),
