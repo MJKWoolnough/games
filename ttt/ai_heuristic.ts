@@ -18,7 +18,8 @@ const has2InARow = (board: number[]) => {
  };
 
 export default (gameBoard: number[], turn: number, level: number) => {
-	const moves: Moves = [[], [], [], [], [], []];
+	const moves: Moves = [[], [], [], [], [], []],
+	      emptyCount = gameBoard.reduce((n, p) => n += +!p, 0);
 
 	for (const [n, p] of gameBoard.entries()) {
 		if (p) {
@@ -37,6 +38,13 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		if (isWin(gameBoard) !== -1) {
 			moves[4].push(n);
 			gameBoard[n] = 0;
+
+			continue;
+		}
+
+		gameBoard[n] = 0;
+		if (emptyCount === 7 && gameBoard[4] === turn && gameBoard[1] + gameBoard[3] + gameBoard[5] + gameBoard[7] === 3 - turn && n & 1) {
+			moves[3].push(n);
 
 			continue;
 		}
