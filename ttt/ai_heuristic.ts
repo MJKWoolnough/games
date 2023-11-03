@@ -43,6 +43,13 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		}
 
 		gameBoard[n] = 0;
+
+		if (emptyCount === 7 && gameBoard[4] === 3 - turn && gameBoard[8 - n] === turn) {
+			moves[3].push(n);
+
+			continue;
+		}
+
 		if (emptyCount === 7 && gameBoard[4] === turn && gameBoard[1] + gameBoard[3] + gameBoard[5] + gameBoard[7] === 3 - turn && n & 1) {
 			moves[3].push(n);
 
