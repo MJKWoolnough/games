@@ -1,5 +1,21 @@
 import type {Moves} from './shared.js';
-import {isWin, pickRandomAIMove} from './shared.js';
+import {isWin, pickRandomAIMove, wins} from './shared.js';
+
+const has2InARow = (board: number[]) => {
+	for (const [a, b, c] of wins) {
+		const counts = [0, 0, 0];
+
+		counts[board[a]]++;
+		counts[board[b]]++;
+		counts[board[c]]++;
+
+		if (counts[0] && (counts[1] === 2 || counts[2] === 2)) {
+			return true;
+		}
+	}
+
+	return false;
+ };
 
 export default (gameBoard: number[], turn: number, level: number) => {
 	const moves: Moves = [[], [], [], [], [], []];
