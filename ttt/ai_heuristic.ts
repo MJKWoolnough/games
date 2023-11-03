@@ -34,7 +34,6 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		}
 
 		gameBoard[n] = 3 - turn;
-
 		if (isWin(gameBoard)) {
 			moves[4].push(n);
 			gameBoard[n] = 0;
@@ -42,7 +41,16 @@ export default (gameBoard: number[], turn: number, level: number) => {
 			continue;
 		}
 
+		gameBoard[n] = turn;
+		if (has2InARow(gameBoard)) {
+			moves[2].push(n);
+			gameBoard[n] = 0;
+
+			continue;
+		}
+
 		moves[1 - (n % 1)].push(n);
+		gameBoard[n] = 0;
 	}
 
 	return pickRandomAIMove(moves, gameBoard, level);
