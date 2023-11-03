@@ -26,7 +26,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		}
 
 		gameBoard[n] = turn;
-		if (isWin(gameBoard)) {
+		if (isWin(gameBoard) !== -1) {
 			moves[5].push(n);
 			gameBoard[n] = 0;
 
@@ -34,7 +34,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 		}
 
 		gameBoard[n] = 3 - turn;
-		if (isWin(gameBoard)) {
+		if (isWin(gameBoard) !== -1) {
 			moves[4].push(n);
 			gameBoard[n] = 0;
 
