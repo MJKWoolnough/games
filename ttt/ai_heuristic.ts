@@ -50,7 +50,7 @@ export default (gameBoard: number[], turn: number, level: number) => {
 			continue;
 		}
 
-		if (emptyCount === 7 && gameBoard[4] === turn && gameBoard[1] + gameBoard[3] + gameBoard[5] + gameBoard[7] === 3 - turn && n & 1) {
+		if (emptyCount === 7 && gameBoard[4] === turn && gameBoard[1] + gameBoard[3] + gameBoard[5] + gameBoard[7] === 3 - turn && (n & 1) === 0) {
 			moves[3].push(n);
 
 			continue;
