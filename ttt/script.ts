@@ -178,6 +178,7 @@ ready.then(() => {
 
 		const win = isWin(game),
 		      draw = game.every(c => c);
+
 		if (win >= 0 || draw) {
 			const next = -turn + 3,
 			      startNext = () => start(next);
@@ -188,7 +189,9 @@ ready.then(() => {
 
 			turn = 3;
 
-			aiRestart = setTimeout(startNext, cpuRestartDelay);
+			if (playerIsAI[0] && playerIsAI[1]) {
+				aiRestart = setTimeout(startNext, cpuRestartDelay);
+			}
 		}
 
 		setMark(board, turn = -turn + 3);
