@@ -15,7 +15,7 @@ const has2InARow = (board: number[]) => {
 	}
 
 	return false;
- };
+};
 
 export default (gameBoard: number[], turn: number, level: number) => {
 	const moves: Moves = [[], [], [], [], [], []],
