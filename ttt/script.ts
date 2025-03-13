@@ -162,10 +162,8 @@ ready.then(() => {
 		}
 
 		game.fill(0);
-
 		amendNode(status, {"class": ""});
 		setMark(board, turn = t);
-
 		runAI();
 	      },
 	      setMark = (e: SVGElement, t: number) => amendNode(e, {"class": "C " + (t === 1 ? "X" : t === 2 ? "O" : "")}),
